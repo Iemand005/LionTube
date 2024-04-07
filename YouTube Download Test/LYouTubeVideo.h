@@ -26,7 +26,7 @@ enum quality {
 
 @property int itag;
 @property NSString *url;
-@property char *mimeType;
+@property NSString *mimeType;
 @property int bitrate;
 @property int width;
 @property int height;
@@ -53,6 +53,8 @@ enum quality {
 @property NSString *videoId;
 @property NSArray *formats;
 @property NSArray *adaptiveFormats;
+@property NSString *description;
+@property NSNumber *viewCount;
 
 - (id)initWithId:(NSString *)videoId;
 

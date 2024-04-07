@@ -15,28 +15,10 @@
     self = [super init];
     if (self) {
         self.endPoint = [NSURL URLWithString:@"https://www.youtube.com/youtubei/v1/player"];
-        self.clientDetails = @{
-                               @"context": @{
-                                       @"client": @{
-                                               @"clientName": @"MWEB",
-                                               @"clientVersion": @"2.20220918",
-                                               }
-                                       },
-                               @"videoId": @"",
-                               @"contentCheckOk": @"true",
-                               @"racyCheckOk": @"true"
-                               };
+        self.clientName = @"MWEB";
+        self.clientVersion = @"2.20220918";
     }
     return self;
-}
-
-
-
-- (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
-{
-    self.masterVideo = [LYouTubeVideo videoWithId:videoId];
-    [self.masterVideo requestVideoWithClient:self];
-    return self.masterVideo;
 }
 
 + (LYouTubeClient *)client

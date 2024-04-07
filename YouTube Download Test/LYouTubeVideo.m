@@ -50,13 +50,27 @@
     
     NSDictionary *videoDetailsDict = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:&error];
     
-    if ([[videoDetailsDict objectForKey:@"playabilityStatus"] isEqualToString:@"OK"]) {
-        NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
-        NSArray *formats = [streamingData objectForKey:@"formats"];
-        NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
-        for (NSDictionary *format in formats)
-            [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-    }
+    NSDictionary *playabilityStatus = [videoDetailsDict objectForKey:@"playabilityStatus"];
+    if ([[playabilityStatus objectForKey:@"status"] isEqualToString:@"OK"])
+        NSLog(@"Playability OK");
+    
+    NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
+    NSArray *formats = [streamingData objectForKey:@"formats"];
+    
+    NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
+    for (NSDictionary *format in formats)
+        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
+   // self.formats = parsedFormats;
+    
+    NSArray *adaptiveFormats = [streamingData objectForKey:@"adaptiveFormats"];
+    //parsedFormats = [NSMutableArray arrayWithCapacity:adaptiveFormats.count];
+    for (NSDictionary *format in adaptiveFormats)
+        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
+    self.formats = parsedFormats;
+    
+    NSDictionary *videoDetails = [videoDetailsDict objectForKey:@"videoDetails"];
+    self.description = [videoDetails objectForKey:@"shortDescription"];
+    self.viewCount = [videoDetails objectForKey:@"viewCount"];
 }
 
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
@@ -79,6 +93,7 @@
     if (self) {
         self.url = [dict objectForKey:@"url"];
         self.fps = [dict objectForKey:@"fps"];
+        self.mimeType = [dict objectForKey:@"mimeType"];
     }
     return self;
 }

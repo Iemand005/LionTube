@@ -23,10 +23,29 @@
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:self.urlField.stringValue];
     [video requestVideoWithClient:self.client];
     
-    [[self movieView] setMovie:[video getMovieWithFormat:[video.formats objectAtIndex:0]]];
+    [self.descriptionField setStringValue:video.description];
+    
+    for (LVideoFormat *format in video.formats)
+        [self.formatTable addFormat:format];
+    
+    for (LVideoFormat *format in video.adaptiveFormats)
+        [self.formatTable addFormat:format];
+    
+    LVideoFormat *format = [video.formats objectAtIndex:0];
+    
+    self.video = video;
+    
+    [[self movieView] setMovie:[video getMovieWithFormat:format]];
     //[self.movieView needsDisplay];
     [self.movieView play:sender];
 //    [self.movieView relo]
+}
+
+- (IBAction)trySelectedVideoFormat:(id)sender
+{
+    NSUInteger index = self.formatTableView.selectedRow;
+    LVideoFormat *format = [self.video.formats objectAtIndex:index];
+    [[self movieView] setMovie:[self.video getMovieWithFormat:format]];
 }
 
 @end

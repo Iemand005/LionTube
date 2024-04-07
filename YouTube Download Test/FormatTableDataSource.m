@@ -19,12 +19,10 @@
     return self;
 }
 
-- (void)addFormat:(NSDictionary *)format
+- (void)addFormat:(LVideoFormat *)format
 {
     [formats addObject:format];
     [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:0] withAnimation:NSTableViewAnimationEffectFade];
-//    [self.tableView reloadData];
-//    [self.tableView needsDisplay];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -34,12 +32,12 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSDictionary *format = [formats objectAtIndex:row];
+    LVideoFormat *format = [formats objectAtIndex:row];
     NSTableCellView *cellView = [tableView viewAtColumn:0 row:row makeIfNecessary:YES];
-    NSString *Q = [format objectForKey:@"mimeType"];
+    NSString *Q = format.mimeType; //[format objectForKey:@"mimeType"];
     if (!Q) Q = @"not found";
     [cellView.textField setStringValue:@"fart"];
-    return Q;
+    return format.mimeType;
 }
 
 //- ta

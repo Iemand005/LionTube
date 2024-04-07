@@ -148,10 +148,10 @@
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
 				0AC89AB02BC3291200206440 /* FormatTableDelegate.m */,
-				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
-				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
 				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
 				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
+				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
+				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";

@@ -20,12 +20,16 @@
 @property QTMovie *movie;
 
 @property IBOutlet NSTextField *urlField;
+@property IBOutlet NSTextField *descriptionField;
 @property IBOutlet NSTableView *formatTableView;
 
 @property IBOutlet FormatTableDataSource *formatTable;
 
 @property LYouTubeClient *client;
+@property LYouTubeVideo *video;
 
 - (IBAction)start;
+
+- (IBAction)trySelectedVideoFormat:(id)sender;
 
 @end

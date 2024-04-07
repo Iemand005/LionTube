@@ -14,6 +14,6 @@
     NSMutableArray *formats;
 }
 @property IBOutlet NSTableView *tableView;
-- (void)addFormat:(NSDictionary *)format;
+- (void)addFormat:(LVideoFormat *)format;
 
 @end
