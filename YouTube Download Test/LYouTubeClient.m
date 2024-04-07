@@ -52,6 +52,17 @@
     if ([[videoDetailsDict objectForKey:@"playabilityStatus"] isEqualToString:@"OK"]) {
         NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
         NSArray *formats = [streamingData objectForKey:@"formats"];
+        NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
+        for (NSDictionary *format in formats) {
+//            NSString *url = [format objectForKey:@"url"];
+//            NSNumber *fps = [format objectForKey:@"fps"];
+//            struct videoFormat *parsedFormat;
+            
+//            parsedFormat.fps = fps.shortValue;
+//            parsedFormat.url = url.UTF8String;
+            
+            [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
+        }
         
     }
 }

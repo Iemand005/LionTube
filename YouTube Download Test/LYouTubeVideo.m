@@ -25,3 +25,22 @@
 }
 
 @end
+
+@implementation LVideoFormat
+
+- (id)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    if (self) {
+        self.url = [dict objectForKey:@"url"];
+        self.fps = [dict objectForKey:@"fps"];
+    }
+    return self;
+}
+
++ (LVideoFormat *)formatWithDictionary:(NSDictionary *)dict
+{
+    return [[LVideoFormat alloc] initWithDictionary:dict];
+}
+
+@end
