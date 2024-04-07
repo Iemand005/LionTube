@@ -30,42 +30,7 @@
     return self;
 }
 
-- (void)requestVideoDetails
-{
-    NSError *error;
-    NSData *requestBody = [NSJSONSerialization dataWithJSONObject:self.clientDetails options:NSJSONWritingPrettyPrinted error:&error];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.endPoint];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:requestBody];
-    [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
-    [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
-    [request addValue:@"www.youtube.com" forHTTPHeaderField:@"Host"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"keep-alive" forHTTPHeaderField:@"Connection"];
-    
-    NSURLResponse *response;
-    NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    NSDictionary *videoDetailsDict = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:&error];
-    
-    if ([[videoDetailsDict objectForKey:@"playabilityStatus"] isEqualToString:@"OK"]) {
-        NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
-        NSArray *formats = [streamingData objectForKey:@"formats"];
-        NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
-        for (NSDictionary *format in formats) {
-//            NSString *url = [format objectForKey:@"url"];
-//            NSNumber *fps = [format objectForKey:@"fps"];
-//            struct videoFormat *parsedFormat;
-            
-//            parsedFormat.fps = fps.shortValue;
-//            parsedFormat.url = url.UTF8String;
-            
-            [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-        }
-        
-    }
-}
+
 
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
 {
@@ -78,5 +43,11 @@
 {
     return [[LYouTubeClient alloc] init];
 }
+
+@end
+
+@implementation LYClientDetails
+
+
 
 @end

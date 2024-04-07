@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LYouTubeClient.h"
 
 enum audioQuality {
     AUDIO_QUALITY_LOW
@@ -25,6 +26,8 @@ enum quality {
 @property NSString *videoId;
 
 - (id)initWithId:(NSString *)videoId;
+
+- (void)requestVideoWithClient:(LYouTubeClient *)client;
 
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId;
 
