@@ -28,7 +28,11 @@
 @property LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
-- (IBAction)start;
+//- (IBAction)start;
+
+//- (IBAction)startFullScreen;
+
+- (IBAction)a:(id)sender;
 
 - (IBAction)trySelectedVideoFormat:(id)sender;
 
