@@ -21,6 +21,8 @@
 		0AC89AA22BC30A7100206440 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89AA12BC30A7100206440 /* QTKit.framework */; };
 		0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AA42BC30F5700206440 /* MovieViewController.m */; };
 		0AC89AAC2BC324E600206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
+		0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
+		0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB02BC3291200206440 /* FormatTableDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		0AC89AA42BC30F5700206440 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDataSource.h; sourceTree = "<group>"; };
 		0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDataSource.m; sourceTree = "<group>"; };
+		0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDelegate.h; sourceTree = "<group>"; };
+		0AC89AB02BC3291200206440 /* FormatTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,8 @@
 				0AC89AA42BC30F5700206440 /* MovieViewController.m */,
 				0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */,
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
+				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
+				0AC89AB02BC3291200206440 /* FormatTableDelegate.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -279,9 +285,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */,
 				0AC89A782BC3002900206440 /* main.m in Sources */,
 				0AC89A7F2BC3002900206440 /* AppDelegate.m in Sources */,
 				0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */,
+				0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

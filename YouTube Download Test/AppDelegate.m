@@ -35,9 +35,11 @@
     NSArray *formats = [streamingData objectForKey:@"formats"];
     for (NSDictionary *format in formats) {
         NSLog(@"%@",[format objectForKey:@"mimeType"]);
-        [self.formatTableView insertText:[format objectForKey:@"mimeType"]];
+        //[self.formatTableView insertText:[format objectForKey:@"mimeType"]];
         [self.formatTable addFormat:format];
     }
+    
+    [self.formatTableView reloadData];
     
     
     self.movie = [[QTMovie alloc] initWithURL:[NSURL URLWithString:@"file:///Users/Lasse/Desktop/Film.mov"] error:&error];
@@ -53,6 +55,8 @@
     //NSURLDownload *urlDownload = [[NSURLDownload alloc] initWithRequest:request delegate:nil];
     //[urlDownload setDestination:@"/Users/Lasse/Desktop/Tet.mp4" allowOverwrite:NO];
 //    [urlDownload ]
+    [self.formatTableView needsDisplay];
+    [self.formatTableView reloadData];
     [[self movieView] setMovie:[[QTMovie alloc] initWithURL:[NSURL URLWithString:url] error:nil]];
     //[self.movieView needsDisplay];
     [self.movieView play:sender];
