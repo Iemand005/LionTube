@@ -56,8 +56,12 @@
         NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
         for (NSDictionary *format in formats)
             [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-        
     }
+}
+
+- (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
+{
+    return [[QTMovie alloc] initWithURL:[NSURL URLWithString:format.url] error:nil];
 }
 
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId

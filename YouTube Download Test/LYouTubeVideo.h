@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QTKit/QTKit.h>
 #import "LYouTubeClient.h"
 
 enum audioQuality {
@@ -20,18 +21,6 @@ enum projectionType {
 enum quality {
     MEDIUM
 };
-
-@interface LYouTubeVideo : NSObject
-
-@property NSString *videoId;
-
-- (id)initWithId:(NSString *)videoId;
-
-- (void)requestVideoWithClient:(LYouTubeClient *)client;
-
-+ (LYouTubeVideo *)videoWithId:(NSString *)videoId;
-
-@end
 
 @interface LVideoFormat : NSObject
 
@@ -57,26 +46,19 @@ enum quality {
 
 + (LVideoFormat *)formatWithDictionary:(NSDictionary *)dict;
 
-@end// videoFormat;
+@end
 
+@interface LYouTubeVideo : NSObject
 
+@property NSString *videoId;
+@property NSArray *formats;
+@property NSArray *adaptiveFormats;
 
-//struct videoFormat {
-//    int itag;
-//    const char *url;
-//    char *mimeType;
-//    int bitrate;
-//    int width;
-//    int height;
-//    int lastModified;
-//    int contentLength;
-//    enum quality quality;
-//    short fps;
-//    char *qualityLabel;
-//    enum projectionType projectionType;
-//    int averageBitrate;
-//    enum audioQuality audioQuality;
-//    int approxDurationMs;
-//    int audioSampleRate;
-//    int audioChannels;
-//};
+- (id)initWithId:(NSString *)videoId;
+
+- (void)requestVideoWithClient:(LYouTubeClient *)client;
+
+- (QTMovie *)getMovieWithFormat:(LVideoFormat *)format;
++ (LYouTubeVideo *)videoWithId:(NSString *)videoId;
+
+@end

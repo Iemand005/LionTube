@@ -35,19 +35,13 @@
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
 {
     self.masterVideo = [LYouTubeVideo videoWithId:videoId];
-    
+    [self.masterVideo requestVideoWithClient:self];
     return self.masterVideo;
-}///Users/Lasse/Documents/Projects/YouTube Download Test/YouTube Download Test/LYouTubeClient.h
+}
 
 + (LYouTubeClient *)client
 {
     return [[LYouTubeClient alloc] init];
 }
-
-@end
-
-@implementation LYClientDetails
-
-
 
 @end

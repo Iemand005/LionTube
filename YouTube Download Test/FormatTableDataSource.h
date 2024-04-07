@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LYouTubeVideo.h"
 
 @interface FormatTableDataSource : NSObject <NSTableViewDataSource>
 {
