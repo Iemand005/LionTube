@@ -14,18 +14,18 @@
 {
     self.client = [LYouTubeClient client];
     NSError *error;
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.youtube.com/youtubei/v1/player"]];
+    //NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.youtube.com/youtubei/v1/player"]];
     
-    NSDictionary *dictionary = @{@"context": @{@"client": @{@"clientName": @"MWEB", @"clientVersion": @"2.20220918", @"androidSdkVersion": @16, }}, @"videoId": @"tpAugZVbZKY", @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
-
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:data];
-    [request addValue:[NSString stringWithFormat:@"%li", data.length] forHTTPHeaderField:@"Content-Length"];
-    [request addValue:@"com.google.android.youtube/17.36.4 (Linux; U; Android 4; GB) gzip" forHTTPHeaderField:@"User-Agent"];
-    [request addValue:@"www.youtube.com" forHTTPHeaderField:@"Host"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"keep-alive" forHTTPHeaderField:@"Connection"];
+//    NSDictionary *dictionary = @{@"context": @{@"client": @{@"clientName": @"MWEB", @"clientVersion": @"2.20220918", @"androidSdkVersion": @16, }}, @"videoId": @"tpAugZVbZKY", @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
+//
+//    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+//    [request setHTTPMethod:@"POST"];
+//    [request setHTTPBody:data];
+//    [request addValue:[NSString stringWithFormat:@"%li", data.length] forHTTPHeaderField:@"Content-Length"];
+//    [request addValue:@"com.google.android.youtube/17.36.4 (Linux; U; Android 4; GB) gzip" forHTTPHeaderField:@"User-Agent"];
+//    [request addValue:@"www.youtube.com" forHTTPHeaderField:@"Host"];
+//    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request addValue:@"keep-alive" forHTTPHeaderField:@"Connection"];
     
     NSURLResponse *response;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];

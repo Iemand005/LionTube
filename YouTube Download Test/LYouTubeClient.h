@@ -7,8 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LYouTubeVideo.h"
 
 @interface LYouTubeClient : NSObject
+{
+//    NSError *error;
+}
+
+@property NSURL *endPoint;
+@property NSDictionary *clientDetails;
+
+@property LYouTubeVideo *masterVideo;
+
+- (LYouTubeVideo *)getVideoWithId:(NSString *)videoId;
 
 + (LYouTubeClient *)client;
 

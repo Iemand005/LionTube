@@ -24,6 +24,7 @@
 		0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 		0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB02BC3291200206440 /* FormatTableDelegate.m */; };
 		0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB32BC32DD900206440 /* LYouTubeClient.m */; };
+		0AC89AB72BC32F8F00206440 /* LYouTubeVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		0AC89AB02BC3291200206440 /* FormatTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDelegate.m; sourceTree = "<group>"; };
 		0AC89AB22BC32DD900206440 /* LYouTubeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYouTubeClient.h; sourceTree = "<group>"; };
 		0AC89AB32BC32DD900206440 /* LYouTubeClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYouTubeClient.m; sourceTree = "<group>"; };
+		0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYouTubeVideo.h; sourceTree = "<group>"; };
+		0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYouTubeVideo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,8 @@
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
 				0AC89AB02BC3291200206440 /* FormatTableDelegate.m */,
+				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
+				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
 				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
 				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
 			);
@@ -296,6 +301,7 @@
 				0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */,
 				0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */,
 				0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */,
+				0AC89AB72BC32F8F00206440 /* LYouTubeVideo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
