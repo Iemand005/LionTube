@@ -17,6 +17,9 @@
 		0AC89A8B2BC3002A00206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A932BC3002A00206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A912BC3002A00206440 /* InfoPlist.strings */; };
 		0AC89A962BC3002A00206440 /* YouTube_Download_TestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89A952BC3002A00206440 /* YouTube_Download_TestTests.m */; };
+		0AC89AA02BC30A2000206440 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A9F2BC30A2000206440 /* QuickTime.framework */; };
+		0AC89AA22BC30A7100206440 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89AA12BC30A7100206440 /* QTKit.framework */; };
+		0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AA42BC30F5700206440 /* MovieViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,10 @@
 		0AC89A922BC3002A00206440 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0AC89A942BC3002A00206440 /* YouTube_Download_TestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouTube_Download_TestTests.h; sourceTree = "<group>"; };
 		0AC89A952BC3002A00206440 /* YouTube_Download_TestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouTube_Download_TestTests.m; sourceTree = "<group>"; };
+		0AC89A9F2BC30A2000206440 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
+		0AC89AA12BC30A7100206440 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		0AC89AA32BC30F5700206440 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
+		0AC89AA42BC30F5700206440 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC89AA22BC30A7100206440 /* QTKit.framework in Frameworks */,
+				0AC89AA02BC30A2000206440 /* QuickTime.framework in Frameworks */,
 				0AC89A6C2BC3002900206440 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +84,8 @@
 		0AC89A5F2BC3002800206440 = {
 			isa = PBXGroup;
 			children = (
+				0AC89AA12BC30A7100206440 /* QTKit.framework */,
+				0AC89A9F2BC30A2000206440 /* QuickTime.framework */,
 				0AC89A712BC3002900206440 /* YouTube Download Test */,
 				0AC89A8E2BC3002A00206440 /* YouTube Download TestTests */,
 				0AC89A6A2BC3002800206440 /* Frameworks */,
@@ -118,6 +129,8 @@
 				0AC89A7E2BC3002900206440 /* AppDelegate.m */,
 				0AC89A802BC3002A00206440 /* MainMenu.xib */,
 				0AC89A722BC3002900206440 /* Supporting Files */,
+				0AC89AA32BC30F5700206440 /* MovieViewController.h */,
+				0AC89AA42BC30F5700206440 /* MovieViewController.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -263,6 +276,7 @@
 			files = (
 				0AC89A782BC3002900206440 /* main.m in Sources */,
 				0AC89A7F2BC3002900206440 /* AppDelegate.m in Sources */,
+				0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,7 +363,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -375,7 +389,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
