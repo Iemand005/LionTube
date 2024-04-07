@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuickTime/QuickTime.h>
 #import <QTKit/QTKit.h>
+#import "FormatTableDataSource.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
@@ -16,6 +17,10 @@
 
 @property IBOutlet QTMovieView *movieView;
 @property QTMovie *movie;
+
+@property IBOutlet NSTableView *formatTableView;
+
+@property FormatTableDataSource *formatTable;
 
 - (IBAction)start;
 
