@@ -23,6 +23,7 @@
 		0AC89AAC2BC324E600206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 		0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 		0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB02BC3291200206440 /* FormatTableDelegate.m */; };
+		0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB32BC32DD900206440 /* LYouTubeClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDataSource.m; sourceTree = "<group>"; };
 		0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDelegate.h; sourceTree = "<group>"; };
 		0AC89AB02BC3291200206440 /* FormatTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDelegate.m; sourceTree = "<group>"; };
+		0AC89AB22BC32DD900206440 /* LYouTubeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYouTubeClient.h; sourceTree = "<group>"; };
+		0AC89AB32BC32DD900206440 /* LYouTubeClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYouTubeClient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,8 @@
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
 				0AC89AB02BC3291200206440 /* FormatTableDelegate.m */,
+				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
+				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -290,6 +295,7 @@
 				0AC89A7F2BC3002900206440 /* AppDelegate.m in Sources */,
 				0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */,
 				0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */,
+				0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
