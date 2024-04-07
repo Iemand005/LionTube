@@ -36,11 +36,8 @@
     for (NSDictionary *format in formats) {
         NSLog(@"%@",[format objectForKey:@"mimeType"]);
         [self.formatTableView insertText:[format objectForKey:@"mimeType"]];
-//        [self.formatTable addFormat:format];
+        [self.formatTable addFormat:format];
     }
-//    NSString *rescont = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    //NSLog(@"%@",responseDict);
-    // Insert code here to initialize your application
     
     
     self.movie = [[QTMovie alloc] initWithURL:[NSURL URLWithString:@"file:///Users/Lasse/Desktop/Film.mov"] error:&error];

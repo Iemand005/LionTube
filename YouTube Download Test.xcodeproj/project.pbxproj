@@ -20,6 +20,7 @@
 		0AC89AA02BC30A2000206440 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A9F2BC30A2000206440 /* QuickTime.framework */; };
 		0AC89AA22BC30A7100206440 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89AA12BC30A7100206440 /* QTKit.framework */; };
 		0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AA42BC30F5700206440 /* MovieViewController.m */; };
+		0AC89AAC2BC324E600206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +57,8 @@
 		0AC89AA12BC30A7100206440 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		0AC89AA32BC30F5700206440 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
 		0AC89AA42BC30F5700206440 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
-		0AC89AA72BC3207600206440 /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = en; path = en.lproj/FormatTableDataSource.h; sourceTree = "<group>"; };
-		0AC89AA92BC3207600206440 /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/FormatTableDataSource.m; sourceTree = "<group>"; };
+		0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDataSource.h; sourceTree = "<group>"; };
+		0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +134,8 @@
 				0AC89A722BC3002900206440 /* Supporting Files */,
 				0AC89AA32BC30F5700206440 /* MovieViewController.h */,
 				0AC89AA42BC30F5700206440 /* MovieViewController.m */,
-				0AC89AA62BC3207600206440 /* FormatTableDataSource.h */,
-				0AC89AA82BC3207600206440 /* FormatTableDataSource.m */,
+				0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */,
+				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -289,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC89A962BC3002A00206440 /* YouTube_Download_TestTests.m in Sources */,
+				0AC89AAC2BC324E600206440 /* FormatTableDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,22 +335,6 @@
 				0AC89A922BC3002A00206440 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0AC89AA62BC3207600206440 /* FormatTableDataSource.h */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0AC89AA72BC3207600206440 /* en */,
-			);
-			name = FormatTableDataSource.h;
-			sourceTree = "<group>";
-		};
-		0AC89AA82BC3207600206440 /* FormatTableDataSource.m */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0AC89AA92BC3207600206440 /* en */,
-			);
-			name = FormatTableDataSource.m;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

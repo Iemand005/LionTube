@@ -20,7 +20,7 @@
 
 @property IBOutlet NSTableView *formatTableView;
 
-@property FormatTableDataSource *formatTable;
+@property IBOutlet FormatTableDataSource *formatTable;
 
 - (IBAction)start;
 
