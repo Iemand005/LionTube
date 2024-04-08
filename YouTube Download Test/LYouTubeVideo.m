@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.videoId = videoId;
+        self.videoId = [self getVideoIdFromArbitraryString:videoId];
     }
     return self;
 }
@@ -80,6 +80,28 @@
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
 {
     return [[QTMovie alloc] initWithURL:[NSURL URLWithString:format.url] error:nil];
+}
+
+- (NSString *)getVideoIdFromArbitraryString:(NSString *)string
+{
+    NSString *result;
+    NSDictionary *query = [self extractQueryComponentsFromURLString:string];
+    result = [query objectForKey:@"v"];
+    if (!result) result = string;
+    return result;
+}
+
+- (NSDictionary *)extractQueryComponentsFromURLString:(NSString *)url
+{
+    NSArray *components = [url componentsSeparatedByString:@"?"];
+    NSString *query = [components objectAtIndex:1];
+    NSArray *queryParameterStrings = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithCapacity:queryParameterStrings.count];
+    for (NSString *queryParameterString in queryParameterStrings) {
+        NSArray *queryParameterComponents = [queryParameterString componentsSeparatedByString:@"="];
+        [queryParameters setObject:[queryParameterComponents objectAtIndex:1] forKey:[queryParameterComponents objectAtIndex:0]];
+    }
+    return queryParameters;
 }
 
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId

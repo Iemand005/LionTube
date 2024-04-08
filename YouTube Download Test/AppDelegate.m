@@ -32,29 +32,6 @@
     [self.movieView play:nil];
 }
 
-- (IBAction)start:(id)sender
-{
-//    LYouTubeVideo *video = [LYouTubeVideo videoWithId:self.urlField.stringValue];
-//    [video requestVideoWithClient:self.client];
-//    
-//    [self.videoDescription setStringValue:video.description];
-//    
-//    for (LVideoFormat *format in video.formats)
-//        [self.formatTable addFormat:format];
-//    
-//    for (LVideoFormat *format in video.adaptiveFormats)
-//        [self.formatTable addFormat:format];
-//    
-//    LVideoFormat *format = [video.formats objectAtIndex:0];
-//    
-//    self.video = video;
-//    
-//    [[self movieView] setMovie:[video getMovieWithFormat:format]];
-//    //[self.movieView needsDisplay];
-//    [self.movieView play:sender];
-//    [self.movieView relo]
-}
-
 - (IBAction)search:(id)sender
 {
     NSSearchField *field = sender;

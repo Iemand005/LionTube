@@ -19,7 +19,13 @@
 {
     NSLog(@"%hi", theEvent.keyCode);
 //    NSApplicationpre
-    if (theEvent.keyCode == 53) [self exitFullScreenModeWithOptions:nil];
+    switch (theEvent.keyCode) {
+        case 3:
+        case 53:
+            if (self.isInFullScreenMode) [self exitFullScreenModeWithOptions:nil];
+            else [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+            break;
+    }
 }
 
 @end
