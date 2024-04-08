@@ -19,15 +19,32 @@
 @property NSURL *nextEndpoint;
 @property NSURL *likeEndpoint;
 @property NSURL *searchEndpoint;
+@property NSURL *discoveryDocumentUrl;
+@property NSURL *deviceAuthorizationEndpoint;
+
+@property NSString *cookieString;
+@property NSArray *cookieArray;
 
 @property NSDictionary *clientContext;
 
 @property NSString *clientName;
 @property NSString *clientVersion;
 
+@property NSString *clientId;
+@property NSString *clientSecret;
+
+@property NSString *pageTitle;
+
 @property IBOutlet WebView *webView;
 
+- (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error;
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId;
+- (NSDictionary *)getBrowseEndpoint:(NSString *)browseId;
+- (NSDictionary *)getHome;
+- (NSArray *)getTrendingVideos;
+
+- (void)logIn;
+- (void)getBearer;
 
 + (LYouTubeClient *)client;
 

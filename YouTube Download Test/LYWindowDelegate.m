@@ -10,14 +10,6 @@
 
 @implementation LYWindowDelegate
 
-//- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
-//{
-//    [self.splitView setPosition:self.videoParentView.frame.size.width ofDividerAtIndex:0];
-//    //NSSize newSize = NSMakeSize(self.videoParentView.frame.size.width, self.videoParentView.frame.size.width / 16 * 9);
-//    //[self.videoParentView setFrameSize:newSize];
-//    return frameSize;
-//}
-
 - (void)windowDidResize:(NSNotification *)notification
 {
     [self.splitView setPosition:self.videoParentView.frame.size.width / 16 * 9 ofDividerAtIndex:0];

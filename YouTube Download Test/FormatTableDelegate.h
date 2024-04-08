@@ -10,6 +10,4 @@
 
 @interface FormatTableDelegate : NSObject <NSTableViewDelegate>
 
-
-
 @end

@@ -17,6 +17,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawer;
 @property (assign) IBOutlet NSPanel *PiPPanel;
+@property (assign) IBOutlet NSPanel *logInPanel;
 @property (assign) IBOutlet NSView *mainView;
 
 @property IBOutlet QTMovieView *movieView;
@@ -36,13 +37,6 @@
 @property IBOutlet LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
-- (IBAction)Ikhaatou:(id)sender;
-
-//- (IBAction)start;
-
-//- (IBAction)startFullScreen;
-
-//- (IBAction)a:(id)sender;
 - (IBAction)search:(id)sender;
 
 - (IBAction)trySelectedVideoFormat:(id)sender;

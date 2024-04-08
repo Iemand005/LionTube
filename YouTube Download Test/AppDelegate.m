@@ -12,8 +12,22 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+//    [self.client logIn];
+//    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//    //[cookieStorage cookie]
+//    NSArray *cookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"https://www.youtube.com"]];
+//    for (NSHTTPCookie *cookie in cookies) {
+//        NSLog(@"%1@ value: %2@", cookie.name, cookie.value);
+//    }
+//    [self.client getHome];
+    [self.client getBearer];
     //[self.drawer open];
     //self.client = [LYouTubeClient client];
+}
+
+- (void)logIn
+{
+    
 }
 
 - (void)loadVideoWithId:(NSString *)videoId

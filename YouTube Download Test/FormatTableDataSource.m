@@ -33,10 +33,6 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     LVideoFormat *format = [formats objectAtIndex:row];
-    NSTableCellView *cellView = [tableView viewAtColumn:0 row:row makeIfNecessary:YES];
-    NSString *Q = format.mimeType; //[format objectForKey:@"mimeType"];
-    if (!Q) Q = @"not found";
-    [cellView.textField setStringValue:@"fart"];
     return format.mimeType;
 }
 
