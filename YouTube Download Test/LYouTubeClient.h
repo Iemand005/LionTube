@@ -7,14 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
+#import "LYouTubeVideo.h"
 
 @interface LYouTubeClient : NSObject
 
-@property NSURL *endPoint;
-@property NSDictionary *clientDetails;
+@property NSURL *baseAddress;
+@property NSURL *alternativeBaseAddress;
+@property NSURL *playerEndpoint;
+@property NSURL *browseEndpoint;
+@property NSURL *nextEndpoint;
+@property NSURL *likeEndpoint;
+@property NSURL *searchEndpoint;
+
+@property NSDictionary *clientContext;
 
 @property NSString *clientName;
 @property NSString *clientVersion;
+
+@property IBOutlet WebView *webView;
+
+- (LYouTubeVideo *)getVideoWithId:(NSString *)videoId;
 
 + (LYouTubeClient *)client;
 

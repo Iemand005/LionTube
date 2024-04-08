@@ -19,6 +19,9 @@
 - (BOOL)windowShouldClose:(id)sender
 {
     [self.panel orderOut:sender];
+    QTMovie *movie = self.pipMovieView.movie;
+    [self.pipMovieView setMovie:nil];
+    [self.movieView setMovie:movie];
     return NO;
 }
 

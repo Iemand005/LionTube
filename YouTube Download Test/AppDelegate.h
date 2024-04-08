@@ -17,6 +17,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawer;
 @property (assign) IBOutlet NSPanel *PiPPanel;
+@property (assign) IBOutlet NSView *mainView;
 
 @property IBOutlet QTMovieView *movieView;
 @property IBOutlet QTMovieView *pipMovieView;
@@ -28,11 +29,11 @@
 @property IBOutlet NSTextField *channelName;
 @property IBOutlet NSImageView *channelPicture;
 @property IBOutlet NSTableView *formatTableView;
-@property IBOutlet NSView *videoParentView;
+//@property IBOutlet NSView *videoParentView;
 
 @property IBOutlet FormatTableDataSource *formatTable;
 
-@property LYouTubeClient *client;
+@property IBOutlet LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
 - (IBAction)Ikhaatou:(id)sender;

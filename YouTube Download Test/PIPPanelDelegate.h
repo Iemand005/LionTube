@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QTKit/QTKit.h>
 
 @interface PIPPanelDelegate : NSObject <NSWindowDelegate>
 
 @property (assign) IBOutlet NSPanel *panel;
-
-@end
-
-@interface a : NSPanel
+@property IBOutlet QTMovieView *movieView;
+@property IBOutlet QTMovieView *pipMovieView;
 
 @end

@@ -13,13 +13,13 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     //[self.drawer open];
-    self.client = [LYouTubeClient client];
+    //self.client = [LYouTubeClient client];
 }
 
 - (void)loadVideoWithId:(NSString *)videoId
 {
-    self.video = [LYouTubeVideo videoWithId:videoId];
-    [self.video requestVideoWithClient:self.client];
+    self.video = [self.client getVideoWithId:videoId];
+//    [self.video requestVideoWithClient:self.client];
     
     [self.videoDescription setStringValue:self.video.description];
     [self.videoTitle setStringValue:self.video.title];
@@ -48,12 +48,14 @@
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
 }
-
-//- en
-- (IBAction)Ikhaatou:(id)sender
-{
-    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-}
+//
+//- will
+//
+////- en
+//- (IBAction)Ikhaatou:(id)sender
+//{
+//    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+//}
 
 - (IBAction)stardt
 {
@@ -69,8 +71,8 @@
 //    [self.PiPPanel setContentView:self.movieView];
 //    [self.videoParentView seth]
 //    self.videoParentView setas
-    NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
-    [self.PiPPanel setAspectRatio:NSMakeSize(256, 144)];
+//    NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
+    [self.PiPPanel setAspectRatio:NSMakeSize(16, 9)];
     //[self.movieView setMovie:nil];
     //LVideoFormat *format = [self.video.formats objectAtIndex:0];
     //self.movie = [self.video getMovieWithFormat:format];

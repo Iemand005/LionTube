@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
-#import "LYouTubeClient.h"
+//#import "LYouTubeClient.h"
 
 enum audioQuality {
     AUDIO_QUALITY_LOW
@@ -63,7 +63,7 @@ enum quality {
 
 - (id)initWithId:(NSString *)videoId;
 
-- (void)requestVideoWithClient:(LYouTubeClient *)client;
+//- (void)requestVideoWithClient:(LYouTubeClient *)client;
 
 - (QTMovie *)getDefaultMovie;
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format;
