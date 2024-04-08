@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 
-@interface MovieViewController : QTMovieView
+@interface LYMovieView : QTMovieView
 
 @end

@@ -19,7 +19,7 @@
 		0AC89A962BC3002A00206440 /* YouTube_Download_TestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89A952BC3002A00206440 /* YouTube_Download_TestTests.m */; };
 		0AC89AA02BC30A2000206440 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A9F2BC30A2000206440 /* QuickTime.framework */; };
 		0AC89AA22BC30A7100206440 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89AA12BC30A7100206440 /* QTKit.framework */; };
-		0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AA42BC30F5700206440 /* MovieViewController.m */; };
+		0AC89AA52BC30F5700206440 /* LYMovieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AA42BC30F5700206440 /* LYMovieView.m */; };
 		0AC89AAC2BC324E600206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 		0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */; };
 		0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89AB02BC3291200206440 /* FormatTableDelegate.m */; };
@@ -59,8 +59,8 @@
 		0AC89A952BC3002A00206440 /* YouTube_Download_TestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouTube_Download_TestTests.m; sourceTree = "<group>"; };
 		0AC89A9F2BC30A2000206440 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		0AC89AA12BC30A7100206440 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
-		0AC89AA32BC30F5700206440 /* MovieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieViewController.h; sourceTree = "<group>"; };
-		0AC89AA42BC30F5700206440 /* MovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
+		0AC89AA32BC30F5700206440 /* LYMovieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYMovieView.h; sourceTree = "<group>"; };
+		0AC89AA42BC30F5700206440 /* LYMovieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYMovieView.m; sourceTree = "<group>"; };
 		0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDataSource.h; sourceTree = "<group>"; };
 		0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatTableDataSource.m; sourceTree = "<group>"; };
 		0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatTableDelegate.h; sourceTree = "<group>"; };
@@ -142,8 +142,8 @@
 				0AC89A7E2BC3002900206440 /* AppDelegate.m */,
 				0A219DA72BC35F3100A20C35 /* MainMenu.xib */,
 				0AC89A722BC3002900206440 /* Supporting Files */,
-				0AC89AA32BC30F5700206440 /* MovieViewController.h */,
-				0AC89AA42BC30F5700206440 /* MovieViewController.m */,
+				0AC89AA32BC30F5700206440 /* LYMovieView.h */,
+				0AC89AA42BC30F5700206440 /* LYMovieView.m */,
 				0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */,
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
@@ -298,7 +298,7 @@
 				0AC89AAE2BC3251700206440 /* FormatTableDataSource.m in Sources */,
 				0AC89A782BC3002900206440 /* main.m in Sources */,
 				0AC89A7F2BC3002900206440 /* AppDelegate.m in Sources */,
-				0AC89AA52BC30F5700206440 /* MovieViewController.m in Sources */,
+				0AC89AA52BC30F5700206440 /* LYMovieView.m in Sources */,
 				0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */,
 				0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */,
 				0AC89AB72BC32F8F00206440 /* LYouTubeVideo.m in Sources */,

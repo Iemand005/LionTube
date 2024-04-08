@@ -70,6 +70,10 @@
 }
 
 //- en
+- (IBAction)Ikhaatou:(id)sender
+{
+    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
 
 - (IBAction)stardt
 {
