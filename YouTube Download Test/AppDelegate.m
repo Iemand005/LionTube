@@ -62,7 +62,14 @@
 - (IBAction)startPictureInPictureMode:(id)sender
 {
     [self.PiPPanel makeKeyAndOrderFront:self];
-    [self.pipMovieView setMovie:self.movie];
+    NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
+    [self.PiPPanel setAspectRatio:NSMakeSize(256, 144 + (self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height))];
+    NSView *q = self.PiPPanel.contentView;
+    NSLog(@"%f end inner %f", self.PiPPanel.frame.size.height, q.frame.size.height);
+    [self.movieView setMovie:nil];
+    LVideoFormat *format = [self.video.formats objectAtIndex:0];
+    self.movie = [self.video getMovieWithFormat:format];
+    [self.pipMovieView setMovie:[[QTMovie alloc] initWithFile:@"/Users/Lasse/Desktop/Tet-1.mp4" error:nil]];
 }
 
 @end

@@ -99,10 +99,20 @@
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string
 {
     NSString *result;
-    NSDictionary *query = [self extractQueryComponentsFromURLString:string];
-    result = [query objectForKey:@"v"];
+    if ([self isUrl:string]) {
+        NSDictionary *query = [self extractQueryComponentsFromURLString:string];
+        result = [query objectForKey:@"v"];
+    } else {
+        result = string;
+    }
+
     if (!result) result = string;
     return result;
+}
+
+- (BOOL)isUrl:(NSString *)string
+{
+    return [string hasPrefix:@"http"] || [string hasPrefix:@"www"];
 }
 
 - (NSDictionary *)extractQueryComponentsFromURLString:(NSString *)url

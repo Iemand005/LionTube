@@ -548,7 +548,7 @@
 							<string key="NSFrame">{{17, 20}, {646, 17}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="1007860903"/>
+							<reference key="NSNextKeyView" ref="240931933"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
 							<bool key="NSEnabled">YES</bool>
@@ -615,21 +615,22 @@
 								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
-						<object class="NSButton" id="1007860903">
+						<object class="NSButton" id="240931933">
 							<reference key="NSNextResponder" ref="414427165"/>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{518, 12}, {148, 32}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="419193823">
+							<object class="NSButtonCell" key="NSCell" id="99470167">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">Picture in picture</string>
 								<reference key="NSSupport" ref="262318766"/>
 								<string key="NSCellIdentifier">_NS:9</string>
-								<reference key="NSControlView" ref="1007860903"/>
+								<reference key="NSControlView" ref="240931933"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents"/>
@@ -644,7 +645,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="381489626"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -2078,7 +2079,7 @@
 				<nil key="NSParentWindow"/>
 				<nil key="NSDelegate"/>
 			</object>
-			<object class="NSWindowTemplate" id="935230541">
+			<object class="NSWindowTemplate" id="146819543">
 				<int key="NSWindowStyleMask">8223</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{109, 138}, {480, 270}}</string>
@@ -2087,12 +2088,12 @@
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<object class="NSView" key="NSWindowView" id="769821649">
+				<object class="NSView" key="NSWindowView" id="659290955">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
-						<object class="QTMovieView" id="829337036">
-							<reference key="NSNextResponder" ref="769821649"/>
+						<object class="QTMovieView" id="822440277">
+							<reference key="NSNextResponder" ref="659290955"/>
 							<int key="NSvFlags">274</int>
 							<set class="NSMutableSet" key="NSDragTypes">
 								<string>Apple URL pasteboard type</string>
@@ -2101,13 +2102,13 @@
 								<string>QTMoviePasteboardType</string>
 							</set>
 							<string key="NSFrameSize">{480, 270}</string>
-							<reference key="NSSuperview" ref="769821649"/>
+							<reference key="NSSuperview" ref="659290955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSColor" key="kCoderFillColor">
 								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MCAwAA</bytes>
+								<bytes key="NSWhite">MCAwLjUxAA</bytes>
 							</object>
 							<boolean value="YES" key="kCoderControllerVisible"/>
 							<boolean value="NO" key="kCoderPreservesAspectRatio"/>
@@ -2118,10 +2119,10 @@
 					<string key="NSFrameSize">{480, 270}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="829337036"/>
+					<reference key="NSNextKeyView" ref="822440277"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -2861,7 +2862,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">PiPPanel</string>
 						<reference key="source" ref="598763020"/>
-						<reference key="destination" ref="935230541"/>
+						<reference key="destination" ref="146819543"/>
 					</object>
 					<int key="connectionID">957</int>
 				</object>
@@ -2877,7 +2878,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">startPictureInPictureMode:</string>
 						<reference key="source" ref="598763020"/>
-						<reference key="destination" ref="1007860903"/>
+						<reference key="destination" ref="240931933"/>
 					</object>
 					<int key="connectionID">960</int>
 				</object>
@@ -3237,7 +3238,7 @@
 							<reference ref="1019462047"/>
 							<reference ref="1053006842"/>
 							<reference ref="691963944"/>
-							<reference ref="1007860903"/>
+							<reference ref="240931933"/>
 							<reference ref="427594233"/>
 						</array>
 						<reference key="parent" ref="513744381"/>
@@ -4208,37 +4209,37 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">952</int>
-						<reference key="object" ref="935230541"/>
+						<reference key="object" ref="146819543"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="769821649"/>
+							<reference ref="659290955"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">953</int>
-						<reference key="object" ref="769821649"/>
+						<reference key="object" ref="659290955"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="829337036"/>
+							<reference ref="822440277"/>
 						</array>
-						<reference key="parent" ref="935230541"/>
+						<reference key="parent" ref="146819543"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">954</int>
-						<reference key="object" ref="829337036"/>
-						<reference key="parent" ref="769821649"/>
+						<reference key="object" ref="822440277"/>
+						<reference key="parent" ref="659290955"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">955</int>
-						<reference key="object" ref="1007860903"/>
+						<reference key="object" ref="240931933"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="419193823"/>
+							<reference ref="99470167"/>
 						</array>
 						<reference key="parent" ref="414427165"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">956</int>
-						<reference key="object" ref="419193823"/>
-						<reference key="parent" ref="1007860903"/>
+						<reference key="object" ref="99470167"/>
+						<reference key="parent" ref="240931933"/>
 					</object>
 				</array>
 			</object>
@@ -4465,7 +4466,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="Ikhaatou:">id</string>
 						<string key="search:">id</string>
-						<string key="startPictureInPictureMode:">id</string>
 						<string key="trySelectedVideoFormat:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4475,10 +4475,6 @@
 						</object>
 						<object class="IBActionInfo" key="search:">
 							<string key="name">search:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startPictureInPictureMode:">
-							<string key="name">startPictureInPictureMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="trySelectedVideoFormat:">
