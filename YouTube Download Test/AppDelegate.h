@@ -15,9 +15,11 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property IBOutlet NSDrawer *drawer;
+@property (assign) IBOutlet NSDrawer *drawer;
+@property (assign) IBOutlet NSPanel *PiPPanel;
 
 @property IBOutlet QTMovieView *movieView;
+@property IBOutlet QTMovieView *pipMovieView;
 @property QTMovie *movie;
 
 @property IBOutlet NSTextField *urlField;

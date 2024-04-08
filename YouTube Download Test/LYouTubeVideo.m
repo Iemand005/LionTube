@@ -79,7 +79,21 @@
 
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
 {
-    return [[QTMovie alloc] initWithURL:[NSURL URLWithString:format.url] error:nil];
+    self.url = [NSURL URLWithString:format.url];
+    return [[QTMovie alloc] initWithURL:self.url error:nil];
+}
+
+- (QTMovie *)getMovieWithFormatIndex:(NSUInteger)index
+{
+    return [self getMovieWithFormat:[self.formats objectAtIndex:index]];
+}
+
+- (QTMovie *)getDefaultMovie
+{
+    QTMovie *movie;
+    if (self.isYouTubeVideo) return [self getMovieWithFormatIndex:0];
+    else return [[QTMovie alloc] initWithURL:self.url error:nil];
+    return movie;
 }
 
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string

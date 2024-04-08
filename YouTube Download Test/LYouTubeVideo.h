@@ -56,10 +56,15 @@ enum quality {
 @property NSString *description;
 @property NSNumber *viewCount;
 
+@property NSURL *url;
+
+@property BOOL isYouTubeVideo;
+
 - (id)initWithId:(NSString *)videoId;
 
 - (void)requestVideoWithClient:(LYouTubeClient *)client;
 
+- (QTMovie *)getDefaultMovie;
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format;
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId;
 

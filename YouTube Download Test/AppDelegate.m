@@ -28,7 +28,8 @@
     
     LVideoFormat *format = [self.video.formats objectAtIndex:0];
     
-    [[self movieView] setMovie:[self.video getMovieWithFormat:format]];
+    self.movie = [self.video getMovieWithFormat:format];
+    [[self movieView] setMovie:self.movie];
     [self.movieView play:nil];
 }
 
@@ -43,7 +44,8 @@
 {
     NSUInteger index = self.formatTableView.selectedRow;
     LVideoFormat *format = [self.video.formats objectAtIndex:index];
-    [[self movieView] setMovie:[self.video getMovieWithFormat:format]];
+    self.movie = [self.video getMovieWithFormat:format];
+    [[self movieView] setMovie:self.movie];
 }
 
 //- en
@@ -55,6 +57,12 @@
 - (IBAction)stardt
 {
     [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
+
+- (IBAction)startPictureInPictureMode:(id)sender
+{
+    [self.PiPPanel makeKeyAndOrderFront:self];
+    [self.pipMovieView setMovie:self.movie];
 }
 
 @end
