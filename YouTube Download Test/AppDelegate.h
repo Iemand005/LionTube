@@ -21,7 +21,10 @@
 @property QTMovie *movie;
 
 @property IBOutlet NSTextField *urlField;
-@property IBOutlet NSTextField *descriptionField;
+@property IBOutlet NSTextField *videoTitle;
+@property IBOutlet NSTextField *videoDescription;
+@property IBOutlet NSTextField *channelName;
+@property IBOutlet NSImageView *channelPicture;
 @property IBOutlet NSTableView *formatTableView;
 
 @property IBOutlet FormatTableDataSource *formatTable;
@@ -31,9 +34,10 @@
 
 //- (IBAction)start;
 
-//- (IBAction)startFullScreen;
+- (IBAction)enterFullScreen;
 
-- (IBAction)a:(id)sender;
+//- (IBAction)a:(id)sender;
+- (IBAction)search:(id)sender;
 
 - (IBAction)trySelectedVideoFormat:(id)sender;
 

@@ -21,14 +21,18 @@
 
 - (void)requestVideoWithClient:(LYouTubeClient *)client
 {
+    if (!client.clientName) client.clientName = @"MWEB";
+        if (!client.clientVersion) client.clientVersion = @"2.20220918";
+//    if (!self.videoId) self.videoId = @"";
+    NSLog(@"%1@, %2@, %3@", client.clientName, client.clientVersion, self.videoId);
     NSDictionary *body = @{
                            @"context": @{
                                    @"client": @{
-                                           @"clientName": client.clientName,
-                                           @"clientVersion": client.clientVersion
+                                           @"clientName": client.clientName,// ? client.clientName : @"MWEB",
+                                           @"clientVersion": client.clientVersion// ? client.clientVersion : @"2.20220918"
                                            }
                                    },
-                           @"videoId": self.videoId,
+                           @"videoId": self.videoId,// ? self.videoId : @"",
                            @"contentCheckOk": @"true",
                            @"racyCheckOk": @"true"
                            };
