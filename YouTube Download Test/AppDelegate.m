@@ -22,6 +22,7 @@
     [self.video requestVideoWithClient:self.client];
     
     [self.videoDescription setStringValue:self.video.description];
+    [self.videoTitle setStringValue:self.video.title];
     
     for (LVideoFormat *format in self.video.formats)
         [self.formatTable addFormat:format];
@@ -61,15 +62,20 @@
 
 - (IBAction)startPictureInPictureMode:(id)sender
 {
+    [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorAlertPanel];
     [self.PiPPanel makeKeyAndOrderFront:self];
+//    [self.PiPPanel setContentView:self.movieView];
     NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
-    [self.PiPPanel setAspectRatio:NSMakeSize(256, 144 + (self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height))];
-    NSView *q = self.PiPPanel.contentView;
-    NSLog(@"%f end inner %f", self.PiPPanel.frame.size.height, q.frame.size.height);
+    [self.PiPPanel setAspectRatio:NSMakeSize(256, 144)];
+    //[self.movieView setMovie:nil];
+    //LVideoFormat *format = [self.video.formats objectAtIndex:0];
+    //self.movie = [self.video getMovieWithFormat:format];
+    //QTMovie *movie = [[QTMovie alloc] initWithFile:@"/Users/Lasse/Desktop/Tet-1.mp4" error:nil];
     [self.movieView setMovie:nil];
-    LVideoFormat *format = [self.video.formats objectAtIndex:0];
-    self.movie = [self.video getMovieWithFormat:format];
-    [self.pipMovieView setMovie:[[QTMovie alloc] initWithFile:@"/Users/Lasse/Desktop/Tet-1.mp4" error:nil]];
+    
+//    [self.movieView seti]
+    [self.pipMovieView setMovie:self.movie];
+//    [movie play];
 }
 
 @end

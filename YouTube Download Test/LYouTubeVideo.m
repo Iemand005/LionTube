@@ -74,6 +74,7 @@
     
     NSDictionary *videoDetails = [videoDetailsDict objectForKey:@"videoDetails"];
     self.description = [videoDetails objectForKey:@"shortDescription"];
+    self.title = [videoDetails objectForKey:@"title"];
     self.viewCount = [videoDetails objectForKey:@"viewCount"];
 }
 

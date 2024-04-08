@@ -53,6 +53,7 @@ enum quality {
 @property NSString *videoId;
 @property NSArray *formats;
 @property NSArray *adaptiveFormats;
+@property NSString *title;
 @property NSString *description;
 @property NSNumber *viewCount;
 

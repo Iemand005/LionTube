@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0C3AEC2BC42B8000F753AC /* PIPPanelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */; };
 		0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A219DA72BC35F3100A20C35 /* MainMenu.xib */; };
 		0AC89A6C2BC3002900206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A742BC3002900206440 /* InfoPlist.strings */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A0C3AEA2BC42B8000F753AC /* PIPPanelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIPPanelDelegate.h; sourceTree = "<group>"; };
+		0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PIPPanelDelegate.m; sourceTree = "<group>"; };
 		0A219DA82BC35F3100A20C35 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0AC89A682BC3002800206440 /* YouTube Download Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YouTube Download Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC89A6B2BC3002800206440 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -152,6 +155,8 @@
 				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
 				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
 				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
+				0A0C3AEA2BC42B8000F753AC /* PIPPanelDelegate.h */,
+				0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 				0AC89AB12BC3291200206440 /* FormatTableDelegate.m in Sources */,
 				0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */,
 				0AC89AB72BC32F8F00206440 /* LYouTubeVideo.m in Sources */,
+				0A0C3AEC2BC42B8000F753AC /* PIPPanelDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
