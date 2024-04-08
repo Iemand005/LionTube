@@ -32,9 +32,11 @@
 @property LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
+- (IBAction)Ikhaatou:(id)sender;
+
 //- (IBAction)start;
 
-- (IBAction)enterFullScreen;
+//- (IBAction)startFullScreen;
 
 //- (IBAction)a:(id)sender;
 - (IBAction)search:(id)sender;

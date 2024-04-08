@@ -69,6 +69,8 @@
     [[self movieView] setMovie:[self.video getMovieWithFormat:format]];
 }
 
+//- en
+
 - (IBAction)stardt
 {
     [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
