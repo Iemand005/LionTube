@@ -28,6 +28,7 @@
 @property IBOutlet NSTextField *channelName;
 @property IBOutlet NSImageView *channelPicture;
 @property IBOutlet NSTableView *formatTableView;
+@property IBOutlet NSView *videoParentView;
 
 @property IBOutlet FormatTableDataSource *formatTable;
 

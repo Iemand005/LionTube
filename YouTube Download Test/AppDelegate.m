@@ -62,9 +62,13 @@
 
 - (IBAction)startPictureInPictureMode:(id)sender
 {
-    [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorAlertPanel];
+//    self set
+//    [self.PiPPanel setMiniwindowImage:<#(NSImage *)#>] for thumbnail
+    [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.PiPPanel makeKeyAndOrderFront:self];
 //    [self.PiPPanel setContentView:self.movieView];
+//    [self.videoParentView seth]
+//    self.videoParentView setas
     NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
     [self.PiPPanel setAspectRatio:NSMakeSize(256, 144)];
     //[self.movieView setMovie:nil];

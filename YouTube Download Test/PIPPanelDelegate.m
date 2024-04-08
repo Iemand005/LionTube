@@ -22,4 +22,17 @@
     return NO;
 }
 
+- (NSRect)windowWillUseStandardFrame:(NSWindow *)window defaultFrame:(NSRect)newFrame
+{
+    return NSMakeRect(0, 0, 100, 100);
+}
+
+//- (NSRect)w
+
+@end
+
+@implementation a
+
+//- fra
+
 @end

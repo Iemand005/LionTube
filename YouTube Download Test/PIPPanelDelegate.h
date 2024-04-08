@@ -13,3 +13,7 @@
 @property (assign) IBOutlet NSPanel *panel;
 
 @end
+
+@interface a : NSPanel
+
+@end
