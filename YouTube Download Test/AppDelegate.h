@@ -15,6 +15,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+@property IBOutlet NSDrawer *drawer;
 
 @property IBOutlet QTMovieView *movieView;
 @property QTMovie *movie;

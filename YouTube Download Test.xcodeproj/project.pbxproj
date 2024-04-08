@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A219DA72BC35F3100A20C35 /* MainMenu.xib */; };
 		0AC89A6C2BC3002900206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A742BC3002900206440 /* InfoPlist.strings */; };
 		0AC89A782BC3002900206440 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89A772BC3002900206440 /* main.m */; };
 		0AC89A7C2BC3002900206440 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A7A2BC3002900206440 /* Credits.rtf */; };
 		0AC89A7F2BC3002900206440 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89A7E2BC3002900206440 /* AppDelegate.m */; };
-		0AC89A822BC3002A00206440 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A802BC3002A00206440 /* MainMenu.xib */; };
 		0AC89A8A2BC3002A00206440 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A892BC3002A00206440 /* SenTestingKit.framework */; };
 		0AC89A8B2BC3002A00206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A932BC3002A00206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A912BC3002A00206440 /* InfoPlist.strings */; };
@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A219DA82BC35F3100A20C35 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0AC89A682BC3002800206440 /* YouTube Download Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YouTube Download Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC89A6B2BC3002800206440 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0AC89A6E2BC3002900206440 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -50,7 +51,6 @@
 		0AC89A7B2BC3002900206440 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0AC89A7D2BC3002900206440 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0AC89A7E2BC3002900206440 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0AC89A812BC3002A00206440 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0AC89A882BC3002A00206440 /* YouTube Download TestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YouTube Download TestTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC89A892BC3002A00206440 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AC89A902BC3002A00206440 /* YouTube Download TestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YouTube Download TestTests-Info.plist"; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 			children = (
 				0AC89A7D2BC3002900206440 /* AppDelegate.h */,
 				0AC89A7E2BC3002900206440 /* AppDelegate.m */,
-				0AC89A802BC3002A00206440 /* MainMenu.xib */,
+				0A219DA72BC35F3100A20C35 /* MainMenu.xib */,
 				0AC89A722BC3002900206440 /* Supporting Files */,
 				0AC89AA32BC30F5700206440 /* MovieViewController.h */,
 				0AC89AA42BC30F5700206440 /* MovieViewController.m */,
@@ -260,7 +260,7 @@
 			files = (
 				0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */,
 				0AC89A7C2BC3002900206440 /* Credits.rtf in Resources */,
-				0AC89A822BC3002A00206440 /* MainMenu.xib in Resources */,
+				0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +325,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0A219DA72BC35F3100A20C35 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A219DA82BC35F3100A20C35 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		0AC89A742BC3002900206440 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -339,14 +347,6 @@
 				0AC89A7B2BC3002900206440 /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		0AC89A802BC3002A00206440 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0AC89A812BC3002A00206440 /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		0AC89A912BC3002A00206440 /* InfoPlist.strings */ = {
@@ -492,6 +492,7 @@
 				0AC89A9B2BC3002A00206440 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0AC89A9C2BC3002A00206440 /* Build configuration list for PBXNativeTarget "YouTube Download TestTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +501,7 @@
 				0AC89A9E2BC3002A00206440 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

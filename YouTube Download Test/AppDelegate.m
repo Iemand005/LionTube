@@ -12,6 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.drawer open];
     self.client = [LYouTubeClient client];
 }
 
