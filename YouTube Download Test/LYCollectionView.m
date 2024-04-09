@@ -20,9 +20,19 @@
     return self;
 }
 
-//- (void)mouseUp:(NSEvent *)theEvent
-//{
-////    NSLog(@"%@", theEvent.mouseLocation);
-//}
+- (void)mouseDown:(NSEvent *)theEvent
+{
+//    self.view
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    NSLog(@"clicked!");
+    NSCollectionView *collectionView = (NSCollectionView *)[self superview];
+    NSInteger index = [[collectionView subviews]  indexOfObject:self];
+    LYouTubeVideo *video = [[collectionView content] objectAtIndex:index];
+    NSLog(@"%@", video.title);
+//    NSLog(@"%@", theEvent.mouseLocation);
+}
 
 @end

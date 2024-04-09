@@ -29,4 +29,9 @@
     NSLog(@"you farted on a thing! %@", theEvent);
 }
 
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSLog(@"qpenstaart");
+}
+
 @end

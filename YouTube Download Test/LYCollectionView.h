@@ -8,6 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LYCollectionView : NSCollectionView
+#import "AppDelegate.h"
+#import "LYouTubeVideo.h"
+
+@interface LYCollectionView : NSView
+
+@property IBOutlet AppDelegate *appDelegate;
 
 @end
