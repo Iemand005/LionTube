@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "LYouTubeVideo.h"
+
 @interface LYoutubeApiParser : NSObject
 
 + (NSURL *)getLoginURLFromBody:(NSDictionary *)body;

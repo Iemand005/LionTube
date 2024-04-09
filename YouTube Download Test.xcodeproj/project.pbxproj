@@ -50,6 +50,8 @@
 		0A0C3AF02BC46E6800F753AC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0A20E74A2BC5BE2E000064F8 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		0A20E74B2BC5BE2E000064F8 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		0A20E74E2BC5D228000064F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = en; path = en.lproj/LYoutubeChannel.h; sourceTree = "<group>"; };
+		0A20E7502BC5D228000064F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/LYoutubeChannel.m; sourceTree = "<group>"; };
 		0A219DA82BC35F3100A20C35 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0A7716172BC55D2200C65F1B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0A7716192BC57D4E00C65F1B /* LYHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYHomeController.h; sourceTree = "<group>"; };
@@ -115,6 +117,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A20E7512BC5D249000064F8 /* YouTube Lion */ = {
+			isa = PBXGroup;
+			children = (
+				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
+				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
+				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
+				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
+				0A20E74D2BC5D228000064F8 /* LYoutubeChannel.h */,
+				0A20E74F2BC5D228000064F8 /* LYoutubeChannel.m */,
+				0AFACA2E2BC490FE006A40F5 /* LYoutubeApiParser.h */,
+				0AFACA2F2BC490FE006A40F5 /* LYoutubeApiParser.m */,
+			);
+			name = "YouTube Lion";
+			sourceTree = "<group>";
+		};
 		0AC89A5F2BC3002800206440 = {
 			isa = PBXGroup;
 			children = (
@@ -173,14 +190,9 @@
 				0AC89AAB2BC324E600206440 /* FormatTableDataSource.m */,
 				0AC89AAF2BC3291200206440 /* FormatTableDelegate.h */,
 				0AC89AB02BC3291200206440 /* FormatTableDelegate.m */,
-				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
-				0AC89AB32BC32DD900206440 /* LYouTubeClient.m */,
-				0AC89AB52BC32F8F00206440 /* LYouTubeVideo.h */,
-				0AC89AB62BC32F8F00206440 /* LYouTubeVideo.m */,
+				0A20E7512BC5D249000064F8 /* YouTube Lion */,
 				0A0C3AEA2BC42B8000F753AC /* PIPPanelDelegate.h */,
 				0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */,
-				0AFACA2E2BC490FE006A40F5 /* LYoutubeApiParser.h */,
-				0AFACA2F2BC490FE006A40F5 /* LYoutubeApiParser.m */,
 				0AFACA312BC493F0006A40F5 /* LYWebViewDelegate.h */,
 				0AFACA322BC493F0006A40F5 /* LYWebViewDelegate.m */,
 				0A7716192BC57D4E00C65F1B /* LYHomeController.h */,
@@ -363,6 +375,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0A20E74D2BC5D228000064F8 /* LYoutubeChannel.h */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A20E74E2BC5D228000064F8 /* en */,
+			);
+			name = LYoutubeChannel.h;
+			sourceTree = "<group>";
+		};
+		0A20E74F2BC5D228000064F8 /* LYoutubeChannel.m */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A20E7502BC5D228000064F8 /* en */,
+			);
+			name = LYoutubeChannel.m;
+			sourceTree = "<group>";
+		};
 		0A219DA72BC35F3100A20C35 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

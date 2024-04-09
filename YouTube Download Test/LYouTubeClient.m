@@ -158,7 +158,7 @@
 
 - (NSDictionary *)getHome
 {
-    return [self getBrowseEndpoint:@"FEwhat_to_watch"];
+    return [self.parser parseVideosOnHomePage:[self getBrowseEndpoint:@"FEwhat_to_watch"]];
 }
 
 - (NSArray *)getTrendingVideos

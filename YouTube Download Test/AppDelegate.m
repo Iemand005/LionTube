@@ -24,6 +24,7 @@
     
     [self.controller.videoListController add:self];
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:@"prat"];
+    [video setTitle:@"tits"];
 //    [self.controller.videoListController.videos ]
     [self.controller.videoListController addObject:video];
     
