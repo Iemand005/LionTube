@@ -13,6 +13,9 @@
 
 @interface LYoutubeApiParser : NSObject
 
+@property NSArray *webResponseContextPreloadData;
+@property BOOL isLoggedIn;
+
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
 
 + (NSURL *)getLoginURLFromBody:(NSDictionary *)body;

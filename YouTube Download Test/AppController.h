@@ -13,6 +13,7 @@
 @interface AppController : NSObject
 
 @property IBOutlet NSArrayController *videoListController;
+@property IBOutlet NSObjectController *videoChannelController;
 @property (strong) NSMutableArray *videos;
 
 @end

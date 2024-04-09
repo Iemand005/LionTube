@@ -20,12 +20,21 @@
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body
 {
+    NSDictionary *responseContext = [body objectForKey:@"responseContext"];
+    self.webResponseContextPreloadData = [[responseContext objectForKey:@"webResponseContextExtensionData"] objectForKey:@"webResponseContextPreloadData"];
+//    self.isLoggedIn;
+    
     NSMutableArray *videos = [NSMutableArray array];
     NSArray *tabs = [[[body objectForKey:@"contents"] objectForKey:@"singleColumnBrowseResultsRenderer"] objectForKey:@"tabs"];
     for (NSDictionary *tab in tabs) {
         NSArray *videoDataList = [[[[tab objectForKey:@"tabRenderer"] objectForKey:@"content"] objectForKey:@"richGridRenderer"] objectForKey:@"contents"];
         for (NSDictionary *videoData in videoDataList) {
-            NSDictionary *videokak = [[[videoData objectForKey:@"richItemRenderer"] objectForKey:@"content"] objectForKey:@"videoWithContextRenderer"];
+            NSDictionary *renderer = [videoData objectForKey:@"richItemRenderer"];
+            //if (!renderer) renderer = [videoData objectForKey:@"richSectionRenderer"];
+            
+            NSDictionary *context = [renderer objectForKey:@"content"];
+            NSDictionary *videokak = [context objectForKey:@"videoWithContextRenderer"];
+//            if (!videokak) videokak
             [videos addObject:[self parseVideo:videokak]];
         }
     }
@@ -37,11 +46,13 @@
 - (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData
 {
     NSString *videoId = [videoData objectForKey:@"videoId"];
+    NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
     NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
     [channel setName:channelName];
     [video setChannel:channel];
+    [video setTitle:videoTitle];
     return video;
 }
 
@@ -54,6 +65,7 @@
 //        [[[NSArray alloc] init] l]
         NSDictionary *thumbnailData = [[[data objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] firstObject];
         NSString *thumbnailUrl = [thumbnailData objectForKey:@"url"];
+//        NSString *videoTitle = [[[[data objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
         
         NSDictionary *channelEndpoint = [[data objectForKey:@"navigationEndpoint"] objectForKey:@"browseEndpoint"];
 //        NSNumber *thumbnailWidth = [thumbnailData objectForKey:@"width"];

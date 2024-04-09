@@ -14,6 +14,8 @@
 {
     self.videos = [NSMutableArray array];
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:@"fart"];
+    video.title = @"sprat";
+//    video.thu
     [self.videoListController addObject:video];
 }
 

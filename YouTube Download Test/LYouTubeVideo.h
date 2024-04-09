@@ -59,6 +59,7 @@ enum quality {
 @property NSNumber *viewCount;
 @property LYouTubeChannel *channel;
 @property BOOL isWatched;
+@property NSImage *thumbnail;
 
 @property NSURL *url;
 
