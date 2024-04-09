@@ -27,7 +27,8 @@
 
 - (void)logIn
 {
-    
+    self.authPanel
+    []
 }
 
 - (void)loadVideoWithId:(NSString *)videoId

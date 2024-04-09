@@ -17,7 +17,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawer;
 @property (assign) IBOutlet NSPanel *PiPPanel;
-@property (assign) IBOutlet NSPanel *logInPanel;
+@property (assign) IBOutlet NSPanel *authPanel;
 @property (assign) IBOutlet NSView *mainView;
 
 @property IBOutlet QTMovieView *movieView;

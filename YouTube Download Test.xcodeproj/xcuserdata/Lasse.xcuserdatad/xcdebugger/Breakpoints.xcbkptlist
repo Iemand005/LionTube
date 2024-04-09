@@ -130,7 +130,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "48"
          endingLineNumber = "48"
-         landmarkName = "-search:"
+         landmarkName = "-loadVideoWithId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -143,7 +143,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "50"
          endingLineNumber = "50"
-         landmarkName = "-search:"
+         landmarkName = "-loadVideoWithId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -156,7 +156,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "31"
          endingLineNumber = "31"
-         landmarkName = "-loadVideoWithId:"
+         landmarkName = "-logIn"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -182,8 +182,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "71"
          endingLineNumber = "71"
-         landmarkName = "-stardt"
-         landmarkType = "5">
+         landmarkName = "@implementation AppDelegate"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -195,8 +195,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "70"
          endingLineNumber = "70"
-         landmarkName = "-stardt"
-         landmarkType = "5">
+         landmarkName = "@implementation AppDelegate"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -221,7 +221,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "30"
          endingLineNumber = "30"
-         landmarkName = "-loadVideoWithId:"
+         landmarkName = "-logIn"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
