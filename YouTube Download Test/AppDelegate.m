@@ -40,15 +40,15 @@
             [self.homeSpinner setIndeterminate:YES];
         });
     });
-    
-
 }
 
 - (void)openVideoPageForVideoWithId:(NSString *)videoId
 {
     [self.videoLoadingIndicator startAnimation:self];
     self.window.contentView = self.mainView;
-    [self loadVideoWithId:videoId];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self loadVideoWithId:videoId];
+    });
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -138,26 +138,30 @@
 
 - (void)loadVideoWithId:(NSString *)videoId
 {
-    self.video = [self.client getVideoWithId:videoId];
-    self.controller.video = self.video;
+    LYouTubeVideo *video = [self.client getVideoWithId:videoId];
     
-    [self.videoDescription setStringValue:self.video.description];
-    [self.videoTitle setStringValue:self.video.title];
-    
-    for (LVideoFormat *format in self.video.formats) {
-        [self.formatTable addFormat:format];
-        if (format.qualityLabel) {
-            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
-            [self.codecSelection addItem:item];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.video = video;
+        self.controller.video = video;
+        
+        [self.videoDescription setStringValue:video.description];
+        [self.videoTitle setStringValue:video.title];
+        
+        for (LVideoFormat *format in self.video.formats) {
+            [self.formatTable addFormat:format];
+            if (format.qualityLabel) {
+                NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
+                [self.codecSelection addItem:item];
+            }
         }
-    }
-    
-    LVideoFormat *format = [self.video.formats objectAtIndex:0];
-    
-    self.movie = [self.video getMovieWithFormat:format];
-    [[self movieView] setMovie:self.movie];
-    [self.videoLoadingIndicator stopAnimation:self];
-    [self.movieView play:nil];
+        
+        LVideoFormat *format = [self.video.formats objectAtIndex:0];
+        
+        self.movie = [self.video getMovieWithFormat:format];
+        [[self movieView] setMovie:self.movie];
+        [self.videoLoadingIndicator stopAnimation:self];
+        [self.movieView play:self];
+    });
 }
 
 - (void)changeVideoFormat:(id)sender

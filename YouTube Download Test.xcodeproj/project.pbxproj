@@ -181,7 +181,7 @@
 				0A219DA72BC35F3100A20C35 /* MainMenu.xib */,
 				0A20E74A2BC5BE2E000064F8 /* AppController.h */,
 				0A20E74B2BC5BE2E000064F8 /* AppController.m */,
-				0AC89A722BC3002900206440 /* Supporting Files */,
+				0A20E7512BC5D249000064F8 /* YouTube Lion */,
 				0AC89AA32BC30F5700206440 /* LYMovieView.h */,
 				0AC89AA42BC30F5700206440 /* LYMovieView.m */,
 				0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */,
@@ -192,6 +192,7 @@
 				0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */,
 				0A20E7552BC5EED6000064F8 /* LYCollectionView.h */,
 				0A20E7562BC5EED6000064F8 /* LYCollectionView.m */,
+				0AC89A722BC3002900206440 /* Supporting Files */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -204,7 +205,6 @@
 				0AC89A772BC3002900206440 /* main.m */,
 				0AC89A792BC3002900206440 /* YouTube Download Test-Prefix.pch */,
 				0AC89A7A2BC3002900206440 /* Credits.rtf */,
-				0A20E7512BC5D249000064F8 /* YouTube Lion */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

@@ -90,6 +90,7 @@
         self.height = [dict objectForKey:@"height"];
         self.mimeType = [dict objectForKey:@"mimeType"];
         self.qualityLabel = [dict objectForKey:@"qualityLabel"];
+        NSLog([dict objectForKey:@"qualityLabel"]);
     }
     return self;
 }
