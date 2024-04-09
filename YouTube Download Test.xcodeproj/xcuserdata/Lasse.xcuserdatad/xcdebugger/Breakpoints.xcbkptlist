@@ -393,18 +393,5 @@
          landmarkName = "-getBearerToken"
          landmarkType = "5">
       </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "YouTube Download Test/LYouTubeClient.m"
-         timestampString = "734355939.806643"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "208"
-         endingLineNumber = "208"
-         landmarkName = "-getBearerToken"
-         landmarkType = "5">
-      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

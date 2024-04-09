@@ -191,6 +191,7 @@
 - (NSDictionary *)getBearerToken
 {
     NSDictionary *tokenBody;
+    self.tokenCreatedOn = [NSDate date];
     NSDictionary *data = @{
                            @"client_id": self.clientId,
                            @"client_secret": self.clientSecret,
@@ -199,20 +200,43 @@
                            };
     if (self.clientId && self.clientSecret && self.deviceCode) {
         tokenBody = [self POSTRequest:self.tokenEndpoint WithBody:data error:nil];
-        self.accessToken = [tokenBody objectForKey:@"access_token"];
-        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
-        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
-        self.tokenType = [tokenBody objectForKey:@"token_type"];
-        NSLog(self.accessToken);
+//        self.accessToken = [tokenBody objectForKey:@"access_token"];
+//        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
+//        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
+//        self.tokenType = [tokenBody objectForKey:@"token_type"];
+//        [tokenCreatedOn ]
+//        if ([self saveAuthCredentials: tokenBody] && [self loadAuthCredentials]);
+        [self saveAuthCredentials: tokenBody];
+        [self loadAuthCredentials];
     }
     return tokenBody;
 }
 
-
-
 - (NSString *)getAccessTokenHeader
 {
     return [NSString stringWithFormat:@"%1@ %2@", self.tokenType, self.accessToken];
+}
+
+- (BOOL)loadAuthCredentials
+{
+    NSDictionary *tokenBody = [NSDictionary dictionaryWithContentsOfFile:self.credentialFile];
+    if (tokenBody) {
+        self.accessToken = [tokenBody objectForKey:@"access_token"];
+        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
+        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
+        self.tokenType = [tokenBody objectForKey:@"token_type"];
+//        self.accessToken = [tokenBody objectForKey:@"accessToken"];
+//        self.refreshToken = [tokenBody objectForKey:@"refreshToken"];
+//        self.tokenExpiresIn = [tokenBody objectForKey:@"expiresIn"];
+//        self.tokenType = [tokenBody objectForKey:@"tokenType"];
+    }
+    return self.accessToken && self.tokenType;
+}
+
+- (BOOL)saveAuthCredentials:(NSDictionary *)credentials
+{
+    //NSDictionary *credStore = [NSDictionary dictionaryWithContentsOfFile:self.credentialFile];
+    [credentials writeToFile:self.credentialFile atomically:YES];
 }
 
 + (LYouTubeClient *)client

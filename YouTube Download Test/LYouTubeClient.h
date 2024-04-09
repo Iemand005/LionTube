@@ -36,7 +36,8 @@
 
 @property NSString *accessToken;
 @property NSString *refreshToken;
-@property NSString *tokenExpiresIn;
+@property NSNumber *tokenExpiresIn;
+@property NSDate *tokenCreatedOn;
 @property NSString *tokenType;
 
 @property NSString *clientId;
@@ -55,6 +56,10 @@
 - (void)logIn;
 - (NSDictionary *)getBearerAuthCode;
 - (NSDictionary *)getBearerToken;
+
+//- (NSDictionary *)loadAuthCredentials;
+- (BOOL)loadAuthCredentials
+- (BOOL)saveAuthCredentials;
 
 + (LYouTubeClient *)client;
 
