@@ -21,8 +21,8 @@
     [self.client setCredentialFile:@"auth.plist"];
     if ([self.client refreshAuthCredentials]) {
         NSLog(@"Authenticated.");
-        [self.client getUserInfo];
-        [self.client getHome];
+        //[self.client getUserInfo];
+        //[self.client getHome];
     } else NSLog(@"Token invalid");
     
     NSArray *videos = [self.client getHome];

@@ -59,7 +59,7 @@
 - (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error;
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId;
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId;
-- (NSDictionary *)getHome;
+- (NSArray *)getHome;
 - (NSArray *)getTrendingVideos;
 
 - (void)logIn;

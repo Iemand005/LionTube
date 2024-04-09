@@ -1,18 +1,13 @@
 //
-//  AppController.m
+//  LYCollectionViewController.h
 //  YouTube Download Test
 //
 //  Created by Lasse Lauwerys on 9/04/24.
 //  Copyright (c) 2024 Lasse Lauwerys. All rights reserved.
 //
 
-#import "AppController.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation AppController
-
--(void)awakeFromNib
-{
-    self.videos = [NSMutableArray array];
-}
+@interface LYCollectionViewController : NSCollectionViewItem
 
 @end

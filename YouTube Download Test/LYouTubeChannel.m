@@ -10,6 +10,15 @@
 
 @implementation LYouTubeChannel
 
+-(id)init
+{
+    self = [super init];
+    if (self) {
+        self.thumbnailUrl = [NSURL URLWithString:@""];
+    }
+    return self;
+}
+
 - (void)setThumbnailWithURL:(NSURL *)url
 {
     self.thumbnailUrl = url;
