@@ -47,11 +47,16 @@
 {
     NSString *videoId = [videoData objectForKey:@"videoId"];
     NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+    
+    NSDictionary *thumbnailData = [[[videoData objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] lastObject];
+    NSURL *thumbnailUrl = [NSURL URLWithString:[thumbnailData objectForKey:@"url"]];
+    
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
     NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
     [channel setName:channelName];
     [video setChannel:channel];
+    [video setThumbnailURL:thumbnailUrl];
     [video setTitle:videoTitle];
     return video;
 }
