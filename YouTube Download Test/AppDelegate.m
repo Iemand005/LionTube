@@ -12,6 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.client setCredentialFile:@"auth.plist"];
 //    [self.client logIn];
 //    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 //    //[cookieStorage cookie]
@@ -62,19 +63,26 @@
     [self.authTimer invalidate];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *bearerData = [self.client getBearerAuthCode];
-        NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
-        NSString *userCode = [bearerData objectForKey:@"user_code"];
-        NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"rat: %@", expiresIn);
-            NSLog(@"%@", verificationUrl);
-            [self.authCodeURLField setStringValue:verificationUrl];
-            [self.authCodeField setStringValue:userCode];
-            [self.authTimeIndicator setMaxValue:expiresIn.doubleValue+0.1f];
-            [self.authTimeIndicator setDoubleValue:expiresIn.doubleValue];
-            [self.authTimeIndicator setIndeterminate:NO];
-            self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
-        });
+        if ([bearerData objectForKey:@"error"])
+            [self handleAuthError:bearerData];
+//        if ([[bearerData objectForKey:@"error"] isEqualToString:@"slow_down"]) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self shakeWindow:3 timesWithDuration:0.5f andVigurousity:0.1f];
+//            });
+//        }
+        else {
+            NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
+            NSString *userCode = [bearerData objectForKey:@"user_code"];
+            NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.authCodeURLField setStringValue:verificationUrl];
+                [self.authCodeField setStringValue:userCode];
+                [self.authTimeIndicator setMaxValue:expiresIn.doubleValue+0.1f];
+                [self.authTimeIndicator setDoubleValue:expiresIn.doubleValue];
+                [self.authTimeIndicator setIndeterminate:NO];
+                self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
+            });
+        }
     });
 }
 
@@ -94,8 +102,43 @@
 - (IBAction)authCodeConfirm:(id)sender
 {
     [self.authTimeIndicator setIndeterminate:YES];
-    if ([self.client getBearerToken])
+    NSDictionary *bearerData = [self.client getBearerToken];
+//    if ([[bearerData objectForKey:@"error"] isEqualToString: @"authorization_pending"]) {
+//        [self shakeWindow:2 timesWithDuration:0.3f andVigurousity:0.05f];
+//        [self.authTimeIndicator setIndeterminate:NO];
+//    }
+    if (![bearerData objectForKey:@"error"])
         [self authCodeCancel:sender];
+    else [self handleAuthError:bearerData];
+}
+
+- (void)handleAuthError:(NSDictionary *)errorBody
+{
+    NSString *error = [errorBody objectForKey:@"error"];
+    [self.authTimeIndicator setIndeterminate:NO];
+    if ([error isEqualToString: @"authorization_pending"])
+        [self shakeWindow:2 timesWithDuration:0.3f andVigurousity:0.05f];
+    else if ([error isEqualToString: @"slow_down"])
+        [self shakeWindow:4 timesWithDuration:0.6f andVigurousity:0.07f];
+}
+
+- (void)shakeWindow:(NSInteger)shakeCount timesWithDuration:(double)duration andVigurousity:(double)vigour
+{
+    CGRect frame = self.window.frame;
+    CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+    
+    CGMutablePathRef shakePath = CGPathCreateMutable();
+    CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+    for (NSInteger index = 0; index < shakeCount; index++){
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigour, NSMinY(frame));
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigour, NSMinY(frame));
+    }
+    CGPathCloseSubpath(shakePath);
+    shakeAnimation.path = shakePath;
+    shakeAnimation.duration = duration;
+    
+    [self.window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+    [self.window.animator setFrameOrigin:frame.origin];
 }
 
 - (void)loadVideoWithId:(NSString *)videoId

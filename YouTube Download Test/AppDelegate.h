@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 #import <QuickTime/QuickTime.h>
 #import <QTKit/QTKit.h>
 #import "LYouTubeClient.h"

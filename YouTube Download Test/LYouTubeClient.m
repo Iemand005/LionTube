@@ -16,6 +16,8 @@
     if (self) {
         // https://github.com/iv-org/invidious/issues/1981
         
+        self.credentialFile = @"auth.plist";
+        
         self.clientName = @"MWEB";
         self.clientVersion = @"2.20220918";
         
@@ -55,12 +57,14 @@
     NSLog(@"%@", [[NSString alloc] initWithData:requestBody encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        NSString *authHeader = [self getAccessTokenHeader];
         
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:requestBody];
         [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
         [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
         
         NSURLResponse *response;
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
@@ -166,15 +170,6 @@
     NSLog(@"%@", response.description);
 }
 
-- (void)logIn
-{
-    NSString *endpoint = @"https://accounts.google.com/ServiceLogin?service=youtube";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
-    [self.webView.window makeKeyAndOrderFront:self];
-    [[self.webView mainFrame] loadRequest:request];
-    [self.webView frameLoadDelegate];
-}
-
 - (NSString *)getCookies
 {
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -187,7 +182,6 @@
 
 - (NSDictionary *)getBearerAuthCode
 {
-//    NSString *authApi = @"https://oauth2.googleapis.com/device/code";
     NSDictionary *requestBody = @{ @"client_id": self.clientId, @"scope": @"https://www.googleapis.com/auth/youtube" };
     NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint WithBody:requestBody error:nil];
     self.deviceCode = [responseBody objectForKey:@"device_code"];
@@ -196,7 +190,6 @@
 
 - (NSDictionary *)getBearerToken
 {
-    //if (!(self.clientId && self.clientSecret && self.deviceCode)) return NO;
     NSDictionary *tokenBody;
     NSDictionary *data = @{
                            @"client_id": self.clientId,
@@ -209,9 +202,17 @@
         self.accessToken = [tokenBody objectForKey:@"access_token"];
         self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
         self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
+        self.tokenType = [tokenBody objectForKey:@"token_type"];
         NSLog(self.accessToken);
     }
-    return tokenBody;//self.accessToken != nil;
+    return tokenBody;
+}
+
+
+
+- (NSString *)getAccessTokenHeader
+{
+    return [NSString stringWithFormat:@"%1@ %2@", self.tokenType, self.accessToken];
 }
 
 + (LYouTubeClient *)client

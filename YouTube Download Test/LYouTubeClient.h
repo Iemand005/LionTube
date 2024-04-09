@@ -23,6 +23,8 @@
 @property NSURL *deviceAuthorizationEndpoint;
 @property NSURL *tokenEndpoint;
 
+@property NSString *credentialFile;
+
 @property NSString *cookieString;
 @property NSArray *cookieArray;
 
@@ -35,6 +37,7 @@
 @property NSString *accessToken;
 @property NSString *refreshToken;
 @property NSString *tokenExpiresIn;
+@property NSString *tokenType;
 
 @property NSString *clientId;
 @property NSString *clientSecret;
@@ -51,7 +54,7 @@
 
 - (void)logIn;
 - (NSDictionary *)getBearerAuthCode;
-- (BOOL)getBearerToken;
+- (NSDictionary *)getBearerToken;
 
 + (LYouTubeClient *)client;
 
