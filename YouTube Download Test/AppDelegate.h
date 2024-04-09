@@ -25,6 +25,7 @@
 
 @property (assign) IBOutlet NSView *homeView;
 @property (assign) IBOutlet NSCollectionView *homeCollectionView;
+@property IBOutlet NSProgressIndicator *homeSpinner;
 
 @property IBOutlet NSSplitView *mainSplitView;
 @property IBOutlet NSView *videoParentView;
@@ -50,6 +51,8 @@
 @property IBOutlet NSTextField *authCodeField;
 @property IBOutlet NSProgressIndicator *authTimeIndicator;
 
+@property IBOutlet NSMenu *codecSelection;
+
 @property NSTimer *authTimer;
 
 @property IBOutlet FormatTableDataSource *formatTable;
@@ -60,5 +63,6 @@
 - (IBAction)search:(id)sender;
 - (IBAction)logIn:(id)sender;
 - (IBAction)trySelectedVideoFormat:(id)sender;
+- (void)openVideoPageForVideoWithId:(NSString *)videoId;
 
 @end

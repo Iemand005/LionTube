@@ -15,21 +15,33 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     
-    NSCollectionViewItem *item;
-    self.homeCollectionView.itemPrototype = item;
-    
     [self.client setCredentialFile:@"auth.plist"];
     if ([self.client refreshAuthCredentials]) {
         NSLog(@"Authenticated.");
-        //[self.client getUserInfo];
-        //[self.client getHome];
+        [self loadHomePage];
     } else NSLog(@"Token invalid");
+}
+
+- (void)loadHomePage
+{
+    [self.homeSpinner setIndeterminate:YES];
+    [self.homeSpinner startAnimation:self];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSArray *videos = [self.client getHome];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.homeSpinner setDoubleValue:0];
+            [self.homeSpinner setMaxValue:videos.count];
+            [self.homeSpinner setIndeterminate:NO];
+            for (LYouTubeVideo *video in videos) {
+                [self.controller.videoListController addObject:video];
+                self.homeSpinner.doubleValue++;//`
+            }
+            [self.homeSpinner stopAnimation:self];
+            [self.homeSpinner setIndeterminate:YES];
+        });
+    });
     
-    NSArray *videos = [self.client getHome];
-    for (LYouTubeVideo *video in videos) {
-        [self.controller.videoListController addObject:video];
-    }
-    //[self logIn:nil];
+
 }
 
 - (void)openVideoPageForVideoWithId:(NSString *)videoId
@@ -127,12 +139,18 @@
 - (void)loadVideoWithId:(NSString *)videoId
 {
     self.video = [self.client getVideoWithId:videoId];
+    self.controller.video = self.video;
     
     [self.videoDescription setStringValue:self.video.description];
     [self.videoTitle setStringValue:self.video.title];
     
-    for (LVideoFormat *format in self.video.formats)
+    for (LVideoFormat *format in self.video.formats) {
         [self.formatTable addFormat:format];
+        if (format.qualityLabel) {
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
+            [self.codecSelection addItem:item];
+        }
+    }
     
     LVideoFormat *format = [self.video.formats objectAtIndex:0];
     
@@ -140,6 +158,11 @@
     [[self movieView] setMovie:self.movie];
     [self.videoLoadingIndicator stopAnimation:self];
     [self.movieView play:nil];
+}
+
+- (void)changeVideoFormat:(id)sender
+{
+    NSLog(@"%@", sender);
 }
 
 - (IBAction)search:(id)sender

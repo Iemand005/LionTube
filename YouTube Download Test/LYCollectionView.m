@@ -15,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+        self.appDelegate = (AppDelegate *)[[NSApplication sharedApplication]delegate];
     }
     
     return self;
@@ -32,6 +33,8 @@
     NSInteger index = [[collectionView subviews]  indexOfObject:self];
     LYouTubeVideo *video = [[collectionView content] objectAtIndex:index];
     NSLog(@"%@", video.title);
+    AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication]delegate];
+    [appDelegate openVideoPageForVideoWithId:video.videoId];
 //    NSLog(@"%@", theEvent.mouseLocation);
 }
 

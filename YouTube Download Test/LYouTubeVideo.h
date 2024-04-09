@@ -35,7 +35,7 @@ enum quality {
 @property int contentLength;
 @property enum quality quality;
 @property NSNumber *fps;
-@property char *qualityLabel;
+@property NSString *qualityLabel;
 @property enum projectionType projectionType;
 @property int averageBitrate;
 @property enum audioQuality audioQuality;

@@ -10,14 +10,6 @@
 
 @implementation LYoutubeApiParser
 
-+ (NSURL *)getLoginURLFromBody:(NSDictionary *)body
-{
-    NSDictionary *header = [body objectForKey:@"overlay"];
-    NSDictionary *consentBumpV2Renderer = [header objectForKey:@"consentBumpV2Renderer"];
-    NSDictionary *signInButton = [consentBumpV2Renderer objectForKey:@"signInButton"];
-    
-}
-
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body
 {
     NSDictionary *responseContext = [body objectForKey:@"responseContext"];

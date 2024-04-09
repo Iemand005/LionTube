@@ -62,7 +62,6 @@
 - (NSArray *)getHome;
 - (NSArray *)getTrendingVideos;
 
-- (void)logIn;
 - (NSDictionary *)getBearerAuthCode;
 - (NSDictionary *)getBearerToken;
 

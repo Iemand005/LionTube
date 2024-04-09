@@ -18,8 +18,6 @@
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
 
-+ (NSURL *)getLoginURLFromBody:(NSDictionary *)body;
-
 + (LYoutubeApiParser *)parser;
 
 @end

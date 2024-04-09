@@ -14,6 +14,9 @@
 
 @property IBOutlet NSArrayController *videoListController;
 @property IBOutlet NSObjectController *videoChannelController;
+@property IBOutlet NSObjectController *videoPlayerController;
+
 @property (strong) NSMutableArray *videos;
+@property (strong) LYouTubeVideo *video;
 
 @end
