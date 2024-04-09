@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
+
 #import "LYouTubeVideo.h"
+#import "LYoutubeApiParser.h"
 
 @interface LYouTubeClient : NSObject
 
@@ -49,6 +51,8 @@
 @property BOOL logAuthCredentials;
 @property NSString *credentialLogPath;
 @property NSArray *credentialLog;
+
+@property LYoutubeApiParser *parser;
 
 @property IBOutlet WebView *webView;
 

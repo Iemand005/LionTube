@@ -9,9 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import "LYouTubeVideo.h"
+#import "LYouTubeChannel.h"
 
 @interface LYoutubeApiParser : NSObject
 
+- (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
+
 + (NSURL *)getLoginURLFromBody:(NSDictionary *)body;
+
++ (LYoutubeApiParser *)parser;
 
 @end

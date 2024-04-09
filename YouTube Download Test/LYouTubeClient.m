@@ -49,6 +49,8 @@
 //        self.cookieString = [self getCookies];
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
+        
+        self.parser = [LYoutubeApiParser parser];
     }
     return self;
 }
@@ -156,9 +158,10 @@
     return [self POSTRequest:self.browseEndpoint WithBody:body error:nil];
 }
 
-- (NSDictionary *)getHome
+- (NSArray *)getHome
 {
-    return [self.parser parseVideosOnHomePage:[self getBrowseEndpoint:@"FEwhat_to_watch"]];
+    NSDictionary *data = [self getBrowseEndpoint:@"FEwhat_to_watch"];
+    return [self.parser parseVideosOnHomePage:data];
 }
 
 - (NSArray *)getTrendingVideos

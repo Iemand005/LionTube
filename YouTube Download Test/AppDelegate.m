@@ -28,6 +28,11 @@
 //    [self.controller.videoListController.videos ]
     [self.controller.videoListController addObject:video];
     
+    NSArray *videos = [self.client getHome];
+    for (LYouTubeVideo *video in videos) {
+        [self.controller.videoListController addObject:video];
+    }
+    
     [self.client setCredentialFile:@"auth.plist"];
     if ([self.client refreshAuthCredentials]) {
         NSLog(@"Authenticated.");
