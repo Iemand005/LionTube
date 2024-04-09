@@ -26,6 +26,7 @@
         
         NSDictionary *openIDConfig = [self getOpenIDConfiguration];
         self.deviceAuthorizationEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"device_authorization_endpoint"]];
+        self.tokenEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"token_endpoint"]];
         
         self.clientContext = @{
                                @"client": @{
@@ -59,13 +60,7 @@
         [request setHTTPBody:requestBody];
         [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
         [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
-//        [request addValue:@"www.youtube.com" forHTTPHeaderField:@"Host"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//        [request addValue:@"keep-alive" forHTTPHeaderField:@"Connection"];
-//        [request addValue:@"keep-alive" forHTTPHeaderField:@"Authorization"];
-//        [request addValue:self.cookieString forHTTPHeaderField:@"Cookie"];
-//        NSDictionary * headers = ;
-//        [request setAllHTTPHeaderFields:[NSHTTPCookie requestHeaderFieldsWithCookies:self.cookieArray]];
         
         NSURLResponse *response;
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
@@ -82,14 +77,20 @@
     return result;
 }
 
+- (NSDictionary *)POSTRequestURLString:(NSString *)urlString WithBody:(NSDictionary *)body error:(NSError **)error
+{
+    return [self POSTRequest:[NSURL URLWithString:urlString] WithBody:body error:error];
+}
+
 - (NSDictionary *)GETRequest:(NSURL *)url error:(NSError **)error
 {
     NSDictionary *result;
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLResponse *response;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
-    if (!error || !*error)
+    if (!error && responseData)
         result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:error];
+    if (!result) NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
     return result;
 }
 
@@ -176,28 +177,41 @@
 
 - (NSString *)getCookies
 {
-//    NSString *cookieString = @"";
-
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *cookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"https://www.youtube.com"]];
     self.cookieArray = cookies;
     NSMutableArray *cookieStrings = [NSMutableArray arrayWithCapacity:cookies.count];
-    for (NSHTTPCookie *cookie in cookies) {
-        NSLog(@"%1@ value: %2@", cookie.name, cookie.value);
-        [cookieStrings addObject:[NSString stringWithFormat:@"%1@=%2@", cookie.name, cookie.value]];
-    }
-    NSString *cookieString = [cookieStrings componentsJoinedByString:@"; "];
-    return cookieString;
+    for (NSHTTPCookie *cookie in cookies) [cookieStrings addObject:[NSString stringWithFormat:@"%1@=%2@", cookie.name, cookie.value]];
+    return [cookieStrings componentsJoinedByString:@"; "];
 }
 
-- (void)getBearer
+- (NSDictionary *)getBearerAuthCode
 {
-    NSString *authApi = @"https://oauth2.googleapis.com/device/code";
-    NSDictionary *data = @{ @"client_id": self.clientId, @"scope": @"https://www.googleapis.com/auth/youtube" };
-    NSDictionary *response = [self POSTRequest:[NSURL URLWithString:authApi] WithBody:data error:nil];
-    NSString *verificationUrl = [response objectForKey:@"verification_url"];
-    NSString *userCode = [response objectForKey:@"user_code"];
-    NSLog(@"%1@, %2@", verificationUrl, userCode);
+//    NSString *authApi = @"https://oauth2.googleapis.com/device/code";
+    NSDictionary *requestBody = @{ @"client_id": self.clientId, @"scope": @"https://www.googleapis.com/auth/youtube" };
+    NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint WithBody:requestBody error:nil];
+    self.deviceCode = [responseBody objectForKey:@"device_code"];
+    return responseBody;
+}
+
+- (NSDictionary *)getBearerToken
+{
+    //if (!(self.clientId && self.clientSecret && self.deviceCode)) return NO;
+    NSDictionary *tokenBody;
+    NSDictionary *data = @{
+                           @"client_id": self.clientId,
+                           @"client_secret": self.clientSecret,
+                           @"device_code": self.deviceCode,
+                           @"grant_type": @"urn:ietf:params:oauth:grant-type:device_code"
+                           };
+    if (self.clientId && self.clientSecret && self.deviceCode) {
+        tokenBody = [self POSTRequest:self.tokenEndpoint WithBody:data error:nil];
+        self.accessToken = [tokenBody objectForKey:@"access_token"];
+        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
+        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
+        NSLog(self.accessToken);
+    }
+    return tokenBody;//self.accessToken != nil;
 }
 
 + (LYouTubeClient *)client

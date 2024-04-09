@@ -2344,7 +2344,7 @@
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="50621665">
-				<int key="NSWindowStyleMask">31</int>
+				<int key="NSWindowStyleMask">19</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{120, 68}, {289, 151}}</string>
 				<int key="NSWTFlags">-1535638528</int>
@@ -2359,7 +2359,7 @@
 						<object class="NSButton" id="501926453">
 							<reference key="NSNextResponder" ref="689160871"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{202, 12}, {73, 32}}</string>
+							<string key="NSFrame">{{197, 12}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="689160871"/>
 							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -2385,7 +2385,7 @@
 							<string key="NSFrame">{{14, 12}, {101, 32}}</string>
 							<reference key="NSSuperview" ref="689160871"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="501926453"/>
+							<reference key="NSNextKeyView" ref="761266925"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="590033192">
@@ -2409,13 +2409,13 @@
 							<string key="NSFrame">{{20, 84}, {249, 22}}</string>
 							<reference key="NSSuperview" ref="689160871"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="967936008"/>
+							<reference key="NSNextKeyView" ref="858482273"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="428689347">
 								<int key="NSCellFlags">-2073034687</int>
 								<int key="NSCellFlags2">138417152</int>
-								<string key="NSContents">Code</string>
+								<string key="NSContents">XXX-XXX-XXX</string>
 								<reference key="NSSupport" ref="262318766"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="1004735346"/>
@@ -2463,7 +2463,7 @@
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="400762156">
-								<int key="NSCellFlags">68157504</int>
+								<int key="NSCellFlags">70254657</int>
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents">https://www.google.com/device</string>
 								<reference key="NSSupport" ref="262318766"/>
@@ -2475,14 +2475,39 @@
 						</object>
 						<object class="NSProgressIndicator" id="858482273">
 							<reference key="NSNextResponder" ref="689160871"/>
-							<int key="NSvFlags">264</int>
+							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{18, 56}, {253, 20}}</string>
 							<reference key="NSSuperview" ref="689160871"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="967936008"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSHuggingPriority">{250, 250}</string>
 							<int key="NSpiFlags">16399</int>
 							<double key="NSMaxValue">100</double>
+						</object>
+						<object class="NSButton" id="761266925">
+							<reference key="NSNextResponder" ref="689160871"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{115, 12}, {82, 32}}</string>
+							<reference key="NSSuperview" ref="689160871"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="501926453"/>
+							<string key="NSReuseIdentifierKey">_NS:9</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="266590761">
+								<int key="NSCellFlags">67108864</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Cancel</string>
+								<reference key="NSSupport" ref="262318766"/>
+								<string key="NSCellIdentifier">_NS:9</string>
+								<reference key="NSControlView" ref="761266925"/>
+								<int key="NSButtonFlags">-2038284288</int>
+								<int key="NSButtonFlags2">129</int>
+								<string key="NSAlternateContents"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">Gw</string>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
+							</object>
 						</object>
 					</array>
 					<string key="NSFrameSize">{289, 151}</string>
@@ -3281,6 +3306,54 @@
 						<reference key="destination" ref="50621665"/>
 					</object>
 					<int key="connectionID">1031</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">authCodeField</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="1004735346"/>
+					</object>
+					<int key="connectionID">1033</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">authCodeURLField</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="810763338"/>
+					</object>
+					<int key="connectionID">1034</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">authTimeIndicator</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="858482273"/>
+					</object>
+					<int key="connectionID">1035</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">refreshAuthCode:</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="967936008"/>
+					</object>
+					<int key="connectionID">1039</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">authCodeCancel:</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="761266925"/>
+					</object>
+					<int key="connectionID">1040</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">authCodeConfirm:</string>
+						<reference key="source" ref="598763020"/>
+						<reference key="destination" ref="501926453"/>
+					</object>
+					<int key="connectionID">1041</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4813,6 +4886,7 @@
 							<reference ref="858482273"/>
 							<reference ref="501926453"/>
 							<reference ref="967936008"/>
+							<reference ref="761266925"/>
 						</array>
 						<reference key="parent" ref="50621665"/>
 					</object>
@@ -4886,6 +4960,19 @@
 						<reference key="object" ref="858482273"/>
 						<reference key="parent" ref="689160871"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1036</int>
+						<reference key="object" ref="761266925"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="266590761"/>
+						</array>
+						<reference key="parent" ref="689160871"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1037</int>
+						<reference key="object" ref="266590761"/>
+						<reference key="parent" ref="761266925"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4912,6 +4999,8 @@
 				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1030.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1032.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1036.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1037.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="106.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="112.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5131,7 +5220,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1032</int>
+			<int key="maxID">1041</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5139,12 +5228,37 @@
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="authCodeCancel:">id</string>
+						<string key="authCodeConfirm:">id</string>
+						<string key="logIn:">id</string>
+						<string key="refreshAuthCode:">id</string>
 						<string key="search:">id</string>
+						<string key="startPictureInPictureMode:">id</string>
 						<string key="trySelectedVideoFormat:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="authCodeCancel:">
+							<string key="name">authCodeCancel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="authCodeConfirm:">
+							<string key="name">authCodeConfirm:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="logIn:">
+							<string key="name">logIn:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="refreshAuthCode:">
+							<string key="name">refreshAuthCode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="search:">
 							<string key="name">search:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startPictureInPictureMode:">
+							<string key="name">startPictureInPictureMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="trySelectedVideoFormat:">
@@ -5154,7 +5268,10 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="PiPPanel">NSPanel</string>
+						<string key="authCodeField">NSTextField</string>
+						<string key="authCodeURLField">NSTextField</string>
 						<string key="authPanel">NSPanel</string>
+						<string key="authTimeIndicator">NSProgressIndicator</string>
 						<string key="channelName">NSTextField</string>
 						<string key="channelPicture">NSImageView</string>
 						<string key="client">LYouTubeClient</string>
@@ -5174,9 +5291,21 @@
 							<string key="name">PiPPanel</string>
 							<string key="candidateClassName">NSPanel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="authCodeField">
+							<string key="name">authCodeField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="authCodeURLField">
+							<string key="name">authCodeURLField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="authPanel">
 							<string key="name">authPanel</string>
 							<string key="candidateClassName">NSPanel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="authTimeIndicator">
+							<string key="name">authTimeIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="channelName">
 							<string key="name">channelName</string>

@@ -20,15 +20,82 @@
 //        NSLog(@"%1@ value: %2@", cookie.name, cookie.value);
 //    }
 //    [self.client getHome];
-    [self.client getBearer];
+//    [self.client getBearer];
+    [self logIn:nil];
     //[self.drawer open];
     //self.client = [LYouTubeClient client];
 }
 
-- (void)logIn
+- (IBAction)logIn:(id)sender
 {
-    self.authPanel
-    []
+//    [self.authTimeIndicator setIndeterminate:YES];
+//    [self.authTimeIndicator startAnimation:sender];
+//    [self.authTimer invalidate];
+    [NSApp beginSheet:self.authPanel modalForWindow:self.window modalDelegate:self didEndSelector:nil contextInfo:nil];
+    [self refreshAuthCode:sender];
+    return;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary *bearerData = [self.client getBearerAuthCode];
+        NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
+        NSString *userCode = [bearerData objectForKey:@"user_code"];
+        NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
+//        NSLog(@"rat: %@", expiresIn);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"rat: %@", expiresIn);
+            NSLog(@"%@", verificationUrl);
+            [self.authCodeURLField setStringValue:verificationUrl];
+            [self.authCodeField setStringValue:userCode];
+            [self.authTimeIndicator setMaxValue:expiresIn.doubleValue];
+            [self.authTimeIndicator setDoubleValue:self.authTimeIndicator.maxValue];
+            [self.authTimeIndicator setIndeterminate:NO];
+//                [self.authTimeIndicator stopAnimation:self];
+            self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
+        });
+    });
+    
+}
+
+- (IBAction)refreshAuthCode:(id)sender
+{
+    [self.authTimeIndicator setIndeterminate:YES];
+    [self.authTimeIndicator startAnimation:sender];
+    [self.authTimer invalidate];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary *bearerData = [self.client getBearerAuthCode];
+        NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
+        NSString *userCode = [bearerData objectForKey:@"user_code"];
+        NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"rat: %@", expiresIn);
+            NSLog(@"%@", verificationUrl);
+            [self.authCodeURLField setStringValue:verificationUrl];
+            [self.authCodeField setStringValue:userCode];
+            [self.authTimeIndicator setMaxValue:expiresIn.doubleValue+0.1f];
+            [self.authTimeIndicator setDoubleValue:expiresIn.doubleValue];
+            [self.authTimeIndicator setIndeterminate:NO];
+            self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
+        });
+    });
+}
+
+- (void)decrementAuthTimer
+{
+    if (self.authTimeIndicator.doubleValue) self.authTimeIndicator.doubleValue--;
+    else [self refreshAuthCode:self];
+}
+
+- (IBAction)authCodeCancel:(id)sender
+{
+    [self.authPanel orderOut:sender];
+    [self.authTimer invalidate];
+    [self.authTimeIndicator stopAnimation:sender];
+}
+
+- (IBAction)authCodeConfirm:(id)sender
+{
+    [self.authTimeIndicator setIndeterminate:YES];
+    if ([self.client getBearerToken])
+        [self authCodeCancel:sender];
 }
 
 - (void)loadVideoWithId:(NSString *)videoId

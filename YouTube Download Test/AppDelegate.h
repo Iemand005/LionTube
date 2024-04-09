@@ -32,6 +32,12 @@
 @property IBOutlet NSTableView *formatTableView;
 //@property IBOutlet NSView *videoParentView;
 
+@property IBOutlet NSTextField *authCodeURLField;
+@property IBOutlet NSTextField *authCodeField;
+@property IBOutlet NSProgressIndicator *authTimeIndicator;
+
+@property NSTimer *authTimer;
+
 @property IBOutlet FormatTableDataSource *formatTable;
 
 @property IBOutlet LYouTubeClient *client;

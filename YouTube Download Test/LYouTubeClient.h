@@ -21,6 +21,7 @@
 @property NSURL *searchEndpoint;
 @property NSURL *discoveryDocumentUrl;
 @property NSURL *deviceAuthorizationEndpoint;
+@property NSURL *tokenEndpoint;
 
 @property NSString *cookieString;
 @property NSArray *cookieArray;
@@ -29,6 +30,11 @@
 
 @property NSString *clientName;
 @property NSString *clientVersion;
+@property NSString *deviceCode;
+
+@property NSString *accessToken;
+@property NSString *refreshToken;
+@property NSString *tokenExpiresIn;
 
 @property NSString *clientId;
 @property NSString *clientSecret;
@@ -44,7 +50,8 @@
 - (NSArray *)getTrendingVideos;
 
 - (void)logIn;
-- (void)getBearer;
+- (NSDictionary *)getBearerAuthCode;
+- (BOOL)getBearerToken;
 
 + (LYouTubeClient *)client;
 
