@@ -11,6 +11,7 @@
 @interface LYouTubeChannel : NSObject
 
 @property NSImage *thumbnail;
+@property NSURL *thumbnailUrl;
 @property NSString *browseId;
 @property NSString *name;
 @property NSString *tag;

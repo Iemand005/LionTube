@@ -15,23 +15,8 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     
-//    [self.homeCollectionView insertText:@"hello"];
     NSCollectionViewItem *item;
     self.homeCollectionView.itemPrototype = item;
-    
-//    self.window.contentView = self.mainView;
-    //[self openVideoPageForVideoWithId:@"dw-sHMTsMVs"];
-    
-    [self.controller.videoListController add:self];
-    LYouTubeVideo *video = [LYouTubeVideo videoWithId:@"prat"];
-    [video setTitle:@"tits"];
-//    [self.controller.videoListController.videos ]
-    [self.controller.videoListController addObject:video];
-    
-//    NSArray *videos = [self.client getHome];
-//    for (LYouTubeVideo *video in videos) {
-//        [self.controller.videoListController addObject:video];
-//    }
     
     [self.client setCredentialFile:@"auth.plist"];
     if ([self.client refreshAuthCredentials]) {

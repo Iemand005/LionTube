@@ -12,6 +12,7 @@
 
 - (void)setThumbnailWithURL:(NSURL *)url
 {
+    self.thumbnailUrl = url;
     self.thumbnail = [[NSImage alloc] initByReferencingURL:url];
 }
 
