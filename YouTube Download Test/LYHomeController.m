@@ -10,6 +10,6 @@
 
 @implementation LYHomeController
 
--col
+//-col
 
 @end

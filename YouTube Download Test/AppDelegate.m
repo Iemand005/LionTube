@@ -16,9 +16,16 @@
     self.videoHeight = 9;
     
 //    [self.homeCollectionView insertText:@"hello"];
-    self.homeCollectionView.dataSource
+    NSCollectionViewItem *item;
+    self.homeCollectionView.itemPrototype = item;
     
-    self.window.contentView = self.mainView;
+//    self.window.contentView = self.mainView;
+    //[self openVideoPageForVideoWithId:@"dw-sHMTsMVs"];
+    
+    [self.controller.videoListController add:self];
+    LYouTubeVideo *video = [LYouTubeVideo videoWithId:@"prat"];
+//    [self.controller.videoListController.videos ]
+    [self.controller.videoListController addObject:video];
     
     [self.client setCredentialFile:@"auth.plist"];
     if ([self.client refreshAuthCredentials]) {
@@ -27,6 +34,13 @@
         [self.client getHome];
     } else NSLog(@"Token invalid");
     //[self logIn:nil];
+}
+
+- (void)openVideoPageForVideoWithId:(NSString *)videoId
+{
+    [self.videoLoadingIndicator startAnimation:self];
+    self.window.contentView = self.mainView;
+    [self loadVideoWithId:videoId];
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -128,6 +142,7 @@
     
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
+    [self.videoLoadingIndicator stopAnimation:self];
     [self.movieView play:nil];
 }
 

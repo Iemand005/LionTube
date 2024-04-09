@@ -15,6 +15,7 @@
     self = [super init];
     if (self) {
         self.videoId = [self getVideoIdFromArbitraryString:videoId];
+        self.title = @"title";
     }
     return self;
 }

@@ -10,6 +10,8 @@
 #import <Quartz/Quartz.h>
 #import <QuickTime/QuickTime.h>
 #import <QTKit/QTKit.h>
+
+#import "AppController.h"
 #import "LYouTubeClient.h"
 #import "FormatTableDataSource.h"
 
@@ -28,7 +30,7 @@
 @property IBOutlet NSView *videoParentView;
 @property NSInteger videoWidth;
 @property NSInteger videoHeight;
-
+@property IBOutlet NSProgressIndicator *videoLoadingIndicator;
 @property IBOutlet QTMovieView *movieView;
 @property IBOutlet QTMovieView *pipMovieView;
 @property QTMovie *movie;
@@ -39,7 +41,10 @@
 @property IBOutlet NSTextField *channelName;
 @property IBOutlet NSImageView *channelPicture;
 @property IBOutlet NSTableView *formatTableView;
+
+//@property IBOutlet NSArrayController *videoListController;
 //@property IBOutlet NSView *videoParentView;
+@property IBOutlet AppController *controller;
 
 @property IBOutlet NSTextField *authCodeURLField;
 @property IBOutlet NSTextField *authCodeField;
