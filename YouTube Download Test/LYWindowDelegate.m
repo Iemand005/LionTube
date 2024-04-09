@@ -12,7 +12,7 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-    [self.splitView setPosition:self.videoParentView.frame.size.width / 16 * 9 ofDividerAtIndex:0];
+    [self.splitView setPosition:self.videoParentView.frame.size.width / self.videoWidth * self.videoHeight ofDividerAtIndex:0];
 }
 
 @end

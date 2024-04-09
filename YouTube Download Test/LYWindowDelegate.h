@@ -13,4 +13,7 @@
 @property IBOutlet NSSplitView *splitView;
 @property IBOutlet NSView *videoParentView;
 
+@property NSInteger videoWidth;
+@property NSInteger videoHeight;
+
 @end

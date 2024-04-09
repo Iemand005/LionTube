@@ -28,8 +28,8 @@ enum quality {
 @property NSString *url;
 @property NSString *mimeType;
 @property int bitrate;
-@property int width;
-@property int height;
+@property NSNumber *width;
+@property NSNumber *height;
 @property int lastModified;
 @property int contentLength;
 @property enum quality quality;

@@ -18,64 +18,6 @@
     }
     return self;
 }
-//
-//- (void)requestVideoWithClient:(LYouTubeClient *)client
-//{
-//    if (!client.clientName) client.clientName = @"MWEB";
-//        if (!client.clientVersion) client.clientVersion = @"2.20220918";
-////    if (!self.videoId) self.videoId = @"";
-//    NSLog(@"%1@, %2@, %3@", client.clientName, client.clientVersion, self.videoId);
-//    NSDictionary *body = @{
-//                           @"context": @{
-//                                   @"client": @{
-//                                           @"clientName": client.clientName,// ? client.clientName : @"MWEB",
-//                                           @"clientVersion": client.clientVersion// ? client.clientVersion : @"2.20220918"
-//                                           }
-//                                   },
-//                           @"videoId": self.videoId,// ? self.videoId : @"",
-//                           @"contentCheckOk": @"true",
-//                           @"racyCheckOk": @"true"
-//                           };
-//    
-//    NSError *error;
-//    NSData *requestBody = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:&error];
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:client.playerEndpoint];
-//    
-//    [request setHTTPMethod:@"POST"];
-//    [request setHTTPBody:requestBody];
-//    [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
-//    [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
-//    [request addValue:@"www.youtube.com" forHTTPHeaderField:@"Host"];
-//    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    [request addValue:@"keep-alive" forHTTPHeaderField:@"Connection"];
-//    
-//    NSURLResponse *response;
-//    NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    
-//    NSDictionary *videoDetailsDict = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:&error];
-//    
-//    NSDictionary *playabilityStatus = [videoDetailsDict objectForKey:@"playabilityStatus"];
-//    if ([[playabilityStatus objectForKey:@"status"] isEqualToString:@"OK"])
-//        NSLog(@"Playability OK");
-//    
-//    NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
-//    
-//    NSArray *formats = [streamingData objectForKey:@"formats"];
-//    NSArray *adaptiveFormats = [streamingData objectForKey:@"adaptiveFormats"];
-//    
-//    // https://gist.github.com/sidneys/7095afe4da4ae58694d128b1034e01e2
-//    NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
-//    for (NSDictionary *format in formats)
-//        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-//    for (NSDictionary *format in adaptiveFormats)
-//        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-//    self.formats = parsedFormats;
-//    
-//    NSDictionary *videoDetails = [videoDetailsDict objectForKey:@"videoDetails"];
-//    self.description = [videoDetails objectForKey:@"shortDescription"];
-//    self.title = [videoDetails objectForKey:@"title"];
-//    self.viewCount = [videoDetails objectForKey:@"viewCount"];
-//}
 
 - (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
 {
@@ -143,6 +85,8 @@
     if (self) {
         self.url = [dict objectForKey:@"url"];
         self.fps = [dict objectForKey:@"fps"];
+        self.width = [dict objectForKey:@"width"];
+        self.height = [dict objectForKey:@"height"];
         self.mimeType = [dict objectForKey:@"mimeType"];
     }
     return self;

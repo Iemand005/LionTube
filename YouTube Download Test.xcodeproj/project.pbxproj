@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0A0C3AEC2BC42B8000F753AC /* PIPPanelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */; };
-		0A0C3AEF2BC45E8A00F753AC /* LYWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C3AEE2BC45E8900F753AC /* LYWindowDelegate.m */; };
 		0A0C3AF12BC46E6900F753AC /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0C3AF02BC46E6800F753AC /* WebKit.framework */; };
 		0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A219DA72BC35F3100A20C35 /* MainMenu.xib */; };
 		0A7716182BC55D2200C65F1B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7716172BC55D2200C65F1B /* Quartz.framework */; };
+		0A77161B2BC57D4E00C65F1B /* LYHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A77161A2BC57D4E00C65F1B /* LYHomeController.m */; };
 		0AC89A6C2BC3002900206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A742BC3002900206440 /* InfoPlist.strings */; };
 		0AC89A782BC3002900206440 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC89A772BC3002900206440 /* main.m */; };
@@ -46,11 +46,11 @@
 /* Begin PBXFileReference section */
 		0A0C3AEA2BC42B8000F753AC /* PIPPanelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIPPanelDelegate.h; sourceTree = "<group>"; };
 		0A0C3AEB2BC42B8000F753AC /* PIPPanelDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PIPPanelDelegate.m; sourceTree = "<group>"; };
-		0A0C3AED2BC45E8900F753AC /* LYWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYWindowDelegate.h; sourceTree = "<group>"; };
-		0A0C3AEE2BC45E8900F753AC /* LYWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYWindowDelegate.m; sourceTree = "<group>"; };
 		0A0C3AF02BC46E6800F753AC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0A219DA82BC35F3100A20C35 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0A7716172BC55D2200C65F1B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		0A7716192BC57D4E00C65F1B /* LYHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYHomeController.h; sourceTree = "<group>"; };
+		0A77161A2BC57D4E00C65F1B /* LYHomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYHomeController.m; sourceTree = "<group>"; };
 		0AC89A682BC3002800206440 /* YouTube Download Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YouTube Download Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC89A6B2BC3002800206440 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0AC89A6E2BC3002900206440 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -161,8 +161,6 @@
 				0AC89A7D2BC3002900206440 /* AppDelegate.h */,
 				0AC89A7E2BC3002900206440 /* AppDelegate.m */,
 				0A219DA72BC35F3100A20C35 /* MainMenu.xib */,
-				0A0C3AED2BC45E8900F753AC /* LYWindowDelegate.h */,
-				0A0C3AEE2BC45E8900F753AC /* LYWindowDelegate.m */,
 				0AC89A722BC3002900206440 /* Supporting Files */,
 				0AC89AA32BC30F5700206440 /* LYMovieView.h */,
 				0AC89AA42BC30F5700206440 /* LYMovieView.m */,
@@ -180,6 +178,8 @@
 				0AFACA2F2BC490FE006A40F5 /* LYoutubeApiParser.m */,
 				0AFACA312BC493F0006A40F5 /* LYWebViewDelegate.h */,
 				0AFACA322BC493F0006A40F5 /* LYWebViewDelegate.m */,
+				0A7716192BC57D4E00C65F1B /* LYHomeController.h */,
+				0A77161A2BC57D4E00C65F1B /* LYHomeController.m */,
 			);
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
@@ -331,9 +331,9 @@
 				0AC89AB42BC32DDA00206440 /* LYouTubeClient.m in Sources */,
 				0AC89AB72BC32F8F00206440 /* LYouTubeVideo.m in Sources */,
 				0A0C3AEC2BC42B8000F753AC /* PIPPanelDelegate.m in Sources */,
-				0A0C3AEF2BC45E8A00F753AC /* LYWindowDelegate.m in Sources */,
 				0AFACA302BC490FE006A40F5 /* LYoutubeApiParser.m in Sources */,
 				0AFACA332BC493F0006A40F5 /* LYWebViewDelegate.m in Sources */,
+				0A77161B2BC57D4E00C65F1B /* LYHomeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

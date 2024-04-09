@@ -13,13 +13,21 @@
 #import "LYouTubeClient.h"
 #import "FormatTableDataSource.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawer;
 @property (assign) IBOutlet NSPanel *PiPPanel;
 @property (assign) IBOutlet NSPanel *authPanel;
 @property (assign) IBOutlet NSView *mainView;
+
+@property (assign) IBOutlet NSView *homeView;
+@property (assign) IBOutlet NSCollectionView *homeCollectionView;
+
+@property IBOutlet NSSplitView *mainSplitView;
+@property IBOutlet NSView *videoParentView;
+@property NSInteger videoWidth;
+@property NSInteger videoHeight;
 
 @property IBOutlet QTMovieView *movieView;
 @property IBOutlet QTMovieView *pipMovieView;
@@ -45,7 +53,7 @@
 @property LYouTubeVideo *video;
 
 - (IBAction)search:(id)sender;
-
+- (IBAction)logIn:(id)sender;
 - (IBAction)trySelectedVideoFormat:(id)sender;
 
 @end

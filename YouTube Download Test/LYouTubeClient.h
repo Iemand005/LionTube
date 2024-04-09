@@ -22,6 +22,7 @@
 @property NSURL *discoveryDocumentUrl;
 @property NSURL *deviceAuthorizationEndpoint;
 @property NSURL *tokenEndpoint;
+@property NSURL *userInfoEndpoint;
 
 @property NSString *credentialFile;
 
@@ -45,6 +46,10 @@
 
 @property NSString *pageTitle;
 
+@property BOOL logAuthCredentials;
+@property NSString *credentialLogPath;
+@property NSArray *credentialLog;
+
 @property IBOutlet WebView *webView;
 
 - (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error;
@@ -58,8 +63,12 @@
 - (NSDictionary *)getBearerToken;
 
 //- (NSDictionary *)loadAuthCredentials;
-- (BOOL)loadAuthCredentials
-- (BOOL)saveAuthCredentials;
+- (BOOL)loadAuthCredentials;
+- (BOOL)saveAuthCredentials:(NSDictionary *)credentials;
+- (BOOL)applyAuthCredentials:(NSDictionary *)credentials;
+- (BOOL)refreshAuthCredentials;
+
+- (void)getUserInfo;
 
 + (LYouTubeClient *)client;
 

@@ -12,48 +12,33 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    self.videoWidth = 16;
+    self.videoHeight = 9;
+    
+//    [self.homeCollectionView insertText:@"hello"];
+    self.homeCollectionView.dataSource
+    
+    self.window.contentView = self.mainView;
+    
     [self.client setCredentialFile:@"auth.plist"];
-//    [self.client logIn];
-//    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//    //[cookieStorage cookie]
-//    NSArray *cookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"https://www.youtube.com"]];
-//    for (NSHTTPCookie *cookie in cookies) {
-//        NSLog(@"%1@ value: %2@", cookie.name, cookie.value);
-//    }
-//    [self.client getHome];
-//    [self.client getBearer];
-    [self logIn:nil];
-    //[self.drawer open];
-    //self.client = [LYouTubeClient client];
+    if ([self.client refreshAuthCredentials]) {
+        NSLog(@"Authenticated.");
+        [self.client getUserInfo];
+        [self.client getHome];
+    } else NSLog(@"Token invalid");
+    //[self logIn:nil];
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+    [self.mainSplitView setPosition:self.videoParentView.frame.size.width / self.videoWidth * self.videoHeight ofDividerAtIndex:0];
 }
 
 - (IBAction)logIn:(id)sender
 {
-//    [self.authTimeIndicator setIndeterminate:YES];
-//    [self.authTimeIndicator startAnimation:sender];
-//    [self.authTimer invalidate];
     [NSApp beginSheet:self.authPanel modalForWindow:self.window modalDelegate:self didEndSelector:nil contextInfo:nil];
-    [self refreshAuthCode:sender];
-    return;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSDictionary *bearerData = [self.client getBearerAuthCode];
-        NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
-        NSString *userCode = [bearerData objectForKey:@"user_code"];
-        NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
-//        NSLog(@"rat: %@", expiresIn);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"rat: %@", expiresIn);
-            NSLog(@"%@", verificationUrl);
-            [self.authCodeURLField setStringValue:verificationUrl];
-            [self.authCodeField setStringValue:userCode];
-            [self.authTimeIndicator setMaxValue:expiresIn.doubleValue];
-            [self.authTimeIndicator setDoubleValue:self.authTimeIndicator.maxValue];
-            [self.authTimeIndicator setIndeterminate:NO];
-//                [self.authTimeIndicator stopAnimation:self];
-            self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
-        });
-    });
-    
+    if (![self.client loadAuthCredentials])
+        [self refreshAuthCode:sender];
 }
 
 - (IBAction)refreshAuthCode:(id)sender
@@ -63,14 +48,7 @@
     [self.authTimer invalidate];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *bearerData = [self.client getBearerAuthCode];
-        if ([bearerData objectForKey:@"error"])
-            [self handleAuthError:bearerData];
-//        if ([[bearerData objectForKey:@"error"] isEqualToString:@"slow_down"]) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self shakeWindow:3 timesWithDuration:0.5f andVigurousity:0.1f];
-//            });
-//        }
-        else {
+        if (![bearerData objectForKey:@"error"]) {
             NSString *verificationUrl = [bearerData objectForKey:@"verification_url"];
             NSString *userCode = [bearerData objectForKey:@"user_code"];
             NSNumber *expiresIn = [bearerData objectForKey:@"expires_in"];
@@ -82,7 +60,7 @@
                 [self.authTimeIndicator setIndeterminate:NO];
                 self.authTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(decrementAuthTimer) userInfo:nil repeats:YES];
             });
-        }
+        } else [self handleAuthError:bearerData];
     });
 }
 
@@ -103,12 +81,7 @@
 {
     [self.authTimeIndicator setIndeterminate:YES];
     NSDictionary *bearerData = [self.client getBearerToken];
-//    if ([[bearerData objectForKey:@"error"] isEqualToString: @"authorization_pending"]) {
-//        [self shakeWindow:2 timesWithDuration:0.3f andVigurousity:0.05f];
-//        [self.authTimeIndicator setIndeterminate:NO];
-//    }
-    if (![bearerData objectForKey:@"error"])
-        [self authCodeCancel:sender];
+    if (![bearerData objectForKey:@"error"]) [self authCodeCancel:sender];
     else [self handleAuthError:bearerData];
 }
 
@@ -144,7 +117,6 @@
 - (void)loadVideoWithId:(NSString *)videoId
 {
     self.video = [self.client getVideoWithId:videoId];
-//    [self.video requestVideoWithClient:self.client];
     
     [self.videoDescription setStringValue:self.video.description];
     [self.videoTitle setStringValue:self.video.title];
@@ -173,14 +145,6 @@
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
 }
-//
-//- will
-//
-////- en
-//- (IBAction)Ikhaatou:(id)sender
-//{
-//    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-//}
 
 - (IBAction)stardt
 {
@@ -189,24 +153,11 @@
 
 - (IBAction)startPictureInPictureMode:(id)sender
 {
-//    self set
-//    [self.PiPPanel setMiniwindowImage:<#(NSImage *)#>] for thumbnail
     [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.PiPPanel makeKeyAndOrderFront:self];
-//    [self.PiPPanel setContentView:self.movieView];
-//    [self.videoParentView seth]
-//    self.videoParentView setas
-//    NSInteger titleBarHeight = self.PiPPanel.frame.size.height - ((NSView *)self.PiPPanel.contentView).frame.size.height;
     [self.PiPPanel setAspectRatio:NSMakeSize(16, 9)];
-    //[self.movieView setMovie:nil];
-    //LVideoFormat *format = [self.video.formats objectAtIndex:0];
-    //self.movie = [self.video getMovieWithFormat:format];
-    //QTMovie *movie = [[QTMovie alloc] initWithFile:@"/Users/Lasse/Desktop/Tet-1.mp4" error:nil];
     [self.movieView setMovie:nil];
-    
-//    [self.movieView seti]
     [self.pipMovieView setMovie:self.movie];
-//    [movie play];
 }
 
 @end

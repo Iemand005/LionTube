@@ -29,6 +29,7 @@
         NSDictionary *openIDConfig = [self getOpenIDConfiguration];
         self.deviceAuthorizationEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"device_authorization_endpoint"]];
         self.tokenEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"token_endpoint"]];
+        self.userInfoEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"userinfo_endpoint"]];
         
         self.clientContext = @{
                                @"client": @{
@@ -45,7 +46,9 @@
         self.searchEndpoint = [self.baseAddress URLByAppendingPathComponent:@"search"];
         self.likeEndpoint = [self.baseAddress URLByAppendingPathComponent:@"like"];
         https://music.youtube.com/youtubei/v1/account/account_menu
-        self.cookieString = [self getCookies];
+//        self.cookieString = [self getCookies];
+        self.credentialLogPath = @"authlog.plist";
+        self.logAuthCredentials = YES;
     }
     return self;
 }
@@ -57,18 +60,17 @@
     NSLog(@"%@", [[NSString alloc] initWithData:requestBody encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        NSString *authHeader = [self getAccessTokenHeader];
         
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:requestBody];
         [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
         [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+        if (self.accessToken) [request addValue:[self getAccessTokenHeader] forHTTPHeaderField:@"Authorization"];
         
         NSURLResponse *response;
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
-        //response.
+
         NSString *htmlString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
         NSLog(@"%@", htmlString);
         if (!error || !*error)
@@ -89,7 +91,8 @@
 - (NSDictionary *)GETRequest:(NSURL *)url error:(NSError **)error
 {
     NSDictionary *result;
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    if (self.accessToken) [request addValue:[self getAccessTokenHeader] forHTTPHeaderField:@"Authorization"];
     NSURLResponse *response;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
     if (!error && responseData)
@@ -200,14 +203,7 @@
                            };
     if (self.clientId && self.clientSecret && self.deviceCode) {
         tokenBody = [self POSTRequest:self.tokenEndpoint WithBody:data error:nil];
-//        self.accessToken = [tokenBody objectForKey:@"access_token"];
-//        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
-//        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
-//        self.tokenType = [tokenBody objectForKey:@"token_type"];
-//        [tokenCreatedOn ]
-//        if ([self saveAuthCredentials: tokenBody] && [self loadAuthCredentials]);
         [self saveAuthCredentials: tokenBody];
-        [self loadAuthCredentials];
     }
     return tokenBody;
 }
@@ -219,24 +215,53 @@
 
 - (BOOL)loadAuthCredentials
 {
-    NSDictionary *tokenBody = [NSDictionary dictionaryWithContentsOfFile:self.credentialFile];
-    if (tokenBody) {
-        self.accessToken = [tokenBody objectForKey:@"access_token"];
-        self.refreshToken = [tokenBody objectForKey:@"refresh_token"];
-        self.tokenExpiresIn = [tokenBody objectForKey:@"expires_in"];
-        self.tokenType = [tokenBody objectForKey:@"token_type"];
-//        self.accessToken = [tokenBody objectForKey:@"accessToken"];
-//        self.refreshToken = [tokenBody objectForKey:@"refreshToken"];
-//        self.tokenExpiresIn = [tokenBody objectForKey:@"expiresIn"];
-//        self.tokenType = [tokenBody objectForKey:@"tokenType"];
-    }
-    return self.accessToken && self.tokenType;
+//    NSDictionary *tokenBody = ;
+    return [self applyAuthCredentials:[NSDictionary dictionaryWithContentsOfFile:self.credentialFile]];
 }
 
 - (BOOL)saveAuthCredentials:(NSDictionary *)credentials
 {
-    //NSDictionary *credStore = [NSDictionary dictionaryWithContentsOfFile:self.credentialFile];
-    [credentials writeToFile:self.credentialFile atomically:YES];
+    if (self.logAuthCredentials) {
+        NSMutableArray *authLog = [NSMutableArray arrayWithContentsOfFile:self.credentialLogPath];
+        [authLog addObject:credentials];
+        [authLog writeToFile:self.credentialLogPath atomically:NO];
+    }
+    if ([self applyAuthCredentials:credentials]) [credentials writeToFile:self.credentialFile atomically:YES];
+    return !!credentials;
+}
+
+- (BOOL)applyAuthCredentials:(NSDictionary *)credentials
+{
+    if (credentials) {
+        self.accessToken = [credentials objectForKey:@"access_token"];
+        self.refreshToken = [credentials objectForKey:@"refresh_token"];
+        self.tokenExpiresIn = [credentials objectForKey:@"expires_in"];
+        self.tokenType = [credentials objectForKey:@"token_type"];
+    }
+    return self.accessToken && self.refreshToken;
+}
+
+//- (BOOL)applyAndalidateAuthCredentials:(NSDictionary *)credentials
+//{
+//    [self applyAuthCredentials:credentials];
+//    return self.accessToken && self.refreshToken;
+//}
+
+- (BOOL)refreshAuthCredentials
+{
+    [self loadAuthCredentials];
+    NSDictionary *data = @{
+                           @"client_id": self.clientId,
+                           @"client_secret": self.clientSecret,
+                           @"grant_type": @"refresh_token",
+                           @"refresh_token": self.refreshToken
+                           };
+    return [self saveAuthCredentials:[self POSTRequest:self.tokenEndpoint WithBody:data error:nil]];
+}
+
+- (void)getUserInfo
+{
+    NSLog(@"%@", [self GETRequest:self.userInfoEndpoint error:nil]);
 }
 
 + (LYouTubeClient *)client
