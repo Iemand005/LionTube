@@ -46,9 +46,9 @@
 {
     [self.videoLoadingIndicator startAnimation:self];
     self.window.contentView = self.mainView;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self loadVideoWithId:videoId];
-    });
+//    });
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -138,6 +138,7 @@
 
 - (void)loadVideoWithId:(NSString *)videoId
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
     LYouTubeVideo *video = [self.client getVideoWithId:videoId];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -149,6 +150,7 @@
         
         for (LVideoFormat *format in self.video.formats) {
             [self.formatTable addFormat:format];
+            NSLog(@"kanker %@",format.qualityLabel);
             if (format.qualityLabel) {
                 NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
                 [self.codecSelection addItem:item];
@@ -162,11 +164,24 @@
         [self.videoLoadingIndicator stopAnimation:self];
         [self.movieView play:self];
     });
+            });
 }
 
 - (void)changeVideoFormat:(id)sender
 {
-    NSLog(@"%@", sender);
+//    NSLog(@"%@", sender);
+    NSInteger index = [self.codecSelection indexOfItem:sender];
+    [self loadVideoWithFormat:[self.video.formats objectAtIndex:index]];
+}
+
+- (void)loadVideoWithFormat:(LVideoFormat *)format
+{
+//    LVideoFormat *format = [self.video.formats objectAtIndex:index];
+    [self.videoLoadingIndicator startAnimation:self];
+    self.movie = [self.video getMovieWithFormat:format];
+    [[self movieView] setMovie:self.movie];
+    [self.videoLoadingIndicator stopAnimation:self];
+    [self.movieView play:self];
 }
 
 - (IBAction)search:(id)sender

@@ -63,6 +63,7 @@
 - (IBAction)search:(id)sender;
 - (IBAction)logIn:(id)sender;
 - (IBAction)trySelectedVideoFormat:(id)sender;
+- (IBAction)stardt;
 - (void)openVideoPageForVideoWithId:(NSString *)videoId;
 
 @end
