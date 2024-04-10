@@ -22,7 +22,10 @@
     switch (theEvent.keyCode) {
         case 3:
         case 53:
-            if (self.isInFullScreenMode) [self exitFullScreenModeWithOptions:nil];
+            if (self.isInFullScreenMode) {
+                [self exitFullScreenModeWithOptions:nil];
+                self.fillColor = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0];
+            }
             else [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
             break;
     }

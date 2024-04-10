@@ -22,6 +22,11 @@
     } else NSLog(@"Token invalid");
 }
 
+- (IBAction)goHome:(id)sender
+{
+    [self.window setContentView:self.homeView];
+}
+
 - (void)loadHomePage
 {
     [self.homeSpinner setIndeterminate:YES];
@@ -53,7 +58,16 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-    [self.mainSplitView setPosition:self.videoParentView.frame.size.width / self.videoWidth * self.videoHeight ofDividerAtIndex:0];
+//    if (self.videoWidth = 16;
+//    self.videoHeight = 9;
+        if (!(self.videoWidth && self.videoHeight)) {
+            self.videoWidth = 16;
+            self.videoHeight = 9;
+        }
+    {
+        double weirdMeow = self.videoParentView.frame.size.width / self.videoWidth * self.videoHeight;
+        [self.mainSplitView setPosition:weirdMeow ofDividerAtIndex:0];
+    }
 }
 
 - (IBAction)logIn:(id)sender
@@ -203,6 +217,17 @@
 {
     [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
+
+- (IBAction)knex:(id)sender
+{
+    [self.movieView setFillColor:[NSColor blackColor]];
+        [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
+
+//- (void)windowDidResize
+//{
+//    
+//}
 
 - (IBAction)startPictureInPictureMode:(id)sender
 {

@@ -60,10 +60,13 @@
 @property IBOutlet LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
+- (IBAction)goHome:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)logIn:(id)sender;
 - (IBAction)trySelectedVideoFormat:(id)sender;
 - (IBAction)stardt;
+- (IBAction)arse:(id)sender;
+- (IBAction)knex:(id)sender;
 - (void)openVideoPageForVideoWithId:(NSString *)videoId;
 
 @end

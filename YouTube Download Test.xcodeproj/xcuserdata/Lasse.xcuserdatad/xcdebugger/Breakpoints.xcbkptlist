@@ -125,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/AppDelegate.m"
-         timestampString = "734398562.8999521"
+         timestampString = "734401724.223031"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "170"
-         endingLineNumber = "170"
+         startingLineNumber = "179"
+         endingLineNumber = "179"
          landmarkName = "-changeVideoFormat:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -489,12 +489,51 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/AppDelegate.m"
-         timestampString = "734399702.232882"
+         timestampString = "734401724.223031"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "153"
-         endingLineNumber = "153"
+         startingLineNumber = "162"
+         endingLineNumber = "162"
          landmarkName = "-loadVideoWithId:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "YouTube Download Test/AppDelegate.m"
+         timestampString = "734401724.223031"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
+         landmarkName = "-windowDidResize:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "YouTube Download Test/AppDelegate.m"
+         timestampString = "734401816.636757"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "213"
+         endingLineNumber = "213"
+         landmarkName = "-stardt"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "YouTube Download Test/AppDelegate.m"
+         timestampString = "734402758.1541409"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "219"
+         endingLineNumber = "219"
+         landmarkName = "-knex:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
