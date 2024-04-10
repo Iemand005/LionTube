@@ -69,18 +69,15 @@
 
 - (void)loadView:(NSView *)view
 {
-    [self.window setContentView:nil];
+//    [self.window setContentView:nil];
     [self.window setContentView:view];
 }
 
 - (void)openVideoPageForVideoWithId:(NSString *)videoId
 {
     [self.videoLoadingIndicator startAnimation:self];
-//    self.window.contentView = self.mainView;
     [self loadView:self.mainView];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self loadVideoWithId:videoId];
-//    });
+    [self loadVideoWithId:videoId];
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -146,6 +143,11 @@
     NSDictionary *bearerData = [self.client getBearerToken];
     if (![bearerData objectForKey:@"error"]) [self authCodeCancel:sender];
     else [self handleAuthError:bearerData];
+}
+
+- (IBAction)polltest:(id)sender
+{
+    [self.video.tracker updateWatchtime];
 }
 
 - (void)handleAuthError:(NSDictionary *)errorBody

@@ -34,8 +34,9 @@
 
 - (void)pollTracker:(NSURL *)endpoint
 {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:endpoint];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:nil];
+    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSInteger result){}];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
 
 + (LYPlaybackTracker *)tracker
