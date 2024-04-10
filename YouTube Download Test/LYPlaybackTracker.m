@@ -10,15 +10,32 @@
 
 @implementation LYPlaybackTracker
 
+- (void)updateWatchtime
+{
+    [self pollTracker:self.watchtimeUrl];
+}
+
 - (void)startTracking
 {
-    
+    [self pollTracker:self.playbackUrl];
+    [self updateWatchtime];
+}
+
+- (void)pauseTracking
+{
+    [self pollTracker:self.delayplayUrl];
+}
+
+- (void)continueTracking
+{
+//    [self pollTracker:self.watchtimeUrl];
+    [self updateWatchtime];
 }
 
 - (void)pollTracker:(NSURL *)endpoint
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
-    [NSURLConnection sendAsynchronousRequest:request queue:NSOperationQueuePriorityNormal completionHandler:nil];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:endpoint];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:nil];
 }
 
 + (LYPlaybackTracker *)tracker

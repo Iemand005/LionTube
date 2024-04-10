@@ -32,10 +32,8 @@
 
 - (QTMovie *)getDefaultMovie
 {
-    QTMovie *movie;
-    if (self.isYouTubeVideo) return [self getMovieWithFormatIndex:0];
-    else return [[QTMovie alloc] initWithURL:self.url error:nil];
-    return movie;
+    if (!self.isYouTubeVideo) return [[QTMovie alloc] initWithURL:self.url error:nil];
+    return [self getMovieWithFormatIndex:0];
 }
 
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string

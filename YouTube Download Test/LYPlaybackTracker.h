@@ -5,6 +5,8 @@
 //  Created by Lasse Lauwerys on 10/04/24.
 //  Copyright (c) 2024 Lasse Lauwerys. All rights reserved.
 //
+//  The playback tracker stores the watch time of the current video to make it count as a view and allow the user to continue watching where they left off.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -12,13 +14,18 @@
 
 @property NSURL *playbackUrl;
 @property NSURL *watchtimeUrl;
-@property NSURL *delayPlayUrl;
+@property NSURL *delayplayUrl;
 @property NSURL *ptrackingUrl;
 @property NSURL *qoeUrl;
 @property NSURL *atrUrl;
 
 @property NSArray *scheduledFlushWalltimeSeconds;
 @property NSNumber *defaultFlushIntervalSeconds;
+
+- (void)updateWatchtime;
+- (void)startTracking;
+- (void)pauseTracking;
+- (void)continueTracking;
 
 + (LYPlaybackTracker *)tracker;
 

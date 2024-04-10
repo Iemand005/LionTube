@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/AppDelegate.m"
-         timestampString = "734445436.706504"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "211"
-         endingLineNumber = "211"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
          landmarkName = "-changeVideoFormat:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -125,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/LYouTubeVideo.m"
-         timestampString = "734438995.902743"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
+         startingLineNumber = "43"
+         endingLineNumber = "43"
          landmarkName = "-getVideoIdFromArbitraryString:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -320,11 +320,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/LYoutubeApiParser.m"
-         timestampString = "734443505.742951"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "76"
-         endingLineNumber = "76"
+         startingLineNumber = "77"
+         endingLineNumber = "77"
          landmarkName = "-parseVideo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -346,11 +346,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/LYoutubeApiParser.m"
-         timestampString = "734442893.469288"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
+         startingLineNumber = "97"
+         endingLineNumber = "97"
          landmarkName = "-parseVideo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -359,11 +359,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/LYoutubeApiParser.m"
-         timestampString = "734443505.742951"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "94"
-         endingLineNumber = "94"
+         startingLineNumber = "95"
+         endingLineNumber = "95"
          landmarkName = "-parseVideo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -459,28 +459,15 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "YouTube Download Test/AppDelegate.m"
-         timestampString = "734445436.706504"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "245"
-         endingLineNumber = "245"
-         landmarkName = "-stardt"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/AppDelegate.m"
-         timestampString = "734445436.706504"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "251"
-         endingLineNumber = "251"
+         startingLineNumber = "245"
+         endingLineNumber = "245"
          landmarkName = "-knex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -606,11 +593,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "YouTube Download Test/LYoutubeApiParser.m"
-         timestampString = "734442893.469288"
+         timestampString = "734466794.9765379"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "116"
-         endingLineNumber = "116"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
          landmarkName = "-parseChannel:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -677,6 +664,32 @@
          startingLineNumber = "231"
          endingLineNumber = "231"
          landmarkName = "-applyAuthCredentials:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "YouTube Download Test/LYPlaybackTracker.m"
+         timestampString = "734466858.641004"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "20"
+         endingLineNumber = "20"
+         landmarkName = "-startTracking"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "YouTube Download Test/LYPlaybackTracker.m"
+         timestampString = "734466863.554783"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "37"
+         endingLineNumber = "37"
+         landmarkName = "-pollTracker:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -144,15 +144,20 @@
 - (LYPlaybackTracker *)parsePlaybackTracker:(NSDictionary *)body
 {
     LYPlaybackTracker *tracker = [LYPlaybackTracker tracker];
-    tracker.playbackUrl = [body objectForKey:@"videostatsPlaybackUrl"];
-        tracker.delayPlayUrl = [body objectForKey:@"videostatsDelayplayUrl"];
-        tracker.watchtimeUrl = [body objectForKey:@"videostatsWatchtimeUrl"];
-        tracker.ptrackingUrl = [body objectForKey:@"ptrackingUrl"];
-            tracker.qoeUrl = [body objectForKey:@"qoeUrl"];
-            tracker.atrUrl = [body objectForKey:@"atrUrl"];
+    tracker.playbackUrl = [[body objectForKey:@"videostatsPlaybackUrl"] objectForKey:@"baseUrl"];
+    tracker.delayplayUrl = [[body objectForKey:@"videostatsDelayplayUrl"] objectForKey:@"baseUrl"];
+    tracker.watchtimeUrl = [[body objectForKey:@"videostatsWatchtimeUrl"] objectForKey:@"baseUrl"];
+    tracker.ptrackingUrl = [[body objectForKey:@"ptrackingUrl"] objectForKey:@"baseUrl"];
+    tracker.qoeUrl = [[body objectForKey:@"qoeUrl"] objectForKey:@"baseUrl"];
+    tracker.atrUrl = [[body objectForKey:@"atrUrl"] objectForKey:@"baseUrl"];
     tracker.scheduledFlushWalltimeSeconds = [body objectForKey:@"videostatsScheduledFlushWalltimeSeconds"];
     tracker.defaultFlushIntervalSeconds = [body objectForKey:@"videostatsDefaultFlushIntervalSeconds"];
     return tracker;
+}
+
+- (NSURL *)trackerUrlFrom:(NSDictionary *)body withKey:(NSString *)key
+{
+    return [NSURL URLWithString:[[body objectForKey:key] objectForKey:@"baseUrl"]];
 }
 
 + (LYoutubeApiParser *)parser

@@ -12,3 +12,7 @@
 @interface LYMovieView : QTMovieView
 
 @end
+
+@interface dd : QTMovie
+
+@end

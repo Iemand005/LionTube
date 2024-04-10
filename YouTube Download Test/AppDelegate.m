@@ -204,20 +204,19 @@
             [[self movieView] setMovie:self.movie];
             [self.videoLoadingIndicator stopAnimation:self];
             [self.movieView play:self];
+            [self.video.tracker startTracking];
         });
     });
 }
 
 - (void)changeVideoFormat:(id)sender
 {
-//    NSLog(@"%@", sender);
     NSInteger index = [self.codecSelection indexOfItem:sender];
     [self loadVideoWithFormat:[self.video.formats objectAtIndex:index]];
 }
 
 - (void)loadVideoWithFormat:(LYVideoFormat *)format
 {
-//    LYVideoFormat *format = [self.video.formats objectAtIndex:index];
     [self.videoLoadingIndicator startAnimation:self];
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
@@ -240,21 +239,11 @@
     [[self movieView] setMovie:self.movie];
 }
 
-- (IBAction)stardt
-{
-    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-}
-
 - (IBAction)knex:(id)sender
 {
     [self.movieView setFillColor:[NSColor blackColor]];
-        [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
-
-//- (void)windowDidResize
-//{
-//    
-//}
 
 - (IBAction)startPictureInPictureMode:(id)sender
 {
