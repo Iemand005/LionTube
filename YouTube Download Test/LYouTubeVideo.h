@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 
+#import "LYTools.h"
 #import "LYouTubeChannel.h"
 #import "LYVideoFormat.h"
 #import "LYPlaybackTracker.h"

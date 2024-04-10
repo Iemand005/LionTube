@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "LYTools.h"
+
 @interface LYPlaybackTracker : NSObject
 
 @property NSURL *playbackUrl;
@@ -18,6 +20,14 @@
 @property NSURL *ptrackingUrl;
 @property NSURL *qoeUrl;
 @property NSURL *atrUrl;
+
+@property NSNumber *cmt;
+@property NSNumber *rt;
+@property NSNumber *lact;
+@property NSNumber *rtn;
+@property NSNumber *rti;
+@property NSNumber *st;
+@property NSNumber *et;
 
 @property NSArray *scheduledFlushWalltimeSeconds;
 @property NSNumber *defaultFlushIntervalSeconds;

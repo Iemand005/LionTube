@@ -10,8 +10,40 @@
 
 @implementation LYPlaybackTracker
 
+-(id)init
+{
+    self = [super init];
+    if (self) {
+        self.rt = @0;
+        self.rtn = @0;
+        
+        self.st = @0; // start time (end time of previous watchtime event)
+        self.lact = @-1;
+    }
+    return self;
+}
+
 - (void)updateWatchtime
 {
+    
+    cmt=5      -- seems to match the end time. potentially the amount of time the video was played.
+    rt=10
+    lact=3809
+    rtn=15
+    rti=4
+    st=0       -- start time 0 for first watchtime
+        et=5       -- end time, probably the time the video was at at the moment the watchtime request was sent.
+        
+        - Watchtime 2
+        
+        cmt=154
+        rt=159
+        lact=971   -- latency? appears to be random, likely latency in ms.
+        rtn=199
+        rti=159
+        st=5       -- the et time of the previous watchtime request?
+        et=154     -- likely again the time the video is at at time of sending watchtime.
+        
     [self pollTracker:self.watchtimeUrl];
 }
 
@@ -26,18 +58,48 @@
     [self pollTracker:self.delayplayUrl];
 }
 
+// Poll playback 5 seconds after the video starts playing. (elapsedMediaTimeSeconds?)
+// start cmt timer.
+- (void)pollPlayback
+{
+    NSDictionary *parameters = @{@"cmt": @0, @"rt": self.rt, @"lact": self.lact, @"rtn": self.rtn};
+    NSURL *playbackUrl = [LYTools addParameters:parameters toURL:self.playbackUrl];
+    [self pollTracker:playbackUrl];
+}
+
 - (void)continueTracking
 {
 //    [self pollTracker:self.watchtimeUrl];
     [self updateWatchtime];
 }
 
-- (void)pollTracker:(NSURL *)endpoint
+- (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
+    NSDictionary *defaultParameters = @{@"cmt": self.cmt, @"rt": self.rt, @"lact": self.lact};
+    NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
+    if (parameters) [combinedParameters addEntriesFromDictionary:parameters];
+    endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
     NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSInteger result){}];
     [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
+
+- (void)pollTracker:(NSURL *)endpoint
+{
+    [self pollTracker:endpoint withParameters:nil];
+}
+
+//- (NSURL *)addParameters:(NSDictionary *)parameters toURL:(NSURL *)url
+//{
+//    
+////    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop){
+////        
+////    }];
+//}
+
+//- (NSDictionary *)dictionaryWithParametersFromURL:(NSURL *)url
+//{
+//    
+//}
 
 - (void)playbackUrlGen
 {
@@ -51,18 +113,21 @@
      https://www.blackhatworld.com/seo/how-to-sent-http-request-to-youtube-stats-server.873021/
      https://www.blackhatworld.com/seo/interesting-script-to-get-youtube-views.1052157/
      https://unixforum.org/viewtopic.php?t=138376
+     https://gist.github.com/omarroth/aa41eab7a91892ce47f9218d2e9e9e14
+     https://stackoverflow.com/questions/78096984/you-tube-live-streaming-and-watch-time-api
+     https://github.com/topics/youtube-view-bot
      
-     -- every 10 seconds? proably doesn4t matter. that means youtube has a max 10 second deviation on watch time in case of sudden shutdown it probably registers on reload more accurately/
+     -- Every 10 seconds by default for watchtime reports? Probably doesn't matter what interval we use. That means youtube has a max 10 second deviation on watch time in case of sudden shutdown it, probably registers on planned redirect more accurately if the destination is also youtube.
      
-     https://s.youtube.com/api/stats/watchtime?
+     https://s.youtube.com/api/stats/watchtime? -- watchtime parameters provided by the player endpoint
      cl=621014728&
-     docid=tpAugZVbZKY&
+     docid=tpAugZVbZKY&                 -- videoId
      ei=h-cSZpGNGbW46dsP5ZSskAM&
-     fexp=
+     fexp=                              -- Empty for MWEB, I assume this has to do with the frame size of the web player.
      ns=yt                              -- (name server) yt for youtube
-     plid=AAYVhfVbHWI8tiZe&
-     el=detailpage&
-     len=1381&
+     plid=AAYVhfVbHWI8tiZe&             -- Probably the ID if the player
+     el=detailpage                      -- Might be what the user is looking at? leanback would mean video is perhaps full screen?
+     len=1381                           -- The length of the video in seconds
      of=eGDgs4NW9AVjheAFzToDdg&
      vm=CAEQARgEOjJBSHFpSlRKSHlnanZ6Rl9UTlM5QU5BU2hza09EVFpiYnA0c05WWlRRNWJvVVh6RXp4UWJsQVBta0tETEMwQkt4S2JVOGpQU05HMExVNTFVMzl3MFNCSzVMbFVocC1vQzlrVlc5c2xSMTA4SGt3SnZrTHh2SnEzSEtpbEg0WjNZb3pBMkVaM0p2ZExBQXlQdV85VEhNa05hVzlDRy1ZdkpjaAI
      
@@ -87,8 +152,9 @@
      cbrver=61.0                        -- (client browser version)
      cos=Windows                        -- Operating system of the client (client operating system)
      cosver=10.0                        -- (client operating system version)
+     cplatform                          -- client platform
      
-     cmt=5                              -- ?? client mean time ?? custom machine type??
+     cmt=5                              -- ?? client mean time ?? custom machine type?? current machint time?
      plid=AAV0SnP6Z3iATk9B              -- is this the user id? player ID ?
      ei=A2O1suGlUhr9gN5YtjjHZu          -- !! not necessary?
      fmt=244                            -- ?? is the same for all requests, example: 244
@@ -156,82 +222,115 @@
      
      - Watchtime 1
      
-     cmt=5
+     cmt=5      -- seems to match the end time. potentially the amount of time the video was played.
      rt=10
      lact=3809
      rtn=15
      rti=4
-     st=0
-     et=5
+     st=0       -- start time 0 for first watchtime
+     et=5       -- end time, probably the time the video was at at the moment the watchtime request was sent.
      
      - Watchtime 2
      
      cmt=154
      rt=159
-     lact=971
+     lact=971   -- latency? appears to be random, likely latency in ms.
      rtn=199
      rti=159
-     st=5
-     et=154
+     st=5       -- the et time of the previous watchtime request?
+     et=154     -- likely again the time the video is at at time of sending watchtime.
+     
+     
+     
+     ---- all parameters found ----
+     
+     fmt: ?
+     afmt: ?
+     cpn: ?
+     ei: ?
+     el: ?
+     docid: Video Hash (same as: /watch?v=<video_hash>)
+     ns: Most likely "Name Server" because value is yt short for YouTube
+     fexp: Values separated by commas, no idea but seem to start with 23-24 in most cases.
+     cl: ?
+     seq: Sequence number for packets
+     cbr: Client Browser (Chrome, Firefox)
+     cbrver: Client Browser version (version of Chrome or Firefox)
+     c: Client, so if website is open, this will be WEB. Mobile might have something else.
+     cver: Client Version major.YYMMDD.minor.patch
+     cplayer: Client Player, Kind of player used. UNIPLAYER for web.
+     cos: Client OS, Windows/Linux/Mac
+     cosver: Client OS version, 10.0 will be Windows 10 (in combination with cos)
+     cplatform: Client Platform: eg. DESKTOP
+     cmt: ? But not always present
+     vps: ?
+     user_intent: ?
+     bwm: ? But all following values seem related, they are always close together
+     bwe: ? Always seem to increase once page is open, so maybe time user has watched the video?
+     bat: ?
+     vis: ?
+     bh: ?
+     df: ?
+
      
      */
-    id query = System.Web.HttpUtility.ParseQueryString(url);
-    
-    id cl = query.Get(query.AllKeys[0]);
-    id ei = query.Get("ei");
-    id of = query.Get("of");
-    id vm = query.Get("vm");
-    id cpn = GetCPN();
-    
-    id start = DateTime.UtcNow;
-    
-    id st = random.Next(1000, 10000);
-    id et = GetCmt(start);
-    id lio = GetLio(start);
-    
-    id rt = random.Next(10, 200);
-    
-    id lact = random.Next(1000, 8000);
-    id rtn = rt + 300;
-    
-    id args = new Dictionary<string, string>
-    {
-        ["ns"] = "yt",
-        ["el"] = "detailpage",
-        ["cpn"] = cpn,
-        ["docid"] = id,
-        ["ver"] = "2",
-        ["cmt"] = et.ToString(),
-        ["ei"] = ei,
-        ["fmt"] = "243",
-        ["fs"] = "0",
-        ["rt"] = rt.ToString(),
-        ["of"] = of,
-        ["euri"] = "",
-        ["lact"] = lact.ToString(),
-        ["live"] = "dvr",
-        ["cl"] = cl,
-        ["state"] = "playing",
-        ["vm"] = vm,
-        ["volume"] = "100",
-        ["cbr"] = "Firefox",
-        ["cbrver"] = "83.0",
-        ["c"] = "WEB",
-        ["cplayer"] = "UNIPLAYER",
-        ["cver"] = "2.20201210.01.00",
-        ["cos"] = "Windows",
-        ["cosver"] = "10.0",
-        ["cplatform"] = "DESKTOP",
-        ["delay"] = "5",
-        ["hl"] = "en_US",
-        ["rtn"] = rtn.ToString(),
-        ["aftm"] = "140",
-        ["rti"] = rt.ToString(),
-        ["muted"] = "0",
-        ["st"] = st.ToString(),
-        ["et"] = et.ToString(),
-        ["lio"] = lio.ToString()
-    };
+//    id query = System.Web.HttpUtility.ParseQueryString(url);
+//    
+//    id cl = query.Get(query.AllKeys[0]);
+//    id ei = query.Get("ei");
+//    id of = query.Get("of");
+//    id vm = query.Get("vm");
+//    id cpn = GetCPN();
+//    
+//    id start = DateTime.UtcNow;
+//    
+//    id st = random.Next(1000, 10000);
+//    id et = GetCmt(start);
+//    id lio = GetLio(start);
+//    
+//    id rt = random.Next(10, 200);
+//    
+//    id lact = random.Next(1000, 8000);
+//    id rtn = rt + 300;
+//    
+//    id args = new Dictionary<string, string>
+//    {
+//        ["ns"] = "yt",
+//        ["el"] = "detailpage",
+//        ["cpn"] = cpn,
+//        ["docid"] = id,
+//        ["ver"] = "2",
+//        ["cmt"] = et.ToString(),
+//        ["ei"] = ei,
+//        ["fmt"] = "243",
+//        ["fs"] = "0",
+//        ["rt"] = rt.ToString(),
+//        ["of"] = of,
+//        ["euri"] = "",
+//        ["lact"] = lact.ToString(),
+//        ["live"] = "dvr",
+//        ["cl"] = cl,
+//        ["state"] = "playing",
+//        ["vm"] = vm,
+//        ["volume"] = "100",
+//        ["cbr"] = "Firefox",
+//        ["cbrver"] = "83.0",
+//        ["c"] = "WEB",
+//        ["cplayer"] = "UNIPLAYER",
+//        ["cver"] = "2.20201210.01.00",
+//        ["cos"] = "Windows",
+//        ["cosver"] = "10.0",
+//        ["cplatform"] = "DESKTOP",
+//        ["delay"] = "5",
+//        ["hl"] = "en_US",
+//        ["rtn"] = rtn.ToString(),
+//        ["aftm"] = "140",
+//        ["rti"] = rt.ToString(),
+//        ["muted"] = "0",
+//        ["st"] = st.ToString(),
+//        ["et"] = et.ToString(),
+//        ["lio"] = lio.ToString()
+//    };
 }
 
 + (LYPlaybackTracker *)tracker
