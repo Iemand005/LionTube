@@ -24,6 +24,8 @@
         self.clientId = @"861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com";
         self.clientSecret = @"SboVhoG9s0rNafixCSGGKXAT";
         
+        self.scope = @"https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/userinfo.profile";
+        
         self.discoveryDocumentUrl = [NSURL URLWithString:@"https://accounts.google.com/.well-known/openid-configuration"];
         
         NSDictionary *openIDConfig = [self getOpenIDConfiguration];
@@ -94,9 +96,12 @@
 {
     NSDictionary *result;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    if (self.accessToken) [request addValue:[self getAccessTokenHeader] forHTTPHeaderField:@"Authorization"];
+    if (self.accessToken)
+        [request addValue:[self getAccessTokenHeader] forHTTPHeaderField:@"Authorization"];
     NSURLResponse *response;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
+    //NSLog(@"%@", [*error localizedDescription]);
+    NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
     if (!error && responseData)
         result = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:error];
     if (!result) NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
@@ -188,7 +193,7 @@
 
 - (NSDictionary *)getBearerAuthCode
 {
-    NSDictionary *requestBody = @{ @"client_id": self.clientId, @"scope": @"https://www.googleapis.com/auth/youtube" };
+    NSDictionary *requestBody = @{ @"client_id": self.clientId, @"scope": self.scope };
     NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint WithBody:requestBody error:nil];
     self.deviceCode = [responseBody objectForKey:@"device_code"];
     return responseBody;

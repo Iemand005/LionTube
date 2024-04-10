@@ -19,6 +19,8 @@
     if ([self.client refreshAuthCredentials]) {
         NSLog(@"Authenticated.");
         [self loadHomePage];
+        [self.client getUserInfo];
+//        [self.toolbarProfileItem setImage:<#(NSImage *)#>]
     } else NSLog(@"Token invalid");
 }
 
@@ -29,8 +31,8 @@
 
 - (void)loadHomePage
 {
-    [self.homeSpinner setIndeterminate:YES];
     [self.homeSpinner startAnimation:self];
+    [self.homeSpinner setIndeterminate:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSArray *videos = [self.client getHome];
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -37,6 +37,8 @@
 @property NSString *clientVersion;
 @property NSString *deviceCode;
 
+@property NSString *scope;
+
 @property NSString *accessToken;
 @property NSString *refreshToken;
 @property NSNumber *tokenExpiresIn;

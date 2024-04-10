@@ -53,6 +53,8 @@
 
 @property IBOutlet NSMenu *codecSelection;
 
+@property IBOutlet NSToolbarItem *toolbarProfileItem;
+
 @property NSTimer *authTimer;
 
 @property IBOutlet FormatTableDataSource *formatTable;
