@@ -15,6 +15,12 @@
     
 }
 
+- (void)pollTracker:(NSURL *)endpoint
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
+    [NSURLConnection sendAsynchronousRequest:request queue:NSOperationQueuePriorityNormal completionHandler:nil];
+}
+
 + (LYPlaybackTracker *)tracker
 {
     return [[LYPlaybackTracker alloc] init];
