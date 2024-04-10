@@ -144,12 +144,12 @@
 - (LYPlaybackTracker *)parsePlaybackTracker:(NSDictionary *)body
 {
     LYPlaybackTracker *tracker = [LYPlaybackTracker tracker];
-    tracker.playbackUrl = [[body objectForKey:@"videostatsPlaybackUrl"] objectForKey:@"baseUrl"];
-    tracker.delayplayUrl = [[body objectForKey:@"videostatsDelayplayUrl"] objectForKey:@"baseUrl"];
-    tracker.watchtimeUrl = [[body objectForKey:@"videostatsWatchtimeUrl"] objectForKey:@"baseUrl"];
-    tracker.ptrackingUrl = [[body objectForKey:@"ptrackingUrl"] objectForKey:@"baseUrl"];
-    tracker.qoeUrl = [[body objectForKey:@"qoeUrl"] objectForKey:@"baseUrl"];
-    tracker.atrUrl = [[body objectForKey:@"atrUrl"] objectForKey:@"baseUrl"];
+    tracker.playbackUrl = [self trackerUrlFrom:body withKey:@"videostatsPlaybackUrl"];
+    tracker.delayplayUrl = [self trackerUrlFrom:body withKey:@"videostatsDelayplayUrl"];
+    tracker.watchtimeUrl = [self trackerUrlFrom:body withKey:@"videostatsWatchtimeUrl"];
+    tracker.ptrackingUrl = [self trackerUrlFrom:body withKey:@"ptrackingUrl"];
+    tracker.qoeUrl = [self trackerUrlFrom:body withKey:@"qoeUrl"];
+    tracker.atrUrl = [self trackerUrlFrom:body withKey:@"atrUrl"];
     tracker.scheduledFlushWalltimeSeconds = [body objectForKey:@"videostatsScheduledFlushWalltimeSeconds"];
     tracker.defaultFlushIntervalSeconds = [body objectForKey:@"videostatsDefaultFlushIntervalSeconds"];
     return tracker;
