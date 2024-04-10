@@ -16,25 +16,38 @@
     self.videoHeight = 9;
     
     [self.client setCredentialFile:@"auth.plist"];
-    if ([self.client refreshAuthCredentials]) {
+    BOOL isAuthenticated = [self.client refreshAuthCredentials];
+    if (isAuthenticated) {
         NSLog(@"Authenticated.");
-        [self loadHomePage];
-        [self.client getUserInfo];
-//        [self.toolbarProfileItem setImage:<#(NSImage *)#>]
-    } else NSLog(@"Token invalid");
+//        [self loadHomePage];
+        if ([self.client applyUserProfile]) {
+            NSLog(@"%@", self.client.profile.pictureUrl);
+            [self.client saveUserProfilePicture:@"profile.png"];
+            NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"profile.jpg"];
+            [self.toolbarProfileItem setImage:image];//self.client.profile.picture];
+        }
+    } else {
+        NSLog(@"Token invalid");
+//        [self loadTrendingPage];
+    }
+    [self loadHomePage];//:isAuthenticated];
 }
 
 - (IBAction)goHome:(id)sender
 {
-    [self.window setContentView:self.homeView];
+    
+//    [self.window setContentView:self.homeView];
+    [self.movieView pause:sender];
+    [self loadView:self.homeView];
+    [self loadHomePage];
 }
 
-- (void)loadHomePage
+- (void)loadHomePage//:(BOOL)isAuthenticated
 {
     [self.homeSpinner startAnimation:self];
     [self.homeSpinner setIndeterminate:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSArray *videos = [self.client getHome];
+        NSArray *videos = [self.client getHome]; //isAuthenticated ? [self.client getHome] : [self.client getTrendingVideos];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.homeSpinner setDoubleValue:0];
             [self.homeSpinner setMaxValue:videos.count];
@@ -49,10 +62,22 @@
     });
 }
 
+- (void)loadTrendingPage
+{
+    
+}
+
+- (void)loadView:(NSView *)view
+{
+    [self.window setContentView:nil];
+    [self.window setContentView:view];
+}
+
 - (void)openVideoPageForVideoWithId:(NSString *)videoId
 {
     [self.videoLoadingIndicator startAnimation:self];
-    self.window.contentView = self.mainView;
+//    self.window.contentView = self.mainView;
+    [self loadView:self.mainView];
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self loadVideoWithId:videoId];
 //    });
@@ -155,32 +180,32 @@
 - (void)loadVideoWithId:(NSString *)videoId
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-    LYouTubeVideo *video = [self.client getVideoWithId:videoId];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.video = video;
-        self.controller.video = video;
+        LYouTubeVideo *video = [self.client getVideoWithId:videoId];
         
-        [self.videoDescription setStringValue:video.description];
-        [self.videoTitle setStringValue:video.title];
-        
-        for (LVideoFormat *format in self.video.formats) {
-            [self.formatTable addFormat:format];
-            NSLog(@"kanker %@",format.qualityLabel);
-            if (format.qualityLabel) {
-                NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
-                [self.codecSelection addItem:item];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.video = video;
+            self.controller.video = video;
+            
+            if (video.description) [self.videoDescription setStringValue:video.description];
+            if (video.title) [self.videoTitle setStringValue:video.title];
+            
+            for (LYVideoFormat *format in self.video.formats) {
+                [self.formatTable addFormat:format];
+                NSLog(@"kanker %@",format.qualityLabel);
+                if (format.qualityLabel) {
+                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
+                    [self.codecSelection addItem:item];
+                }
             }
-        }
-        
-        LVideoFormat *format = [self.video.formats objectAtIndex:0];
-        
-        self.movie = [self.video getMovieWithFormat:format];
-        [[self movieView] setMovie:self.movie];
-        [self.videoLoadingIndicator stopAnimation:self];
-        [self.movieView play:self];
+            
+            LYVideoFormat *format = [self.video.formats objectAtIndex:0];
+            
+            self.movie = [self.video getMovieWithFormat:format];
+            [[self movieView] setMovie:self.movie];
+            [self.videoLoadingIndicator stopAnimation:self];
+            [self.movieView play:self];
+        });
     });
-            });
 }
 
 - (void)changeVideoFormat:(id)sender
@@ -190,9 +215,9 @@
     [self loadVideoWithFormat:[self.video.formats objectAtIndex:index]];
 }
 
-- (void)loadVideoWithFormat:(LVideoFormat *)format
+- (void)loadVideoWithFormat:(LYVideoFormat *)format
 {
-//    LVideoFormat *format = [self.video.formats objectAtIndex:index];
+//    LYVideoFormat *format = [self.video.formats objectAtIndex:index];
     [self.videoLoadingIndicator startAnimation:self];
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
@@ -210,7 +235,7 @@
 - (IBAction)trySelectedVideoFormat:(id)sender
 {
     NSUInteger index = self.formatTableView.selectedRow;
-    LVideoFormat *format = [self.video.formats objectAtIndex:index];
+    LYVideoFormat *format = [self.video.formats objectAtIndex:index];
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
 }

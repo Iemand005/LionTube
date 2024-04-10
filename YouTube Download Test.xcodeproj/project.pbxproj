@@ -14,6 +14,9 @@
 		0A20E7572BC5EED7000064F8 /* LYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A20E7562BC5EED6000064F8 /* LYCollectionView.m */; };
 		0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A219DA72BC35F3100A20C35 /* MainMenu.xib */; };
 		0A2E75B82BC6270A00D7DFAE /* LYouTubeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2E75B72BC6270A00D7DFAE /* LYouTubeProfile.m */; };
+		0A2E75BB2BC6A24200D7DFAE /* LYVideoFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2E75BA2BC6A24200D7DFAE /* LYVideoFormat.m */; };
+		0A2E75BD2BC6A3AB00D7DFAE /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A2E75BC2BC6A3AB00D7DFAE /* PlayerView.xib */; };
+		0A5E95FF2BC6FEFA00A4C592 /* LYPlaybackTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5E95FE2BC6FEFA00A4C592 /* LYPlaybackTracker.m */; };
 		0A7716182BC55D2200C65F1B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7716172BC55D2200C65F1B /* Quartz.framework */; };
 		0AC89A6C2BC3002900206440 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC89A6B2BC3002800206440 /* Cocoa.framework */; };
 		0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC89A742BC3002900206440 /* InfoPlist.strings */; };
@@ -58,6 +61,11 @@
 		0A219DA82BC35F3100A20C35 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0A2E75B62BC6270A00D7DFAE /* LYouTubeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYouTubeProfile.h; sourceTree = "<group>"; };
 		0A2E75B72BC6270A00D7DFAE /* LYouTubeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYouTubeProfile.m; sourceTree = "<group>"; };
+		0A2E75B92BC6A24200D7DFAE /* LYVideoFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYVideoFormat.h; sourceTree = "<group>"; };
+		0A2E75BA2BC6A24200D7DFAE /* LYVideoFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYVideoFormat.m; sourceTree = "<group>"; };
+		0A2E75BC2BC6A3AB00D7DFAE /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerView.xib; path = ../PlayerView.xib; sourceTree = "<group>"; };
+		0A5E95FD2BC6FEFA00A4C592 /* LYPlaybackTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYPlaybackTracker.h; sourceTree = "<group>"; };
+		0A5E95FE2BC6FEFA00A4C592 /* LYPlaybackTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYPlaybackTracker.m; sourceTree = "<group>"; };
 		0A7716172BC55D2200C65F1B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0AC89A682BC3002800206440 /* YouTube Download Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YouTube Download Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC89A6B2BC3002800206440 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -118,7 +126,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A20E7512BC5D249000064F8 /* YouTube Lion */ = {
+		0A20E7512BC5D249000064F8 /* YouTube Lion API */ = {
 			isa = PBXGroup;
 			children = (
 				0AC89AB22BC32DD900206440 /* LYouTubeClient.h */,
@@ -131,14 +139,18 @@
 				0A20E7532BC5D53E000064F8 /* LYouTubeChannel.m */,
 				0A2E75B62BC6270A00D7DFAE /* LYouTubeProfile.h */,
 				0A2E75B72BC6270A00D7DFAE /* LYouTubeProfile.m */,
+				0A2E75B92BC6A24200D7DFAE /* LYVideoFormat.h */,
+				0A2E75BA2BC6A24200D7DFAE /* LYVideoFormat.m */,
+				0A5E95FD2BC6FEFA00A4C592 /* LYPlaybackTracker.h */,
+				0A5E95FE2BC6FEFA00A4C592 /* LYPlaybackTracker.m */,
 			);
-			name = "YouTube Lion";
+			name = "YouTube Lion API";
 			sourceTree = "<group>";
 		};
 		0AC89A5F2BC3002800206440 = {
 			isa = PBXGroup;
 			children = (
-				0AC89A712BC3002900206440 /* YouTube Download Test */,
+				0AC89A712BC3002900206440 /* YouTube Lion */,
 				0AC89A8E2BC3002A00206440 /* YouTube Download TestTests */,
 				0AC89A6A2BC3002800206440 /* Frameworks */,
 				0AC89A692BC3002800206440 /* Products */,
@@ -178,15 +190,16 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		0AC89A712BC3002900206440 /* YouTube Download Test */ = {
+		0AC89A712BC3002900206440 /* YouTube Lion */ = {
 			isa = PBXGroup;
 			children = (
 				0AC89A7D2BC3002900206440 /* AppDelegate.h */,
 				0AC89A7E2BC3002900206440 /* AppDelegate.m */,
 				0A219DA72BC35F3100A20C35 /* MainMenu.xib */,
+				0A2E75BC2BC6A3AB00D7DFAE /* PlayerView.xib */,
 				0A20E74A2BC5BE2E000064F8 /* AppController.h */,
 				0A20E74B2BC5BE2E000064F8 /* AppController.m */,
-				0A20E7512BC5D249000064F8 /* YouTube Lion */,
+				0A20E7512BC5D249000064F8 /* YouTube Lion API */,
 				0AC89AA32BC30F5700206440 /* LYMovieView.h */,
 				0AC89AA42BC30F5700206440 /* LYMovieView.m */,
 				0AC89AAA2BC324E600206440 /* FormatTableDataSource.h */,
@@ -199,6 +212,7 @@
 				0A20E7562BC5EED6000064F8 /* LYCollectionView.m */,
 				0AC89A722BC3002900206440 /* Supporting Files */,
 			);
+			name = "YouTube Lion";
 			path = "YouTube Download Test";
 			sourceTree = "<group>";
 		};
@@ -307,6 +321,7 @@
 				0AC89A762BC3002900206440 /* InfoPlist.strings in Resources */,
 				0AC89A7C2BC3002900206440 /* Credits.rtf in Resources */,
 				0A219DA92BC35F3200A20C35 /* MainMenu.xib in Resources */,
+				0A2E75BD2BC6A3AB00D7DFAE /* PlayerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +369,8 @@
 				0A20E7542BC5D53E000064F8 /* LYouTubeChannel.m in Sources */,
 				0A20E7572BC5EED7000064F8 /* LYCollectionView.m in Sources */,
 				0A2E75B82BC6270A00D7DFAE /* LYouTubeProfile.m in Sources */,
+				0A2E75BB2BC6A24200D7DFAE /* LYVideoFormat.m in Sources */,
+				0A5E95FF2BC6FEFA00A4C592 /* LYPlaybackTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +456,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.7;
 			};
@@ -466,7 +483,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.7;
 			};
 			name = Release;

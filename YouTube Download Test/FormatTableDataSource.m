@@ -19,7 +19,7 @@
     return self;
 }
 
-- (void)addFormat:(LVideoFormat *)format
+- (void)addFormat:(LYVideoFormat *)format
 {
     [formats addObject:format];
     [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:0] withAnimation:NSTableViewAnimationEffectFade];
@@ -32,7 +32,7 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    LVideoFormat *format = [formats objectAtIndex:row];
+    LYVideoFormat *format = [formats objectAtIndex:row];
     return format.mimeType;
 }
 

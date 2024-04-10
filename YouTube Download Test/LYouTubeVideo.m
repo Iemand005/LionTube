@@ -15,12 +15,11 @@
     self = [super init];
     if (self) {
         self.videoId = [self getVideoIdFromArbitraryString:videoId];
-        self.title = @"title";
     }
     return self;
 }
 
-- (QTMovie *)getMovieWithFormat:(LVideoFormat *)format
+- (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format
 {
     self.url = [NSURL URLWithString:format.url];
     return [[QTMovie alloc] initWithURL:self.url error:nil];
@@ -45,9 +44,7 @@
     if ([self isUrl:string]) {
         NSDictionary *query = [self extractQueryComponentsFromURLString:string];
         result = [query objectForKey:@"v"];
-    } else {
-        result = string;
-    }
+    } else result = string;
 
     if (!result) result = string;
     return result;
@@ -71,6 +68,11 @@
     return queryParameters;
 }
 
++ (LYouTubeVideo *)video
+{
+    return [[LYouTubeVideo alloc] init];
+}
+
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId
 {
     return [[LYouTubeVideo alloc] initWithId:videoId];
@@ -78,26 +80,8 @@
 
 @end
 
-@implementation LVideoFormat
-
-- (id)initWithDictionary:(NSDictionary *)dict
-{
-    self = [super init];
-    if (self) {
-        self.url = [dict objectForKey:@"url"];
-        self.fps = [dict objectForKey:@"fps"];
-        self.width = [dict objectForKey:@"width"];
-        self.height = [dict objectForKey:@"height"];
-        self.mimeType = [dict objectForKey:@"mimeType"];
-        self.qualityLabel = [dict objectForKey:@"qualityLabel"];
-        NSLog([dict objectForKey:@"qualityLabel"]);
-    }
-    return self;
-}
-
-+ (LVideoFormat *)formatWithDictionary:(NSDictionary *)dict
-{
-    return [[LVideoFormat alloc] initWithDictionary:dict];
-}
-
-@end
+//@implementation LVideoFormat
+//
+//
+//
+//@end

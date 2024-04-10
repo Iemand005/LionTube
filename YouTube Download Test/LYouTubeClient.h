@@ -54,7 +54,11 @@
 @property NSString *credentialLogPath;
 @property NSArray *credentialLog;
 
+@property BOOL isLoggedIn;
+
 @property LYoutubeApiParser *parser;
+
+@property LYouTubeProfile *profile;
 
 @property IBOutlet WebView *webView;
 
@@ -73,7 +77,9 @@
 - (BOOL)applyAuthCredentials:(NSDictionary *)credentials;
 - (BOOL)refreshAuthCredentials;
 
-- (void)getUserInfo;
+- (LYouTubeProfile *)getUserInfo;
+- (BOOL)applyUserProfile;
+- (void)saveUserProfilePicture:(NSString *)path;
 
 + (LYouTubeClient *)client;
 

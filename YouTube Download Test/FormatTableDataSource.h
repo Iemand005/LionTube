@@ -15,6 +15,6 @@
 }
 
 @property IBOutlet NSTableView *tableView;
-- (void)addFormat:(LVideoFormat *)format;
+- (void)addFormat:(LYVideoFormat *)format;
 
 @end

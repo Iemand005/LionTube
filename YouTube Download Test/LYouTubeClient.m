@@ -47,8 +47,6 @@
         self.browseEndpoint = [self.baseAddress URLByAppendingPathComponent:@"browse"];
         self.searchEndpoint = [self.baseAddress URLByAppendingPathComponent:@"search"];
         self.likeEndpoint = [self.baseAddress URLByAppendingPathComponent:@"like"];
-        https://music.youtube.com/youtubei/v1/account/account_menu
-//        self.cookieString = [self getCookies];
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
         
@@ -115,11 +113,11 @@
 
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
 {
-    LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
+//    LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     NSLog(@"%1@, %2@, %3@", self.clientName, self.clientVersion, videoId);
     NSDictionary *body = @{
                            @"context": self.clientContext,
-                           @"videoId": video.videoId,
+                           @"videoId": videoId,
                            @"contentCheckOk": @"true",
                            @"racyCheckOk": @"true"
                            };
@@ -129,29 +127,10 @@
     if (error) {
         NSLog(@"%@", error.localizedDescription);
     }
+    return [self.parser parseVideo:videoDetailsDict];
     
-    NSDictionary *playabilityStatus = [videoDetailsDict objectForKey:@"playabilityStatus"];
-    if ([[playabilityStatus objectForKey:@"status"] isEqualToString:@"OK"])
-        NSLog(@"Playability OK");
     
-    NSDictionary *streamingData = [videoDetailsDict objectForKey:@"streamingData"];
-    
-    NSArray *formats = [streamingData objectForKey:@"formats"];
-    NSArray *adaptiveFormats = [streamingData objectForKey:@"adaptiveFormats"];
-    
-    // https://gist.github.com/sidneys/7095afe4da4ae58694d128b1034e01e2
-    NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
-    for (NSDictionary *format in formats)
-        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-    for (NSDictionary *format in adaptiveFormats)
-        [parsedFormats addObject:[LVideoFormat formatWithDictionary:format]];
-    video.formats = parsedFormats;
-    
-    NSDictionary *videoDetails = [videoDetailsDict objectForKey:@"videoDetails"];
-    video.description = [videoDetails objectForKey:@"shortDescription"];
-    video.title = [videoDetails objectForKey:@"title"];
-    video.viewCount = [videoDetails objectForKey:@"viewCount"];
-    return video;
+//    return video;
 }
 
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId
@@ -165,12 +144,14 @@
 
 - (NSArray *)getHome
 {
-    NSDictionary *data = [self getBrowseEndpoint:@"FEwhat_to_watch"];
+//    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch" : @"FEtrending";
+    NSDictionary *data = [self getBrowseEndpoint:self.isLoggedIn ? @"FEwhat_to_watch" : @"FEtrending"];
     return [self.parser parseVideosOnHomePage:data];
 }
 
 - (NSArray *)getTrendingVideos
 {
+//    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch"
     NSDictionary *body = @{
                            @"browseId": @"FEtrending",
                            @"context": self.clientContext
@@ -179,6 +160,7 @@
     NSDictionary *response = [self POSTRequest:self.browseEndpoint WithBody:body error:&error];
     if (error) NSLog(@"%@", error.localizedDescription);
     NSLog(@"%@", response.description);
+    return [self.parser parseVideosOnHomePage:response];
 }
 
 - (NSString *)getCookies
@@ -223,7 +205,6 @@
 
 - (BOOL)loadAuthCredentials
 {
-//    NSDictionary *tokenBody = ;
     return [self applyAuthCredentials:[NSDictionary dictionaryWithContentsOfFile:self.credentialFile]];
 }
 
@@ -246,30 +227,46 @@
         self.tokenExpiresIn = [credentials objectForKey:@"expires_in"];
         self.tokenType = [credentials objectForKey:@"token_type"];
     }
-    return self.accessToken && self.refreshToken;
+//    BOOL a = self.accessToken && self.refreshToken;
+    return self.accessToken && self.refreshToken;//!self.isLoggedIn ? self.isLoggedIn = self.accessToken && self.refreshToken : YES;
 }
 
-//- (BOOL)applyAndalidateAuthCredentials:(NSDictionary *)credentials
-//{
-//    [self applyAuthCredentials:credentials];
-//    return self.accessToken && self.refreshToken;
-//}
+- (BOOL)applyUserProfile
+{
+    self.profile = [self getUserInfo];
+    return self.profile && self.profile.name;
+}
+
+- (void)saveUserProfilePicture:(NSString *)path
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.profile.pictureUrl];
+    NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:nil];
+    [download setDestination:@"profile.jpg" allowOverwrite:YES];
+}
 
 - (BOOL)refreshAuthCredentials
 {
-    [self loadAuthCredentials];
-    NSDictionary *data = @{
-                           @"client_id": self.clientId,
-                           @"client_secret": self.clientSecret,
-                           @"grant_type": @"refresh_token",
-                           @"refresh_token": self.refreshToken
-                           };
-    return [self saveAuthCredentials:[self POSTRequest:self.tokenEndpoint WithBody:data error:nil]];
+//    NSDictionary *credentials;
+    BOOL authenticated = NO;
+    if ([self loadAuthCredentials]) {
+        NSDictionary *data = @{
+                               @"client_id": self.clientId,
+                               @"client_secret": self.clientSecret,
+                               @"grant_type": @"refresh_token",
+                               @"refresh_token": self.refreshToken
+                               };
+        authenticated = [self saveAuthCredentials:[self POSTRequest:self.tokenEndpoint WithBody:data error:nil]];
+    }// else credentials =
+    if (authenticated) self.isLoggedIn = YES;
+    return authenticated || self.isLoggedIn;
 }
 
-- (void)getUserInfo
+- (LYouTubeProfile *)getUserInfo
 {
-    NSLog(@"%@", [self GETRequest:self.userInfoEndpoint error:nil]);
+    NSDictionary *userInfo = [self GETRequest:self.userInfoEndpoint error:nil];
+    [userInfo writeToFile:@"user.plist" atomically:YES];
+    NSLog(@"%@", userInfo);
+    return [self.parser parseProfile:userInfo];
 }
 
 + (LYouTubeClient *)client

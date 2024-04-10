@@ -10,44 +10,8 @@
 #import <QTKit/QTKit.h>
 
 #import "LYouTubeChannel.h"
-
-enum audioQuality {
-    AUDIO_QUALITY_LOW
-};
-
-enum projectionType {
-    RECTANGULAR
-};
-
-enum quality {
-    MEDIUM
-};
-
-@interface LVideoFormat : NSObject
-
-@property int itag;
-@property NSString *url;
-@property NSString *mimeType;
-@property int bitrate;
-@property NSNumber *width;
-@property NSNumber *height;
-@property int lastModified;
-@property int contentLength;
-@property enum quality quality;
-@property NSNumber *fps;
-@property NSString *qualityLabel;
-@property enum projectionType projectionType;
-@property int averageBitrate;
-@property enum audioQuality audioQuality;
-@property int approxDurationMs;
-@property int audioSampleRate;
-@property int audioChannels;
-
-- (id)initWithDictionary:(NSDictionary *)dict;
-
-+ (LVideoFormat *)formatWithDictionary:(NSDictionary *)dict;
-
-@end
+#import "LYVideoFormat.h"
+#import "LYPlaybackTracker.h"
 
 @interface LYouTubeVideo : NSObject
 
@@ -58,9 +22,12 @@ enum quality {
 @property NSString *description;
 @property NSNumber *viewCount;
 @property LYouTubeChannel *channel;
+@property LYPlaybackTracker *tracker;
 @property BOOL isWatched;
 @property NSImage *thumbnail;
 @property NSURL *thumbnailURL;
+@property NSString *shortStats;
+@property NSString *lengthText;
 
 @property NSURL *url;
 
@@ -69,7 +36,8 @@ enum quality {
 - (id)initWithId:(NSString *)videoId;
 
 - (QTMovie *)getDefaultMovie;
-- (QTMovie *)getMovieWithFormat:(LVideoFormat *)format;
+- (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format;
++ (LYouTubeVideo *)video;
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId;
 
 @end

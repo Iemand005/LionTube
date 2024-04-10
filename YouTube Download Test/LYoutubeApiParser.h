@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "LYouTubeProfile.h"
 #import "LYouTubeVideo.h"
 #import "LYouTubeChannel.h"
 
@@ -17,6 +18,8 @@
 @property BOOL isLoggedIn;
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
+- (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData;
+- (LYouTubeProfile *)parseProfile:(NSDictionary *)body;
 
 + (LYoutubeApiParser *)parser;
 
