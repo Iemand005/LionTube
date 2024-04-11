@@ -70,16 +70,16 @@
 - (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
-    NSMutableDictionary requestBody = [NSMutableDictionary dictionaryWithDictionary:body];
+    NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:body];
     [requestBody setObject:self.clientContext forKey:@"context"];
-    NSData *requestBody = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
-    NSLog(@"%@", [[NSString alloc] initWithData:requestBody encoding:NSUTF8StringEncoding]);
+    NSData *requestData = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
+    NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         
         [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:requestBody];
-        [request addValue:[NSString stringWithFormat:@"%li", requestBody.length] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody:requestData];
+        [request addValue:[NSString stringWithFormat:@"%li", requestData.length] forHTTPHeaderField:@"Content-Length"];
         [request addValue:@"com.lasse.macos.youtube/1.0.0 (Darwin; U; Mac OS X 10.7; GB) gzip" forHTTPHeaderField:@"User-Agent"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         if (self.accessToken) [request addValue:[self getAccessTokenHeader] forHTTPHeaderField:@"Authorization"];
