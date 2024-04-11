@@ -31,7 +31,7 @@
         self.clientId = @"861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com";
         self.clientSecret = @"SboVhoG9s0rNafixCSGGKXAT";
         
-        self.scope = @"https://www.googleapis.com/auth/youtube";// https://www.googleapis.com/auth/userinfo.profile";
+        self.scope = @"https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/userinfo.profile";
         
         self.discoveryDocumentUrl = [NSURL URLWithString:@"https://accounts.google.com/.well-known/openid-configuration"];
         
@@ -40,7 +40,7 @@
         self.tokenEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"token_endpoint"]];
         self.userInfoEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"userinfo_endpoint"]];
         
-        self.clientContext = @{
+        self.context = @{
                                @"client": @{
                                        @"clientName": self.name,
                                        @"clientVersion": self.version
@@ -70,8 +70,10 @@
 - (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
-    NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:body];
-    [requestBody setObject:self.clientContext forKey:@"context"];
+    NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:@{@"context": self.context}];
+//    [requestBody setObject:self.context forKey:@"context"];
+//    [requestBody addEntriesFromDictionary:@{@"context": self.context}];
+        [requestBody addEntriesFromDictionary:body];
     NSData *requestData = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
     NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
@@ -92,11 +94,17 @@
         if (!error || !*error)
             result = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:error];
         if (!result) {
+            //*
             [self.webView.window makeKeyAndOrderFront:self];
             [[self.webView mainFrame] loadHTMLString:htmlString baseURL:self.playerEndpoint];
         }
     }
     return result;
+}
+
+- (NSDictionary *)POSTRequest:(NSURL *)url
+{
+    return [self POSTRequest:url WithBody:@{} error:nil];
 }
 
 - (NSDictionary *)POSTRequestURLString:(NSString *)urlString WithBody:(NSDictionary *)body error:(NSError **)error
@@ -129,12 +137,7 @@
 {
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     NSLog(@"%1@, %2@, %3@", self.name, self.version, videoId);
-    NSDictionary *body = @{
-                           @"context": self.clientContext,
-                           @"videoId": videoId,
-                           @"contentCheckOk": @"true",
-                           @"racyCheckOk": @"true"
-                           };
+    NSDictionary *body = @{@"videoId": videoId, @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
     
     NSError *error;
     NSDictionary *videoInfo = [self POSTRequest:self.nextEndpoint WithBody:body error:&error];
@@ -152,10 +155,7 @@
 
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId
 {
-    NSDictionary *body = @{
-                           @"browseId": browseId,
-                           @"context": self.clientContext
-                           };
+    NSDictionary *body = @{@"browseId": browseId, @"context": self.context};
     return [self POSTRequest:self.browseEndpoint WithBody:body error:nil];
 }
 
@@ -169,10 +169,7 @@
 - (NSArray *)getTrendingVideos
 {
 //    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch"
-    NSDictionary *body = @{
-                           @"browseId": @"FEtrending",
-                           @"context": self.clientContext
-                           };
+    NSDictionary *body = @{@"browseId": @"FEtrending"};
     NSError *error;
     NSDictionary *response = [self POSTRequest:self.browseEndpoint WithBody:body error:&error];
     if (error) NSLog(@"%@", error.localizedDescription);
@@ -192,7 +189,7 @@
 
 - (NSDictionary *)getBearerAuthCode
 {
-    NSDictionary *requestBody = @{ @"client_id": self.clientId, @"scope": self.scope };
+    NSDictionary *requestBody = @{@"client_id": self.clientId, @"scope": self.scope};
     NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint WithBody:requestBody error:nil];
     self.deviceCode = [responseBody objectForKey:@"device_code"];
     return responseBody;
@@ -290,7 +287,7 @@
 - (LYouTubeProfile *)getUserInfo
 {
 //    NSDictionary *userInfo = [self GETRequest:self.userInfoEndpoint error:nil];
-    NSDictionary *userInfo = [self POSTRequest:self.accountAccountMenuEndpoint WithBody:@{} error:nil];
+    NSDictionary *userInfo = [self POSTRequest:self.accountAccountMenuEndpoint];
     [userInfo writeToFile:@"user2.plist" atomically:YES];
     NSLog(@"%@", userInfo);
     return [self.parser parseProfile:userInfo];

@@ -15,6 +15,10 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     
+//    id a = @[@"spartakruts", @"isgekraaktkwijtdekluts"];
+//    NSString *varken = [a objectForKey:@1];
+//    NSLog(varken);
+    
     self.track = YES;
     
     [self.client setCredentialFile:@"auth.plist"];

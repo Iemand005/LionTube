@@ -30,21 +30,37 @@
         NSArray *videoDataList = [richRenderer objectForKey:@"contents"];
         for (NSDictionary *videoData in videoDataList) {
             NSDictionary *renderer = [videoData objectForKey:itemRenderer];
-            //if (!renderer) renderer = [videoData objectForKey:@"richSectionRenderer"];
-            
-            NSDictionary *content = [renderer objectForKey:@"content"];
-            NSArray *contents;
-            if (content) contents = [NSArray arrayWithObject:content];
-            else contents = [renderer objectForKey:@"contents"];
-            for (NSDictionary *content in contents) {
-                NSDictionary *videokak = [content objectForKey:videoRenderer];
-                if (videokak) [videos addObject:[self parseVideo:videokak]];
+            if (renderer) {
+                NSDictionary *content = [renderer objectForKey:@"content"];
+                NSArray *contents;
+                if (content) contents = [NSArray arrayWithObject:content];
+                else contents = [renderer objectForKey:@"contents"];
+                for (NSDictionary *content in contents) {
+                    NSDictionary *videokak = [content objectForKey:videoRenderer];
+                    if (videokak) [videos addObject:[self parseVideo:videokak]];
+                }
+            } else {
+                NSArray *path = @[@"continuationItemRenderer", @"continuationEndpoint", @"continuationCommand"];
+                NSDictionary *continuation = [self traverse:path on:videoData];
+//                renderer = [videoData objectForKey:@"continuationItemRenderer"];
             }
         }
     }
     
 //    NSDictionary *videoData = [[[[body objectForKey:@"contents"] objectForKey:@"richItemRenderer"] objectForKey:@"content"] objectForKey:@"videoWithContextRenderer"];
     return videos;
+}
+
+- (id)traverse:(NSArray *)path on:(id)body
+{
+//    id result;
+    for (id key in path) {
+        if ([key isMemberOfClass:[NSNumber class]]) {
+//            NSNumber *number = object;
+            body = [body objectAtIndex:[key integerValue]];
+        } else body = [body objectForKey:key];
+    }
+    return body;
 }
 
 - (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData

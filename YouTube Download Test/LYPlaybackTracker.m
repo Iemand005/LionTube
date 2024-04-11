@@ -143,11 +143,12 @@
         [combinedParameters addEntriesFromDictionary:parameters];
         parameters = combinedParameters;
     } else {
-        NSURL *spart = [self.client.parser addParameters:defaultParameters toURL:endpoint];
-        endpoint = spart;
+        parameters = defaultParameters;
+        //NSURL *spart = [self.client.parser addParameters:defaultParameters toURL:endpoint];
+        //endpoint = spart;
     }
     NSLog(@"%@", endpoint);
-    [self.client.parser sendParameters:parameters toEndpoint:endpoint];
+    if (endpoint) [self.client.parser sendParameters:parameters toEndpoint:endpoint];
 }
 
 NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";

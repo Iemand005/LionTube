@@ -41,7 +41,7 @@
 
 - (NSInteger)currentMediaTime
 {
-    return round(self.movie.currentTime.timeValue / self.movie.currentTime.timeScale);
+    return self.movie.currentTime.timeScale ? round(self.movie.currentTime.timeValue / self.movie.currentTime.timeScale) : 0;
 }
 
 - (NSURL *)channelThumbnailURL
@@ -88,12 +88,12 @@
 
 - (NSDictionary *)rateBody
 {
-    return @{@"context": self.client.clientContext, @"target": @{@"videoId": self.videoId}};
+    return @{@"context": self.client.context, @"target": @{@"videoId": self.videoId}};
 }
 
 - (NSDictionary *)actionBody
 {
-    NSDictionary *body = @{@"context": self.client.clientContext, @"videoId": self.videoId};
+    NSDictionary *body = @{@"context": self.client.context, @"videoId": self.videoId};
     return body;
 }
 

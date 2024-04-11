@@ -38,13 +38,7 @@
 @property NSString *cookieString;
 @property NSArray *cookieArray;
 
-@property NSDictionary *clientContext;
-
-//@property LYClientInfo *info;
-//@property NSString *name;
-//@property NSString *version;
-//@property NSString *browser;
-//@property NSString *OSVersion;
+@property NSDictionary *context;
 
 @property NSString *deviceCode;
 
