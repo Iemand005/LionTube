@@ -323,7 +323,13 @@
 {
     [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.PiPPanel makeKeyAndOrderFront:self];
-    [self.PiPPanel setAspectRatio:NSMakeSize(16, 9)];
+    NSSize videoRatio = self.movieView.frame.size;
+    NSLog(@"%f",videoRatio.width, self.PiPPanel.frame.size.width);
+//    [self.PiPPanel setAspectRatio:videoRatio];//NSMakeSize(16, 9)];
+//    NSLog(@"%f, %f", self.movieView.frame.size.height, self.PiPPanel.frame.size.height);
+    CGRect ractal = self.PiPPanel.frame;
+    ractal.size.width = self.movieView.frame.size.width;
+    [self.PiPPanel setFrame:ractal display:YES animate:YES];
     [self.movieView setMovie:nil];
     [self.pipMovieView setMovie:self.movie];
 }

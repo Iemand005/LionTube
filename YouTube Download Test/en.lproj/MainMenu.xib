@@ -2397,7 +2397,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="627943324">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="QTMovieView" id="808681547">
@@ -2411,18 +2411,20 @@
 							</set>
 							<string key="NSFrameSize">{480, 270}</string>
 							<reference key="NSSuperview" ref="627943324"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSColor" key="kCoderFillColor">
 								<int key="NSColorSpace">3</int>
 								<bytes key="NSWhite">MCAwAA</bytes>
 							</object>
 							<boolean value="YES" key="kCoderControllerVisible"/>
-							<boolean value="NO" key="kCoderPreservesAspectRatio"/>
+							<boolean value="YES" key="kCoderPreservesAspectRatio"/>
 							<nil key="kCoderMovie"/>
 							<boolean value="NO" key="kCoderEditable"/>
 						</object>
 					</array>
 					<string key="NSFrameSize">{480, 270}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="808681547"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
