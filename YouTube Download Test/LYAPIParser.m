@@ -210,9 +210,9 @@
             if (videoMetadata) {
                 NSDictionary *videoMetadataContents = [videoMetadata objectForKey:@"contents"];
                 for (NSDictionary *videoMetadataContent in videoMetadataContents) {
-                    NSString *videoInformationRenderer = [videoMetadataContent objectForKey:@"slimVideoInformationRenderer"];
+                    NSDictionary * videoInformationRenderer = [videoMetadataContent objectForKey:@"slimVideoInformationRenderer"];
                     if (videoInformationRenderer) {
-                    NSDictionary *videoInformationRenderer = [videoMetadataContents objectForKey:@"slimVideoInformationRenderer"];
+//                    NSDictionary *videoInformationRenderer = [videoMetadataContent objectForKey:@"slimVideoInformationRenderer"];
                     NSString *title = [self runText:[videoInformationRenderer objectForKey:@"title"]];
                     if (title) [video setTitle:title];
                     NSString *collapsedSubtitle = [self runText:[videoInformationRenderer objectForKey:@"collapsedSubtitle"]];
