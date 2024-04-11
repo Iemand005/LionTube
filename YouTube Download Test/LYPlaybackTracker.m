@@ -7,26 +7,14 @@
 //
 
 #import "LYPlaybackTracker.h"
+#import "LYouTubeClient.h"
+#import "LYouTubeVideo.h"
 
 @implementation LYPlaybackTracker
 
 -(id)init
 {
     self = [super init];
-    
-//    rt = 0;
-//    rtn = 0;
-//    st = 0; // start time (end time of previous watchtime event)
-//    et = 0;
-//    lact = -1;
-//    self.mut =
-    
-//    timeCMT = false;
-//    timeRT = true;
-//    timeRTN = true;
-//    timeRTI = true;
-//    
-    
     if (self) {
         self.lact = -1;
         self.rtStart = [NSDate date];
@@ -34,30 +22,29 @@
         self.volume = 100;
         self.delay = 0;
         self.version = @2;
-//        [self setTimerFor:&rtn];
-//        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
+        self.hostLocale = [NSLocale currentLocale];
+        self.length = @-1;
+        self.startTime = @0;
+        self.endTime = @0;
     }
     return self;
 }
-
-//- (NSTimer *)setTimerFor:(int *)number
-//{
-//    return [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementNumber:) userInfo:(id)number repeats:YES];
-////    {
-////        timer in
-////        self.myCounter += 1
-////        // Check condition here
-////    }
-//}
-//
-//- (void)incrementNumber:(int *)number
-//{
-//    (*number)++;
 //}'\]]]]]]]opl09--- miniiiiii
+- (id)initWithVideo:(LYouTubeVideo *)video
+{
+    self = [self init];
+    if (self) self.video = video;
+    return self;
+}
 
 - (NSNumber *)currentMediaTime
 {
     return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0);
+}
+
+- (NSNumber *)fullMediaTime
+{
+    return @(self.fmtStart ? [[NSDate date] timeIntervalSinceDate:self.fmtStart] : 0);
 }
 
 - (NSNumber *)realTime //real time?
@@ -65,29 +52,22 @@
     return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0);
 }
 
-//- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
-//{
-//    if (timeCMT) cmt++;
-//    if (timeRT) rt++;
-//    if (timeRTN) rtn++;
-//    if (timeRTI) rti++;
-//}
-
 - (void)updateWatchtime
 {
     self.startTime = self.endTime;
     self.endTime = self.currentMediaTime;
-//    NSDictionary *parameters = @{@"rtn": @(self.rt), @"rti": @(self.rt), @"st": @(self.et), @"et": @(self.et = (int)self.cmt)};
     [self pollTracker:self.watchtimeUrl];
 }
 
 - (void)startTracking
 {
     [self pollPlayback];
-//    timeCMT = true;
     self.cmtStart = [NSDate date];
-//    self.lact = -1;
-//    [self updateWatchtime];
+}
+
+- (LYouTubeClient *)client
+{
+    return self.video.client;
 }
 
 // pauses cmt
@@ -110,11 +90,6 @@
     [self updateWatchtime];
 }
 
-//- (void)setClientInfo:(LYouTubeClient *)client
-//{
-//    self.client = client;
-//}
-
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
     NSDictionary *defaultParameters = @{
@@ -135,7 +110,7 @@
                                         @"cbr": self.client.browser,
                                         @"cbrver": self.client.browserVersion,
                                         @"cplayer": self.client.player,
-                                        @"cver": self.clientVersion,
+                                        @"cver": self.client.version,
                                         @"cos": self.client.operatingSystem,
                                         @"cosver": self.client.operatingSystemVersion,
                                         @"cplatform": self.client.player,
@@ -149,14 +124,18 @@
                                         @"et": self.endTime,
                                         @"len": self.length
                                         };
+    //NSLog(@"%@, %@", endpoint, self.client.parser);
     if (parameters && parameters.count) {
         NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
         [combinedParameters addEntriesFromDictionary:parameters];
         parameters = combinedParameters;
 //        endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
-    } else endpoint = [LYTools addParameters:defaultParameters toURL:endpoint];
+    } else {
+        NSURL *spart = [self.client.parser addParameters:defaultParameters toURL:endpoint];
+        endpoint = spart;
+    }
     NSLog(@"%@", endpoint);
-    [self.parser sendParameters:parameters toEndpoint:endpoint];
+    [self.client.parser sendParameters:parameters toEndpoint:endpoint];
 //    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
 //    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
@@ -364,6 +343,12 @@ NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 + (LYPlaybackTracker *)tracker
 {
     return [[LYPlaybackTracker alloc] init];
+}
+
++ (LYPlaybackTracker *)trackerForVideo:(LYouTubeVideo *)video
+{
+//    LYPlaybackTracker *tracker = [LYPlaybackTracker tracker];
+    return [[LYPlaybackTracker alloc] initWithVideo:video];
 }
 
 @end

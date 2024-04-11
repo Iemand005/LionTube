@@ -11,8 +11,12 @@
 #import <Foundation/Foundation.h>
 
 //#import "LYTools.h"
-#import "LYClientInfo.h"
-#import "LYAPIParser.h"
+//#import "LYClientInfo.h"
+//#import "LYAPIParser.h"
+
+//@class LYAPIParser;
+@class LYouTubeClient;
+@class LYouTubeVideo;
 
 @interface LYPlaybackTracker : NSObject
 
@@ -25,9 +29,11 @@
 
 @property NSDate *rtStart;
 @property NSDate *cmtStart;
+@property NSDate *fmtStart;
 
-@property LYClientInfo *client;
-@property LYAPIParser *parser;
+@property LYouTubeVideo *video;
+@property (readonly, nonatomic) LYouTubeClient *client;
+//@property LYAPIParser *parser;
 @property (readonly, nonatomic) NSNumber *currentMediaTime;     // Current media time in video.
 @property (readonly, nonatomic) NSNumber *fullMediaTime;        // Total time of video watched.
 @property (readonly, nonatomic) NSNumber *realTime;             // Real time.
@@ -52,5 +58,6 @@
 - (void)continueTracking;
 
 + (LYPlaybackTracker *)tracker;
++ (LYPlaybackTracker *)trackerForVideo:(LYouTubeVideo *)video;
 
 @end

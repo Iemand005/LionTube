@@ -13,6 +13,8 @@
 #import "LYouTubeVideo.h"
 #import "LYAPIParser.h"
 
+@class LYAPIParser;
+
 @interface LYouTubeClient : NSObject
 
 @property NSURL *baseAddress;
@@ -34,7 +36,7 @@
 
 @property NSDictionary *clientContext;
 
-@property LYClientInfo *info;
+//@property LYClientInfo *info;
 //@property NSString *name;
 //@property NSString *version;
 //@property NSString *browser;
@@ -54,6 +56,15 @@
 @property NSString *clientSecret;
 
 @property NSString *pageTitle;
+
+@property NSString *name;
+@property NSString *version;
+@property NSString *browser;
+@property NSString *browserVersion;
+@property NSString *operatingSystem;
+@property NSString *operatingSystemVersion;
+@property NSString *platform;
+@property NSString *player;
 
 @property BOOL logAuthCredentials;
 @property NSString *credentialLogPath;

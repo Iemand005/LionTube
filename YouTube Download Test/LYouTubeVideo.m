@@ -7,6 +7,7 @@
 //
 
 #import "LYouTubeVideo.h"
+#import "LYouTubeClient.h"
 
 @implementation LYouTubeVideo
 
@@ -14,7 +15,8 @@
 {
     self = [super init];
     if (self) {
-        self.tracker = [LYPlaybackTracker tracker];
+        self.tracker = [LYPlaybackTracker trackerForVideo:self];
+//        self.tracker.client = self.client;
     }
     return self;
 }
@@ -28,6 +30,11 @@
     }
     return self;
 }
+//
+//- (void)setClient:(LYouTubeClient *)client
+//{
+//    self.tracker.client
+//}
 
 - (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format
 {
@@ -49,8 +56,8 @@
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string
 {
     NSString *result;
-    
-    NSDictionary *query = [LYTools dictionaryWithQueryFromURL:[NSURL URLWithString:string]];
+//    self.client.par
+    NSDictionary *query = [self.client.parser dictionaryWithQueryFromURL:[NSURL URLWithString:string]];
     result = [query objectForKey:@"v"];
     
     if (!result) result = string;
@@ -69,7 +76,7 @@
     [self.tracker setVolume:self.movie.volume];
     [self.tracker setMuted:self.movie.muted];
     NSLog(@"Idling: %c", self.movie.isIdling);
-    
+    [self.tracker updateWatchtime];
 }
 
 //- (NSDictionary *)extractQueryComponentsFromURLString:(NSString *)url

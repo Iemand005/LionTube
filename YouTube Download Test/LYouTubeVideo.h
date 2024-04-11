@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 
-#import "LYTools.h"
+//#import "LYTools.h"
 #import "LYouTubeChannel.h"
 #import "LYVideoFormat.h"
 #import "LYPlaybackTracker.h"
+
+@class LYAPIParser;
+@class LYouTubeClient;
 
 @interface LYouTubeVideo : NSObject
 
@@ -23,7 +26,8 @@
 @property NSString *description;
 @property NSNumber *viewCount;
 @property QTMovie *movie;
-@property LYClientInfo *clientInfo;
+//@property LYAPIParser *parser;
+@property LYouTubeClient *client;
 @property LYouTubeChannel *channel;
 @property LYPlaybackTracker *tracker;
 @property BOOL isWatched;

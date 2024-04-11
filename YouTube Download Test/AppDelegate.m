@@ -183,13 +183,24 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         LYouTubeVideo *video = [self.client getVideoWithId:videoId];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
+            video.client = self.client;
+            video.tracker.video = video;
             self.video = video;
             self.controller.video = video;
             
             if (video.description) [self.videoDescription setStringValue:video.description];
             if (video.title) [self.videoTitle setStringValue:video.title];
+            
+
+            
+            LYVideoFormat *format = [self.video.formats objectAtIndex:0];
+            
+            self.movie = [self.video getMovieWithFormat:format];
+            [[self movieView] setMovie:self.movie];
+            [self.videoLoadingIndicator stopAnimation:self];
+            [self.movieView play:self];
+            [self startTracking];
             
             for (LYVideoFormat *format in self.video.formats) {
                 [self.formatTable addFormat:format];
@@ -199,14 +210,6 @@
                     [self.codecSelection addItem:item];
                 }
             }
-            
-            LYVideoFormat *format = [self.video.formats objectAtIndex:0];
-            
-            self.movie = [self.video getMovieWithFormat:format];
-            [[self movieView] setMovie:self.movie];
-            [self.videoLoadingIndicator stopAnimation:self];
-            [self.movieView play:self];
-            [self startTracking];
 //            [self.movie au]
         });
     });
@@ -217,7 +220,7 @@
     NSInteger interval = 10;
     [self.video.tracker startTracking];
     [self setTrackingTimer:[NSTimer timerWithTimeInterval:interval target:self selector:@selector(updateTracker) userInfo:nil repeats:YES]];
-    
+    [[NSRunLoop currentRunLoop] addTimer:self.trackingTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateTracker

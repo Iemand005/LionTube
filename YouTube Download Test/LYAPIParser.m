@@ -177,13 +177,15 @@
     NSDictionary *oldParameters = [self dictionaryWithQueryFromURL:url];
     NSMutableDictionary *newParams = [NSMutableDictionary dictionaryWithDictionary:oldParameters];
     [newParams addEntriesFromDictionary:parameters];
-    NSString *newUrlString = [self stringByRemovingQueryFromURL:url];
+    NSMutableString *newUrlString = [NSMutableString stringWithString:[self stringByRemovingQueryFromURL:url]];
     if (newParams.count) {
         NSMutableArray *parameterParts = [NSMutableArray arrayWithCapacity:newParams.count];
         for (NSString *key in newParams) [parameterParts addObject:[NSString stringWithFormat:@"%@=%@", key, [newParams objectForKey:key]]];
-        newUrlString = [newUrlString stringByAppendingFormat:@"?%@", [parameterParts componentsJoinedByString:@"&"]];
+        [newUrlString appendFormat:@"?%@", [parameterParts componentsJoinedByString:@"&"]];
     }
-    return [NSURL URLWithString:newUrlString];
+    NSString *escapedString = [newUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    url = [NSURL URLWithString:escapedString];
+    return url;
 }
 
 - (NSString *)stringByRemovingQueryFromURL:(NSURL *)url
