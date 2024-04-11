@@ -12,7 +12,7 @@
 #import "LYouTubeVideo.h"
 #import "LYouTubeChannel.h"
 
-@interface LYoutubeApiParser : NSObject
+@interface LYAPIParser : NSObject
 
 @property NSArray *webResponseContextPreloadData;
 @property BOOL isLoggedIn;
@@ -20,7 +20,11 @@
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
 - (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData;
 - (LYouTubeProfile *)parseProfile:(NSDictionary *)body;
+- (NSURL *)addParameters:(NSDictionary *)parameters toURL:(NSURL *)url;
+- (NSDictionary *)dictionaryWithQueryFromURL:(NSURL *)url;
+- (NSString *)stringByRemovingQueryFromURL:(NSURL *)url;
+- (void)sendParameters:(NSDictionary *)parameters toEndpoint:(NSURL *)endpoint;
 
-+ (LYoutubeApiParser *)parser;
++ (LYAPIParser *)parser;
 
 @end

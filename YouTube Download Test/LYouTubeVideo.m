@@ -10,11 +10,21 @@
 
 @implementation LYouTubeVideo
 
-- (id)initWithId:(NSString *)videoId
+- (id)init
 {
     self = [super init];
     if (self) {
+        self.tracker = [LYPlaybackTracker tracker];
+    }
+    return self;
+}
+
+- (id)initWithId:(NSString *)videoId
+{
+    self = [self init];
+    if (self) {
         self.videoId = [self getVideoIdFromArbitraryString:videoId];
+//        self.tracker = [LYPlaybackTracker tracker];
     }
     return self;
 }
@@ -27,7 +37,7 @@
 
 - (QTMovie *)getMovieWithFormatIndex:(NSUInteger)index
 {
-    return [self getMovieWithFormat:[self.formats objectAtIndex:index]];
+    return self.movie = [self getMovieWithFormat:[self.formats objectAtIndex:index]];
 }
 
 - (QTMovie *)getDefaultMovie
@@ -39,10 +49,11 @@
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string
 {
     NSString *result;
-    if ([self isUrl:string]) {
-        NSDictionary *query = [LYTools dictionaryWithQueryFromURL:[NSURL URLWithString:string]];
-        result = [query objectForKey:@"v"];
-    } else result = string;
+    
+    NSDictionary *query = [LYTools dictionaryWithQueryFromURL:[NSURL URLWithString:string]];
+    result = [query objectForKey:@"v"];
+    
+    if (!result) result = string;
 
     if (!result) result = string;
     return result;
@@ -51,6 +62,14 @@
 - (BOOL)isUrl:(NSString *)string
 {
     return [string hasPrefix:@"http"] || [string hasPrefix:@"www"];
+}
+
+- (void)updateTracker
+{
+    [self.tracker setVolume:self.movie.volume];
+    [self.tracker setMuted:self.movie.muted];
+    NSLog(@"Idling: %c", self.movie.isIdling);
+    
 }
 
 //- (NSDictionary *)extractQueryComponentsFromURLString:(NSString *)url

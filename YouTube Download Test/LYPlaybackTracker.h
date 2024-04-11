@@ -10,23 +10,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LYTools.h"
+//#import "LYTools.h"
+#import "LYClientInfo.h"
+#import "LYAPIParser.h"
 
 @interface LYPlaybackTracker : NSObject
-{
-    int cmt;
-    int rt;
-    int lact;
-    int rtn;
-    int rti;
-    int st;
-    int et;
-    
-    bool timeCMT;
-    bool timeRT;
-    bool timeRTN;
-    bool timeRTI;
-}
 
 @property NSURL *playbackUrl;
 @property NSURL *watchtimeUrl;
@@ -37,20 +25,23 @@
 
 @property NSDate *rtStart;
 @property NSDate *cmtStart;
-//@property NSTimer *timer;
 
-@property (readonly, nonatomic) NSInteger cmt;
-@property (readonly, nonatomic) NSInteger rt;
-@property NSInteger st;
-@property NSInteger et;
-@property NSInteger lact;
-//@property int cmt;
-//@property int rt;
-//@property int lact;
-//@property int rtn;
-//@property int rti;
-//@property int st;
-//@property int et;
+@property LYClientInfo *client;
+@property LYAPIParser *parser;
+@property (readonly, nonatomic) NSNumber *currentMediaTime;     // Current media time in video.
+@property (readonly, nonatomic) NSNumber *fullMediaTime;        // Total time of video watched.
+@property (readonly, nonatomic) NSNumber *realTime;             // Real time.
+@property NSNumber *startTime;                                  // Start time. (end time of last watchtime event)
+@property NSNumber *endTime;                                    // End time. (current media time)
+@property NSInteger lact;                                       // Latency time?
+@property NSInteger volume;
+@property BOOL muted;
+@property NSInteger delay;
+@property NSLocale *hostLocale;
+//@property NSString *client;
+@property NSString *clientVersion;
+@property NSNumber *version;
+@property NSNumber *length;
 
 @property NSArray *scheduledFlushWalltimeSeconds;
 @property NSNumber *defaultFlushIntervalSeconds;

@@ -18,8 +18,8 @@
         
         self.credentialFile = @"auth.plist";
         
-        self.clientName = @"MWEB";
-        self.clientVersion = @"2.20220918";
+        self.info.name = @"MWEB";
+        self.info.version = @"2.20220918";
         
         self.clientId = @"861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com";
         self.clientSecret = @"SboVhoG9s0rNafixCSGGKXAT";
@@ -35,8 +35,8 @@
         
         self.clientContext = @{
                                @"client": @{
-                                       @"clientName": self.clientName,
-                                       @"clientVersion": self.clientVersion
+                                       @"clientName": self.info.name,
+                                       @"clientVersion": self.info.version
                                        }
                                };
         
@@ -50,7 +50,7 @@
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
         
-        self.parser = [LYoutubeApiParser parser];
+        self.parser = [LYAPIParser parser];
     }
     return self;
 }
@@ -114,7 +114,7 @@
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
 {
 //    LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
-    NSLog(@"%1@, %2@, %3@", self.clientName, self.clientVersion, videoId);
+    NSLog(@"%1@, %2@, %3@", self.info.name, self.info.version, videoId);
     NSDictionary *body = @{
                            @"context": self.clientContext,
                            @"videoId": videoId,
@@ -260,6 +260,11 @@
     if (authenticated) self.isLoggedIn = YES;
     return authenticated || self.isLoggedIn;
 }
+
+//-(NSString *)description
+//{
+//    return self.name;
+//}
 
 - (LYouTubeProfile *)getUserInfo
 {

@@ -206,9 +206,25 @@
             [[self movieView] setMovie:self.movie];
             [self.videoLoadingIndicator stopAnimation:self];
             [self.movieView play:self];
-            [self.video.tracker startTracking];
+            [self startTracking];
+//            [self.movie au]
         });
     });
+}
+
+- (void)startTracking
+{
+    NSInteger interval = 10;
+    [self.video.tracker startTracking];
+    [self setTrackingTimer:[NSTimer timerWithTimeInterval:interval target:self selector:@selector(updateTracker) userInfo:nil repeats:YES]];
+    
+}
+
+- (void)updateTracker
+{
+//    LYPlaybackTracker *tracker = self.video.tracker;
+//    [tracker setv]
+    [self.video updateTracker];
 }
 
 - (void)changeVideoFormat:(id)sender

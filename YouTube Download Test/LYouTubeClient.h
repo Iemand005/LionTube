@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 
+#import "LYClientInfo.h"
 #import "LYouTubeVideo.h"
-#import "LYoutubeApiParser.h"
+#import "LYAPIParser.h"
 
 @interface LYouTubeClient : NSObject
 
@@ -33,8 +34,12 @@
 
 @property NSDictionary *clientContext;
 
-@property NSString *clientName;
-@property NSString *clientVersion;
+@property LYClientInfo *info;
+//@property NSString *name;
+//@property NSString *version;
+//@property NSString *browser;
+//@property NSString *OSVersion;
+
 @property NSString *deviceCode;
 
 @property NSString *scope;
@@ -56,7 +61,7 @@
 
 @property BOOL isLoggedIn;
 
-@property LYoutubeApiParser *parser;
+@property LYAPIParser *parser;
 
 @property LYouTubeProfile *profile;
 

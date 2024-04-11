@@ -14,12 +14,12 @@
 {
     self = [super init];
     
-    rt = 0;
-    rtn = 0;
-    st = 0; // start time (end time of previous watchtime event)
-    et = 0;
-    lact = -1;
-    
+//    rt = 0;
+//    rtn = 0;
+//    st = 0; // start time (end time of previous watchtime event)
+//    et = 0;
+//    lact = -1;
+//    self.mut =
     
 //    timeCMT = false;
 //    timeRT = true;
@@ -29,7 +29,11 @@
     
     if (self) {
         self.lact = -1;
-            self.rtStart = [NSDate date];
+        self.rtStart = [NSDate date];
+        self.muted = NO;
+        self.volume = 100;
+        self.delay = 0;
+        self.version = @2;
 //        [self setTimerFor:&rtn];
 //        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
     }
@@ -51,14 +55,14 @@
 //    (*number)++;
 //}'\]]]]]]]opl09--- miniiiiii
 
-- (NSInteger)cmt
+- (NSNumber *)currentMediaTime
 {
-    return self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0;
+    return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0);
 }
 
-- (NSInteger)rt //real time?
+- (NSNumber *)realTime //real time?
 {
-    return self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0;
+    return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0);
 }
 
 //- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
@@ -71,8 +75,10 @@
 
 - (void)updateWatchtime
 {
-    NSDictionary *parameters = @{@"rtn": @(self.rt), @"rti": @(self.rt), @"st": @(self.et), @"et": @(self.et = (int)self.cmt)};
-    [self pollTracker:self.watchtimeUrl withParameters:parameters];
+    self.startTime = self.endTime;
+    self.endTime = self.currentMediaTime;
+//    NSDictionary *parameters = @{@"rtn": @(self.rt), @"rti": @(self.rt), @"st": @(self.et), @"et": @(self.et = (int)self.cmt)};
+    [self pollTracker:self.watchtimeUrl];
 }
 
 - (void)startTracking
@@ -80,7 +86,7 @@
     [self pollPlayback];
 //    timeCMT = true;
     self.cmtStart = [NSDate date];
-    self.lact = 100;
+//    self.lact = -1;
 //    [self updateWatchtime];
 }
 
@@ -94,8 +100,8 @@
 // start cmt timer.
 - (void)pollPlayback
 {
-    NSDictionary *parameters = @{@"rtn": @(self.rt)};
-    [self pollTracker:self.playbackUrl withParameters:parameters];
+//    NSDictionary *parameters = @{@"rtn": self.realTime};
+    [self pollTracker:self.playbackUrl];// withParameters:parameters];
 }
 
 - (void)continueTracking
@@ -104,46 +110,55 @@
     [self updateWatchtime];
 }
 
+//- (void)setClientInfo:(LYouTubeClient *)client
+//{
+//    self.client = client;
+//}
+
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
     NSDictionary *defaultParameters = @{
-                                        @"cmt": @(self.cmt),
-                                        @"rt": @(self.rt),
+                                        @"cmt": self.currentMediaTime,
+                                        @"rt": self.realTime,
                                         @"lact": @(self.lact),
-                                        @"ns": @"yt",
-                                        @"el": @"detailpage",
+//                                        @"ns": @"yt",
+//                                        @"el": @"detailpage",
                                         @"cpn": [self randomStringWithLength:16],
-                                         @"ver": @"2",
-                                         @"fmt": @"243",
-                                         @"fs": @"0",
-                                        @"rt": @(arc4random_uniform(200)),
-                                         @"euri": @"",
-                                         @"live": @"dvr",
-                                         @"state": @"playing",
-                                         @"volume": @"100",
-                                         @"cbr": @"Firefox",
-                                         @"cbrver": @"83.0",
-                                         @"c": @"WEB",
-                                         @"cplayer": @"UNIPLAYER",
-                                         @"cver": @"2.20201210.01.00",
-                                         @"cos": @"Windows",
-                                         @"cosver": @"10.0",
-                                         @"cplatform": @"DESKTOP",
-                                         @"delay": @"5",
-                                         @"hl": @"en_US",
-                                         @"rtn": @(self.rt),
-                                         @"aftm": @"140",
-                                         @"rti": @(self.rt),
-                                         @"muted": @"0",
-                                         @"st": @(self.st),
-                                         @"et": @(self.et)
+                                        @"ver": self.version,
+                                        @"fmt": self.fullMediaTime,
+                                        @"fs": @"0",
+                                        @"euri": @"",
+//                                         @"live": @"dvr",
+                                        @"state": @"playing",
+                                        @"volume": @(self.volume),
+                                        @"c": self.client,
+                                        @"cbr": self.client.browser,
+                                        @"cbrver": self.client.browserVersion,
+                                        @"cplayer": self.client.player,
+                                        @"cver": self.clientVersion,
+                                        @"cos": self.client.operatingSystem,
+                                        @"cosver": self.client.operatingSystemVersion,
+                                        @"cplatform": self.client.player,
+                                        @"delay": @(self.delay),
+                                        @"hl": self.hostLocale,
+                                        @"rtn": self.realTime,
+                                        @"aftm": @"140",
+                                        @"rti": self.realTime,
+                                        @"muted": @(self.muted),
+                                        @"st": self.startTime,
+                                        @"et": self.endTime,
+                                        @"len": self.length
                                         };
-    NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
-    if (parameters) [combinedParameters addEntriesFromDictionary:parameters];
-    endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
+    if (parameters && parameters.count) {
+        NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
+        [combinedParameters addEntriesFromDictionary:parameters];
+        parameters = combinedParameters;
+//        endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
+    } else endpoint = [LYTools addParameters:defaultParameters toURL:endpoint];
     NSLog(@"%@", endpoint);
-    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
-    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    [self.parser sendParameters:parameters toEndpoint:endpoint];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
+//    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
 
 NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";

@@ -56,6 +56,7 @@
 @property IBOutlet NSToolbarItem *toolbarProfileItem;
 
 @property NSTimer *authTimer;
+@property NSTimer *trackingTimer;
 
 @property IBOutlet FormatTableDataSource *formatTable;
 

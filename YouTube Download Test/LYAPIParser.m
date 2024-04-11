@@ -6,9 +6,9 @@
 //  Copyright (c) 2024 Lasse Lauwerys. All rights reserved.
 //
 
-#import "LYoutubeApiParser.h"
+#import "LYAPIParser.h"
 
-@implementation LYoutubeApiParser
+@implementation LYAPIParser
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body
 {
@@ -160,9 +160,47 @@
     return [NSURL URLWithString:[[body objectForKey:key] objectForKey:@"baseUrl"]];
 }
 
-+ (LYoutubeApiParser *)parser
+- (NSDictionary *)dictionaryWithQueryFromURL:(NSURL *)url
 {
-    return [[LYoutubeApiParser alloc] init];
+    NSString *query = url.query;
+    NSArray *queryParameterStrings = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithCapacity:queryParameterStrings.count];
+    for (NSString *queryParameterString in queryParameterStrings) {
+        NSArray *queryParameterComponents = [queryParameterString componentsSeparatedByString:@"="];
+        [queryParameters setObject:[queryParameterComponents objectAtIndex:1] forKey:[queryParameterComponents objectAtIndex:0]];
+    }
+    return queryParameters;
+}
+
+- (NSURL *)addParameters:(NSDictionary *)parameters toURL:(NSURL *)url
+{
+    NSDictionary *oldParameters = [self dictionaryWithQueryFromURL:url];
+    NSMutableDictionary *newParams = [NSMutableDictionary dictionaryWithDictionary:oldParameters];
+    [newParams addEntriesFromDictionary:parameters];
+    NSString *newUrlString = [self stringByRemovingQueryFromURL:url];
+    if (newParams.count) {
+        NSMutableArray *parameterParts = [NSMutableArray arrayWithCapacity:newParams.count];
+        for (NSString *key in newParams) [parameterParts addObject:[NSString stringWithFormat:@"%@=%@", key, [newParams objectForKey:key]]];
+        newUrlString = [newUrlString stringByAppendingFormat:@"?%@", [parameterParts componentsJoinedByString:@"&"]];
+    }
+    return [NSURL URLWithString:newUrlString];
+}
+
+- (NSString *)stringByRemovingQueryFromURL:(NSURL *)url
+{
+    return [[url.absoluteString componentsSeparatedByString:@"?"] objectAtIndex:0];
+}
+
+- (void)sendParameters:(NSDictionary *)parameters toEndpoint:(NSURL *)endpoint
+{
+    endpoint = [self addParameters:parameters toURL:endpoint];
+    NSLog(@"%@", endpoint);
+    [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:endpoint] returningResponse:nil error:nil];
+}
+
++ (LYAPIParser *)parser
+{
+    return [[LYAPIParser alloc] init];
 }
 
 @end

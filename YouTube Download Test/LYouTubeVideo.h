@@ -22,6 +22,8 @@
 @property NSString *title;
 @property NSString *description;
 @property NSNumber *viewCount;
+@property QTMovie *movie;
+@property LYClientInfo *clientInfo;
 @property LYouTubeChannel *channel;
 @property LYPlaybackTracker *tracker;
 @property BOOL isWatched;
@@ -36,6 +38,7 @@
 
 - (id)initWithId:(NSString *)videoId;
 
+- (void)updateTracker;
 - (QTMovie *)getDefaultMovie;
 - (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format;
 + (LYouTubeVideo *)video;
