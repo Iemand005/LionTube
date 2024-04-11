@@ -16,3 +16,7 @@
 @interface dd : QTMovie
 
 @end
+
+//@interface QTMo : <# superclass #>
+
+//@end

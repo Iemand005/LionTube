@@ -54,6 +54,9 @@
         self.browseEndpoint = [self.baseAddress URLByAppendingPathComponent:@"browse"];
         self.searchEndpoint = [self.baseAddress URLByAppendingPathComponent:@"search"];
         self.likeEndpoint = [self.baseAddress URLByAppendingPathComponent:@"like"];
+        self.likeLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"like"];
+        self.likeDislikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"dislike"];
+        self.likeRemoveLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"removelike"];
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
         
@@ -120,7 +123,7 @@
 
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId
 {
-//    LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
+    LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     NSLog(@"%1@, %2@, %3@", self.name, self.version, videoId);
     NSDictionary *body = @{
                            @"context": self.clientContext,
@@ -130,14 +133,17 @@
                            };
     
     NSError *error;
+    NSDictionary *videoInfo = [self POSTRequest:self.nextEndpoint WithBody:body error:&error];
+    //NSLog(@"NEXTTTTTTT %@", videoInfo);
+    [self.parser addVideoData:videoInfo toVideo:video];
     NSDictionary *videoDetailsDict = [self POSTRequest:self.playerEndpoint WithBody:body error:&error];
     if (error) {
         NSLog(@"%@", error.localizedDescription);
     }
-    return [self.parser parseVideo:videoDetailsDict];
+    [self.parser addVideoData:videoDetailsDict toVideo:video]; // [self.parser parseVideo:videoDetailsDict];
+     
     
-    
-//    return video;
+    return video;
 }
 
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId
@@ -267,6 +273,26 @@
     if (authenticated) self.isLoggedIn = YES;
     return authenticated || self.isLoggedIn;
 }
+
+//- (void)videoActionBody
+//{
+//    return @{@"context": self.clientContext, @"videoId": self.vi, @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
+//}
+
+//- (void)like
+//{
+//    [self POSTRequest:self.likeLikeEndpoint WithBody:nil error:<#(NSError *__autoreleasing *)#>]
+//}
+//
+//- (void)dislike
+//{
+//    
+//}
+//
+//- (void)removeLike
+//{
+//    
+//}
 
 -(NSString *)description
 {

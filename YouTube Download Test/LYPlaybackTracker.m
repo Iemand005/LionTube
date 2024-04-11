@@ -18,8 +18,8 @@
     if (self) {
         self.lact = -1;
         self.rtStart = [NSDate date];
-        self.muted = NO;
-        self.volume = 100;
+//        self.muted = NO;
+//        self.volume = 100;
         self.delay = 0;
         self.version = @2;
         self.hostLocale = [NSLocale currentLocale];
@@ -90,6 +90,16 @@
     [self updateWatchtime];
 }
 
+- (NSNumber *)volume
+{
+    return @(self.video.movie.volume);
+}
+
+- (BOOL)muted
+{
+    return self.video.movie.muted;
+}
+
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
     NSDictionary *defaultParameters = @{
@@ -105,7 +115,7 @@
                                         @"euri": @"",
 //                                         @"live": @"dvr",
                                         @"state": @"playing",
-                                        @"volume": @(self.volume),
+                                        @"volume": self.volume,
                                         @"c": self.client,
                                         @"cbr": self.client.browser,
                                         @"cbrver": self.client.browserVersion,

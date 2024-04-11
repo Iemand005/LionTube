@@ -25,6 +25,7 @@
 @property NSString *title;
 @property NSString *description;
 @property NSNumber *viewCount;
+@property NSString *subtitle;
 @property QTMovie *movie;
 //@property LYAPIParser *parser;
 @property LYouTubeClient *client;
@@ -45,6 +46,11 @@
 - (void)updateTracker;
 - (QTMovie *)getDefaultMovie;
 - (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format;
+
+- (void)like;
+- (void)dislike;
+- (void)removeLike;
+
 + (LYouTubeVideo *)video;
 + (LYouTubeVideo *)videoWithId:(NSString *)videoId;
 

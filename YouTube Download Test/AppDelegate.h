@@ -58,6 +58,8 @@
 @property NSTimer *authTimer;
 @property NSTimer *trackingTimer;
 
+@property NSInteger lastSelection;
+
 @property IBOutlet FormatTableDataSource *formatTable;
 
 @property IBOutlet LYouTubeClient *client;
@@ -68,8 +70,9 @@
 - (IBAction)logIn:(id)sender;
 - (IBAction)trySelectedVideoFormat:(id)sender;
 - (IBAction)stardt;
-- (IBAction)arse:(id)sender;
 - (IBAction)knex:(id)sender;
+- (IBAction)setVideoRate:(id)sender;
+- (IBAction)changeVideoLikedState:(id)sender;
 - (void)openVideoPageForVideoWithId:(NSString *)videoId;
 
 @end

@@ -40,8 +40,8 @@
 @property NSNumber *startTime;                                  // Start time. (end time of last watchtime event)
 @property NSNumber *endTime;                                    // End time. (current media time)
 @property NSInteger lact;                                       // Latency time?
-@property NSInteger volume;
-@property BOOL muted;
+@property (readonly, nonatomic) NSNumber *volume;
+@property (readonly, nonatomic) BOOL muted;
 @property NSInteger delay;
 @property NSLocale *hostLocale;
 //@property NSString *client;

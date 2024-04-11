@@ -22,6 +22,7 @@
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body;
 - (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData;
+- (void)addVideoData:(NSDictionary *)videoInfo toVideo:(LYouTubeVideo *)video;
 - (LYouTubeProfile *)parseProfile:(NSDictionary *)body;
 - (NSURL *)addParameters:(NSDictionary *)parameters toURL:(NSURL *)url;
 - (NSDictionary *)dictionaryWithQueryFromURL:(NSURL *)url;

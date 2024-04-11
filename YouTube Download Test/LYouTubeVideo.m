@@ -53,10 +53,44 @@
     return [self getMovieWithFormatIndex:0];
 }
 
+- (void)like
+{
+//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
+    NSLog(@"%@", [self sendActionForEndpoint:self.client.likeLikeEndpoint]);
+}
+
+- (void)dislike
+{
+//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
+    [self sendActionForEndpoint:self.client.likeDislikeEndpoint];;
+}
+
+- (void)removeLike
+{
+//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
+    [self sendActionForEndpoint:self.client.likeRemoveLikeEndpoint];
+}
+
+- (NSDictionary *)sendActionForEndpoint:(NSURL *)endpoint
+{
+    return [self.client POSTRequest:endpoint WithBody:[self rateBody] error:nil];
+}
+
+- (NSDictionary *)rateBody
+{
+    return @{@"context": self.client.clientContext, @"target": @{@"videoId": self.videoId}};
+}
+
+- (NSDictionary *)actionBody
+{
+    NSDictionary *body = @{@"context": self.client.clientContext, @"videoId": self.videoId};
+    return body;
+}
+
 - (NSString *)getVideoIdFromArbitraryString:(NSString *)string
 {
     NSString *result;
-//    self.client.par
+//    self.client.par wait morgan and morgan is real???
     NSDictionary *query = [self.client.parser dictionaryWithQueryFromURL:[NSURL URLWithString:string]];
     result = [query objectForKey:@"v"];
     
@@ -73,9 +107,9 @@
 
 - (void)updateTracker
 {
-    [self.tracker setVolume:self.movie.volume];
-    [self.tracker setMuted:self.movie.muted];
-    NSLog(@"Idling: %c", self.movie.isIdling);
+//    [self.tracker setVolume:self.movie.volume];
+//    [self.tracker setMuted:self.movie.muted];
+//    NSLog(@"Idling: %c", self.movie.isIdling);
     [self.tracker updateWatchtime];
 }
 

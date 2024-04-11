@@ -15,6 +15,8 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     
+    
+    
     [self.client setCredentialFile:@"auth.plist"];
     BOOL isAuthenticated = [self.client refreshAuthCredentials];
     if (isAuthenticated) {
@@ -40,6 +42,36 @@
     [self.movieView pause:sender];
     [self loadView:self.homeView];
     [self loadHomePage];
+}
+
+- (IBAction)changeVideoLikedState:(id)sender
+{
+    
+    NSSegmentedControl *control = sender;
+    if (self.lastSelection != control.selectedSegment) {
+        self.lastSelection = control.selectedSegment;
+        if (control.selectedSegment == 0) [self.video like];
+        else [self.video dislike];
+    } else {
+        self.lastSelection = -1;
+        [control setSelectedSegment:-1];
+        [self.video removeLike];
+    }// else
+}
+
+- (void)likeVideo
+{
+    NSLog(@"video liked");
+}
+
+- (void)dislikeVideo
+{
+    NSLog(@"video NOT liked");
+}
+
+- (void)removeVideoLike
+{
+    NSLog(@"video like delete");
 }
 
 - (void)loadHomePage//:(BOOL)isAuthenticated
@@ -185,6 +217,7 @@
         LYouTubeVideo *video = [self.client getVideoWithId:videoId];
         dispatch_async(dispatch_get_main_queue(), ^{
             video.client = self.client;
+            video.videoId = videoId;
             video.tracker.video = video;
             self.video = video;
             self.controller.video = video;
@@ -192,7 +225,7 @@
             if (video.description) [self.videoDescription setStringValue:video.description];
             if (video.title) [self.videoTitle setStringValue:video.title];
             
-
+//            video.movie
             
             LYVideoFormat *format = [self.video.formats objectAtIndex:0];
             
@@ -201,6 +234,10 @@
             [self.videoLoadingIndicator stopAnimation:self];
             [self.movieView play:self];
             [self startTracking];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:QTMovieRateDidChangeNotification object:nil];
+            
+//            [self.movie setRate:0.5];
             
             for (LYVideoFormat *format in self.video.formats) {
                 [self.formatTable addFormat:format];
@@ -213,6 +250,16 @@
 //            [self.movie au]
         });
     });
+}
+
+- (void)handleNotification:(NSNotification*)note {
+    NSLog(@"Got notified: %@", note);
+    NSNumber *rate = [[note userInfo] objectForKey:QTMovieRateDidChangeNotificationParameter];
+    if (rate.integerValue) {
+        NSLog(@"the video s");
+    }
+//    else
+//     [self.movie setRate:0.5];
 }
 
 - (void)startTracking
@@ -258,6 +305,12 @@
     LYVideoFormat *format = [self.video.formats objectAtIndex:index];
     self.movie = [self.video getMovieWithFormat:format];
     [[self movieView] setMovie:self.movie];
+}
+
+- (IBAction)setVideoRate:(id)sender
+{
+    NSSlider *slider = sender;
+    [self.movie setRate:slider.floatValue];
 }
 
 - (IBAction)knex:(id)sender

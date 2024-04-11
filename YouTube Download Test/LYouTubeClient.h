@@ -23,6 +23,9 @@
 @property NSURL *browseEndpoint;
 @property NSURL *nextEndpoint;
 @property NSURL *likeEndpoint;
+@property NSURL *likeLikeEndpoint;
+@property NSURL *likeDislikeEndpoint;
+@property NSURL *likeRemoveLikeEndpoint;
 @property NSURL *searchEndpoint;
 @property NSURL *discoveryDocumentUrl;
 @property NSURL *deviceAuthorizationEndpoint;
@@ -92,6 +95,10 @@
 - (BOOL)saveAuthCredentials:(NSDictionary *)credentials;
 - (BOOL)applyAuthCredentials:(NSDictionary *)credentials;
 - (BOOL)refreshAuthCredentials;
+
+//- (void)like;
+//- (void)dislike;
+//- (void)removeLike;
 
 - (LYouTubeProfile *)getUserInfo;
 - (BOOL)applyUserProfile;

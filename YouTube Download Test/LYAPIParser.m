@@ -200,6 +200,96 @@
     [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:endpoint] returningResponse:nil error:nil];
 }
 
+- (void)addVideoData:(NSDictionary *)videoData toVideo:(LYouTubeVideo *)video
+{
+    NSDictionary *videoContents = [videoData objectForKey:@"contents"];
+    if (videoContents) {
+        NSArray *videoResultContents = [[[[videoContents objectForKey:@"singleColumnWatchNextResults"] objectForKey:@"results"] objectForKey:@"results"] objectForKey:@"contents"];
+        for (NSDictionary *videoResultContent in videoResultContents) {
+            NSDictionary *videoMetadata = [videoResultContent objectForKey:@"slimVideoMetadataSectionRenderer"];
+            if (videoMetadata) {
+                NSDictionary *videoMetadataContents = [videoMetadata objectForKey:@"contents"];
+                for (NSDictionary *videoMetadataContent in videoMetadataContents) {
+                    NSString *videoInformationRenderer = [videoMetadataContent objectForKey:@"slimVideoInformationRenderer"];
+                    if (videoInformationRenderer) {
+                    NSDictionary *videoInformationRenderer = [videoMetadataContents objectForKey:@"slimVideoInformationRenderer"];
+                    NSString *title = [self runText:[videoInformationRenderer objectForKey:@"title"]];
+                    if (title) [video setTitle:title];
+                    NSString *collapsedSubtitle = [self runText:[videoInformationRenderer objectForKey:@"collapsedSubtitle"]];
+                    if (collapsedSubtitle) [video setSubtitle:collapsedSubtitle];
+                    } else{
+                        NSDictionary *actionBarRenderer = [videoMetadataContent objectForKey:@"slimVideoActionBarRenderer"];
+                        if (actionBarRenderer) {
+                            NSDictionary *segmentedViewModel = [[[[[actionBarRenderer objectForKey:@"buttons"] firstObject] objectForKey:@"slimMetadataButtonRenderer"] objectForKey:@"button"] objectForKey:@"segmentedLikeDislikeButtonViewModel"];
+                            // I quit this is way too much, I need to know where the liked state is.
+                        }
+                    }
+                }
+                
+            } else {
+//                videoMetadata = [videoResultContent objectForKey:@"itemSectionRenderer"];
+//                if (videoMetadata) {
+//                    NSDictionary *contents = [videoMetadata objectForKey:@"contents"];
+//                    
+//                }
+            }
+        }
+    } else {
+        NSDictionary *playabilityStatus = [videoData objectForKey:@"playabilityStatus"];
+        if (playabilityStatus) { // this one is for the player API
+            if ([[playabilityStatus objectForKey:@"status"] isEqualToString:@"OK"])
+                NSLog(@"Playability OK");
+            
+            NSDictionary *streamingData = [videoData objectForKey:@"streamingData"];
+            
+            NSArray *formats = [streamingData objectForKey:@"formats"];
+            //NSArray *adaptiveFormats = [streamingData objectForKey:@"adaptiveFormats"];
+            
+            // https://gist.github.com/sidneys/7095afe4da4ae58694d128b1034e01e2
+            NSMutableArray *parsedFormats = [NSMutableArray arrayWithCapacity:formats.count];
+            for (NSDictionary *format in formats)
+                [parsedFormats addObject:[LYVideoFormat formatWithDictionary:format]];
+            //        for (NSDictionary *format in adaptiveFormats) [parsedFormats addObject:[LYVideoFormat formatWithDictionary:format]];
+            video.formats = parsedFormats;
+            
+            NSDictionary *videoDetails = [videoData objectForKey:@"videoDetails"];
+            video.description = [videoDetails objectForKey:@"shortDescription"];
+            video.title = [videoDetails objectForKey:@"title"];
+            video.viewCount = [videoDetails objectForKey:@"viewCount"];
+            [video setTracker:[self parsePlaybackTracker:[videoData objectForKey:@"playbackTracking"]]];
+        } else {
+            NSString *videoId = [videoData objectForKey:@"videoId"];
+            NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            
+            NSDictionary *thumbnailData = [[[videoData objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] lastObject];
+            NSURL *thumbnailUrl = [NSURL URLWithString:[thumbnailData objectForKey:@"url"]];
+            
+            NSString *shortStats = [[[[videoData objectForKey:@"shortViewCountText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            NSString *shortLength = [[[[videoData objectForKey:@"lengthText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            NSString *shortTime = [self runText:[videoData objectForKey:@"publishedTimeText"]];
+            video.lengthText = shortLength;
+            video.shortStats = [shortStats stringByAppendingFormat:@" - %@", shortTime];
+            
+            video.videoId = videoId;
+            LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
+            NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            [channel setName:channelName];
+            [video setChannel:channel];
+            [video setThumbnailURL:thumbnailUrl];
+            [video setTitle:videoTitle];
+        }
+    }
+}
+
+- (id)firstKeyOf:(id)object times:(NSInteger)times
+{
+//    id nextDict;
+    for (int i = 0; i < times; ++i) {
+        object = [object firstObject];
+    }
+    return object;
+}
+
 + (LYAPIParser *)parser
 {
     return [[LYAPIParser alloc] init];
