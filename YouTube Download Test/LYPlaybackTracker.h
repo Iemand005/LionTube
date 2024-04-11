@@ -35,8 +35,15 @@
 @property NSURL *qoeUrl;
 @property NSURL *atrUrl;
 
-@property NSTimer *timer;
+@property NSDate *rtStart;
+@property NSDate *cmtStart;
+//@property NSTimer *timer;
 
+@property (readonly, nonatomic) NSInteger cmt;
+@property (readonly, nonatomic) NSInteger rt;
+@property NSInteger st;
+@property NSInteger et;
+@property NSInteger lact;
 //@property int cmt;
 //@property int rt;
 //@property int lact;

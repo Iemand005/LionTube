@@ -19,15 +19,18 @@
     st = 0; // start time (end time of previous watchtime event)
     et = 0;
     lact = -1;
+    self.lact = -1;
     
-    timeCMT = false;
-    timeRT = true;
-    timeRTN = true;
-    timeRTI = true;
+//    timeCMT = false;
+//    timeRT = true;
+//    timeRTN = true;
+//    timeRTI = true;
+//    
     
     if (self) {
+            self.rtStart = [NSDate date];
 //        [self setTimerFor:&rtn];
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
+//        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -45,26 +48,38 @@
 //- (void)incrementNumber:(int *)number
 //{
 //    (*number)++;
-//}
+//}'\]]]]]]]opl09--- miniiiiii
 
-- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
+- (NSInteger)cmt
 {
-    if (timeCMT) cmt++;
-    if (timeRT) rt++;
-    if (timeRTN) rtn++;
-    if (timeRTI) rti++;
+    return [[NSDate date] timeIntervalSinceDate:self.cmtStart];
 }
+
+- (NSInteger)rt //real time?
+{
+    return [[NSDate date] timeIntervalSinceDate:self.rtStart];
+}
+
+//- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
+//{
+//    if (timeCMT) cmt++;
+//    if (timeRT) rt++;
+//    if (timeRTN) rtn++;
+//    if (timeRTI) rti++;
+//}
 
 - (void)updateWatchtime
 {
-    NSDictionary *parameters = @{@"rtn": @(rtn), @"rti": @(rti), @"st": @(et), @"et": @(et = cmt)};
+    NSDictionary *parameters = @{@"rtn": @(self.rt), @"rti": @(self.rt), @"st": @(self.et), @"et": @(self.et = (int)self.cmt)};
     [self pollTracker:self.watchtimeUrl withParameters:parameters];
 }
 
 - (void)startTracking
 {
     [self pollPlayback];
-    timeCMT = true;
+//    timeCMT = true;
+    self.cmtStart = [NSDate date];
+    self.lact = 100;
 //    [self updateWatchtime];
 }
 
@@ -78,7 +93,7 @@
 // start cmt timer.
 - (void)pollPlayback
 {
-    NSDictionary *parameters = @{@"rtn": @(rtn)};
+    NSDictionary *parameters = @{@"rtn": @(self.rt)};
     [self pollTracker:self.playbackUrl withParameters:parameters];
 }
 
@@ -90,7 +105,7 @@
 
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
-    NSDictionary *defaultParameters = @{@"cmt": @(cmt), @"rt": @(rt), @"lact": @(lact)};
+    NSDictionary *defaultParameters = @{@"cmt": @(self.cmt), @"rt": @(self.rt), @"lact": @(self.lact)};
     NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
     if (parameters) [combinedParameters addEntriesFromDictionary:parameters];
     endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
@@ -287,66 +302,7 @@
      vis: ?
      bh: ?
      df: ?
-
-     
-     */
-//    id query = System.Web.HttpUtility.ParseQueryString(url);
-//    
-//    id cl = query.Get(query.AllKeys[0]);
-//    id ei = query.Get("ei");
-//    id of = query.Get("of");
-//    id vm = query.Get("vm");
-//    id cpn = GetCPN();
-//    
-//    id start = DateTime.UtcNow;
-//    
-//    id st = random.Next(1000, 10000);
-//    id et = GetCmt(start);
-//    id lio = GetLio(start);
-//    
-//    id rt = random.Next(10, 200);
-//    
-//    id lact = random.Next(1000, 8000);
-//    id rtn = rt + 300;
-//    
-//    id args = new Dictionary<string, string>
-//    {
-//        ["ns"] = "yt",
-//        ["el"] = "detailpage",
-//        ["cpn"] = cpn,
-//        ["docid"] = id,
-//        ["ver"] = "2",
-//        ["cmt"] = et.ToString(),
-//        ["ei"] = ei,
-//        ["fmt"] = "243",
-//        ["fs"] = "0",
-//        ["rt"] = rt.ToString(),
-//        ["of"] = of,
-//        ["euri"] = "",
-//        ["lact"] = lact.ToString(),
-//        ["live"] = "dvr",
-//        ["cl"] = cl,
-//        ["state"] = "playing",
-//        ["vm"] = vm,
-//        ["volume"] = "100",
-//        ["cbr"] = "Firefox",
-//        ["cbrver"] = "83.0",
-//        ["c"] = "WEB",
-//        ["cplayer"] = "UNIPLAYER",
-//        ["cver"] = "2.20201210.01.00",
-//        ["cos"] = "Windows",
-//        ["cosver"] = "10.0",
-//        ["cplatform"] = "DESKTOP",
-//        ["delay"] = "5",
-//        ["hl"] = "en_US",
-//        ["rtn"] = rtn.ToString(),
-//        ["aftm"] = "140",
-//        ["rti"] = rt.ToString(),
-//        ["muted"] = "0",
-//        ["st"] = st.ToString(),
-//        ["et"] = et.ToString(),
-//        ["lio"] = lio.ToString()
-//    };
+     ?*/
 }
 
 + (LYPlaybackTracker *)tracker
