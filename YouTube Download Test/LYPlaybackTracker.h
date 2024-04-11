@@ -13,6 +13,20 @@
 #import "LYTools.h"
 
 @interface LYPlaybackTracker : NSObject
+{
+    int cmt;
+    int rt;
+    int lact;
+    int rtn;
+    int rti;
+    int st;
+    int et;
+    
+    bool timeCMT;
+    bool timeRT;
+    bool timeRTN;
+    bool timeRTI;
+}
 
 @property NSURL *playbackUrl;
 @property NSURL *watchtimeUrl;
@@ -21,13 +35,15 @@
 @property NSURL *qoeUrl;
 @property NSURL *atrUrl;
 
-@property NSNumber *cmt;
-@property NSNumber *rt;
-@property NSNumber *lact;
-@property NSNumber *rtn;
-@property NSNumber *rti;
-@property NSNumber *st;
-@property NSNumber *et;
+@property NSTimer *timer;
+
+//@property int cmt;
+//@property int rt;
+//@property int lact;
+//@property int rtn;
+//@property int rti;
+//@property int st;
+//@property int et;
 
 @property NSArray *scheduledFlushWalltimeSeconds;
 @property NSNumber *defaultFlushIntervalSeconds;

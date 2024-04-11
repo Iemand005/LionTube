@@ -13,46 +13,62 @@
 -(id)init
 {
     self = [super init];
+    
+    rt = 0;
+    rtn = 0;
+    st = 0; // start time (end time of previous watchtime event)
+    et = 0;
+    lact = -1;
+    
+    timeCMT = false;
+    timeRT = true;
+    timeRTN = true;
+    timeRTI = true;
+    
     if (self) {
-        self.rt = @0;
-        self.rtn = @0;
-        
-        self.st = @0; // start time (end time of previous watchtime event)
-        self.lact = @-1;
+//        [self setTimerFor:&rtn];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
     }
     return self;
 }
 
+//- (NSTimer *)setTimerFor:(int *)number
+//{
+//    return [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementNumber:) userInfo:(id)number repeats:YES];
+////    {
+////        timer in
+////        self.myCounter += 1
+////        // Check condition here
+////    }
+//}
+//
+//- (void)incrementNumber:(int *)number
+//{
+//    (*number)++;
+//}
+
+- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
+{
+    if (timeCMT) cmt++;
+    if (timeRT) rt++;
+    if (timeRTN) rtn++;
+    if (timeRTI) rti++;
+}
+
 - (void)updateWatchtime
 {
-    
-    cmt=5      -- seems to match the end time. potentially the amount of time the video was played.
-    rt=10
-    lact=3809
-    rtn=15
-    rti=4
-    st=0       -- start time 0 for first watchtime
-        et=5       -- end time, probably the time the video was at at the moment the watchtime request was sent.
-        
-        - Watchtime 2
-        
-        cmt=154
-        rt=159
-        lact=971   -- latency? appears to be random, likely latency in ms.
-        rtn=199
-        rti=159
-        st=5       -- the et time of the previous watchtime request?
-        et=154     -- likely again the time the video is at at time of sending watchtime.
-        
-    [self pollTracker:self.watchtimeUrl];
+    NSDictionary *parameters = @{@"rtn": @(rtn), @"rti": @(rti), @"st": @(et), @"et": @(et = cmt)};
+    [self pollTracker:self.watchtimeUrl withParameters:parameters];
 }
 
 - (void)startTracking
 {
-    [self pollTracker:self.playbackUrl];
-    [self updateWatchtime];
+    [self pollPlayback];
+    timeCMT = true;
+//    [self updateWatchtime];
 }
 
+// pauses cmt
 - (void)pauseTracking
 {
     [self pollTracker:self.delayplayUrl];
@@ -62,23 +78,23 @@
 // start cmt timer.
 - (void)pollPlayback
 {
-    NSDictionary *parameters = @{@"cmt": @0, @"rt": self.rt, @"lact": self.lact, @"rtn": self.rtn};
-    NSURL *playbackUrl = [LYTools addParameters:parameters toURL:self.playbackUrl];
-    [self pollTracker:playbackUrl];
+    NSDictionary *parameters = @{@"rtn": @(rtn)};
+    [self pollTracker:self.playbackUrl withParameters:parameters];
 }
 
 - (void)continueTracking
 {
-//    [self pollTracker:self.watchtimeUrl];
+    [self pollTracker:self.watchtimeUrl];
     [self updateWatchtime];
 }
 
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
-    NSDictionary *defaultParameters = @{@"cmt": self.cmt, @"rt": self.rt, @"lact": self.lact};
+    NSDictionary *defaultParameters = @{@"cmt": @(cmt), @"rt": @(rt), @"lact": @(lact)};
     NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
     if (parameters) [combinedParameters addEntriesFromDictionary:parameters];
     endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
+    NSLog(@"%@", endpoint);
     NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
     [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
