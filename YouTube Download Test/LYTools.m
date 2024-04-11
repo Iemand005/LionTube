@@ -28,8 +28,12 @@
     NSMutableDictionary *newParams = [NSMutableDictionary dictionaryWithDictionary:oldParameters];
     [newParams addEntriesFromDictionary:parameters];
     NSString *newUrlString = [LYTools stringByRemovingQueryFromURL:url];
-    if (newParams.count) newUrlString = [newUrlString stringByAppendingString:@"?"];
-    for (NSString *key in newParams) newUrlString = [newUrlString stringByAppendingFormat:@"%@=%@", key, [newParams objectForKey:key]];
+    if (newParams.count) {
+        
+        NSMutableArray *parameterParts = [NSMutableArray arrayWithCapacity:newParams.count];
+        for (NSString *key in newParams) [parameterParts addObject:[NSString stringWithFormat:@"%@=%@", key, [newParams objectForKey:key]]];
+        newUrlString = [newUrlString stringByAppendingFormat:@"?%@", [parameterParts componentsJoinedByString:@"&"]];
+    }
     return [NSURL URLWithString:newUrlString];
 }
 

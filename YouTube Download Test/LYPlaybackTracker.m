@@ -19,7 +19,7 @@
     st = 0; // start time (end time of previous watchtime event)
     et = 0;
     lact = -1;
-    self.lact = -1;
+    
     
 //    timeCMT = false;
 //    timeRT = true;
@@ -28,6 +28,7 @@
 //    
     
     if (self) {
+        self.lact = -1;
             self.rtStart = [NSDate date];
 //        [self setTimerFor:&rtn];
 //        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(incrementTimers) userInfo:nil repeats:YES];
@@ -52,12 +53,12 @@
 
 - (NSInteger)cmt
 {
-    return [[NSDate date] timeIntervalSinceDate:self.cmtStart];
+    return self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0;
 }
 
 - (NSInteger)rt //real time?
 {
-    return [[NSDate date] timeIntervalSinceDate:self.rtStart];
+    return self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0;
 }
 
 //- (void)incrementTimers // might be better to calculate the time from a begin time and an end time instead of timers.
@@ -105,13 +106,53 @@
 
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
 {
-    NSDictionary *defaultParameters = @{@"cmt": @(self.cmt), @"rt": @(self.rt), @"lact": @(self.lact)};
+    NSDictionary *defaultParameters = @{
+                                        @"cmt": @(self.cmt),
+                                        @"rt": @(self.rt),
+                                        @"lact": @(self.lact),
+                                        @"ns": @"yt",
+                                        @"el": @"detailpage",
+                                        @"cpn": [self randomStringWithLength:16],
+                                         @"ver": @"2",
+                                         @"fmt": @"243",
+                                         @"fs": @"0",
+                                        @"rt": @(arc4random_uniform(200)),
+                                         @"euri": @"",
+                                         @"live": @"dvr",
+                                         @"state": @"playing",
+                                         @"volume": @"100",
+                                         @"cbr": @"Firefox",
+                                         @"cbrver": @"83.0",
+                                         @"c": @"WEB",
+                                         @"cplayer": @"UNIPLAYER",
+                                         @"cver": @"2.20201210.01.00",
+                                         @"cos": @"Windows",
+                                         @"cosver": @"10.0",
+                                         @"cplatform": @"DESKTOP",
+                                         @"delay": @"5",
+                                         @"hl": @"en_US",
+                                         @"rtn": @(self.rt),
+                                         @"aftm": @"140",
+                                         @"rti": @(self.rt),
+                                         @"muted": @"0",
+                                         @"st": @(self.st),
+                                         @"et": @(self.et)
+                                        };
     NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
     if (parameters) [combinedParameters addEntriesFromDictionary:parameters];
     endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
     NSLog(@"%@", endpoint);
     NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
     [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+}
+
+NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+-(NSString *) randomStringWithLength: (int) len {
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    for (int i = 0; i < len; i++)
+        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform((int)[letters length])]];
+    return randomString;
 }
 
 - (void)pollTracker:(NSURL *)endpoint
@@ -281,7 +322,7 @@
      ei: ?
      el: ?
      docid: Video Hash (same as: /watch?v=<video_hash>)
-     ns: Most likely "Name Server" because value is yt short for YouTube
+     ns: Most likely @"Name Server" because value is yt short for YouTube
      fexp: Values separated by commas, no idea but seem to start with 23-24 in most cases.
      cl: ?
      seq: Sequence number for packets
