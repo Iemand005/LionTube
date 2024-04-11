@@ -10,11 +10,6 @@
 
 #import <Foundation/Foundation.h>
 
-//#import "LYTools.h"
-//#import "LYClientInfo.h"
-//#import "LYAPIParser.h"
-
-//@class LYAPIParser;
 @class LYouTubeClient;
 @class LYouTubeVideo;
 
@@ -33,18 +28,16 @@
 
 @property LYouTubeVideo *video;
 @property (readonly, nonatomic) LYouTubeClient *client;
-//@property LYAPIParser *parser;
 @property (readonly, nonatomic) NSNumber *currentMediaTime;     // Current media time in video.
 @property (readonly, nonatomic) NSNumber *fullMediaTime;        // Total time of video watched.
 @property (readonly, nonatomic) NSNumber *realTime;             // Real time.
-@property NSNumber *startTime;                                  // Start time. (end time of last watchtime event)
+@property NSNumber *startTime;                                  // Start time. (end time of previous watchtime event)
 @property NSNumber *endTime;                                    // End time. (current media time)
 @property NSInteger lact;                                       // Latency time?
 @property (readonly, nonatomic) NSNumber *volume;
 @property (readonly, nonatomic) BOOL muted;
 @property NSInteger delay;
 @property NSLocale *hostLocale;
-//@property NSString *client;
 @property NSString *clientVersion;
 @property NSNumber *version;
 @property NSNumber *length;

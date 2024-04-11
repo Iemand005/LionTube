@@ -31,7 +31,7 @@
         self.clientId = @"861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com";
         self.clientSecret = @"SboVhoG9s0rNafixCSGGKXAT";
         
-        self.scope = @"https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/userinfo.profile";
+        self.scope = @"https://www.googleapis.com/auth/youtube";// https://www.googleapis.com/auth/userinfo.profile";
         
         self.discoveryDocumentUrl = [NSURL URLWithString:@"https://accounts.google.com/.well-known/openid-configuration"];
         
@@ -57,6 +57,8 @@
         self.likeLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"like"];
         self.likeDislikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"dislike"];
         self.likeRemoveLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"removelike"];
+        self.accountAccountMenuEndpoint = [self.baseAddress URLByAppendingPathComponent:@"https://www.youtube.com/youtubei/v1/account/account_menu"];
+        
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
         
@@ -68,6 +70,8 @@
 - (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
+    NSMutableDictionary requestBody = [NSMutableDictionary dictionaryWithDictionary:body];
+    [requestBody setObject:self.clientContext forKey:@"context"];
     NSData *requestBody = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
     NSLog(@"%@", [[NSString alloc] initWithData:requestBody encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
@@ -84,7 +88,7 @@
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
 
         NSString *htmlString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", htmlString);
+        //NSLog(@"%@", htmlString);
         if (!error || !*error)
             result = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:error];
         if (!result) {
@@ -216,6 +220,11 @@
     return [NSString stringWithFormat:@"%1@ %2@", self.tokenType, self.accessToken];
 }
 
+- (void)requestContinuation
+{
+    
+}
+
 - (BOOL)loadAuthCredentials
 {
     return [self applyAuthCredentials:[NSDictionary dictionaryWithContentsOfFile:self.credentialFile]];
@@ -273,27 +282,6 @@
     if (authenticated) self.isLoggedIn = YES;
     return authenticated || self.isLoggedIn;
 }
-
-//- (void)videoActionBody
-//{
-//    return @{@"context": self.clientContext, @"videoId": self.vi, @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
-//}
-
-//- (void)like
-//{
-//    [self POSTRequest:self.likeLikeEndpoint WithBody:nil error:<#(NSError *__autoreleasing *)#>]
-//}
-//
-//- (void)dislike
-//{
-//    
-//}
-//
-//- (void)removeLike
-//{
-//    
-//}
-
 -(NSString *)description
 {
     return self.name;
@@ -301,8 +289,9 @@
 
 - (LYouTubeProfile *)getUserInfo
 {
-    NSDictionary *userInfo = [self GETRequest:self.userInfoEndpoint error:nil];
-    [userInfo writeToFile:@"user.plist" atomically:YES];
+//    NSDictionary *userInfo = [self GETRequest:self.userInfoEndpoint error:nil];
+    NSDictionary *userInfo = [self POSTRequest:self.accountAccountMenuEndpoint WithBody:@{} error:nil];
+    [userInfo writeToFile:@"user2.plist" atomically:YES];
     NSLog(@"%@", userInfo);
     return [self.parser parseProfile:userInfo];
 }

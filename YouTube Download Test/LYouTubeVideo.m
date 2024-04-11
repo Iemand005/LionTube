@@ -16,7 +16,6 @@
     self = [super init];
     if (self) {
         self.tracker = [LYPlaybackTracker trackerForVideo:self];
-//        self.tracker.client = self.client;
     }
     return self;
 }
@@ -26,25 +25,39 @@
     self = [self init];
     if (self) {
         self.videoId = [self getVideoIdFromArbitraryString:videoId];
-//        self.tracker = [LYPlaybackTracker tracker];
     }
     return self;
 }
-//
-//- (void)setClient:(LYouTubeClient *)client
-//{
-//    self.tracker.client
-//}
+
+- (void)play
+{
+    [self.tracker updateWatchtime];
+}
+
+- (void)pause
+{
+    [self.tracker pauseTracking];
+}
+
+- (NSInteger)currentMediaTime
+{
+    return round(self.movie.currentTime.timeValue / self.movie.currentTime.timeScale);
+}
+
+- (NSURL *)channelThumbnailURL
+{
+    return self.channel.thumbnailUrl;
+}
 
 - (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format
 {
     self.url = [NSURL URLWithString:format.url];
-    return [[QTMovie alloc] initWithURL:self.url error:nil];
+    return self.movie = [[QTMovie alloc] initWithURL:self.url error:nil];
 }
 
 - (QTMovie *)getMovieWithFormatIndex:(NSUInteger)index
 {
-    return self.movie = [self getMovieWithFormat:[self.formats objectAtIndex:index]];
+    return [self getMovieWithFormat:[self.formats objectAtIndex:index]];
 }
 
 - (QTMovie *)getDefaultMovie
@@ -55,19 +68,16 @@
 
 - (void)like
 {
-//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
-    NSLog(@"%@", [self sendActionForEndpoint:self.client.likeLikeEndpoint]);
+    [self sendActionForEndpoint:self.client.likeLikeEndpoint];
 }
 
 - (void)dislike
 {
-//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
-    [self sendActionForEndpoint:self.client.likeDislikeEndpoint];;
+    [self sendActionForEndpoint:self.client.likeDislikeEndpoint];
 }
 
 - (void)removeLike
 {
-//    [self.client POSTRequest:self.client.likeLikeEndpoint WithBody:[self actionBody] error:nil];
     [self sendActionForEndpoint:self.client.likeRemoveLikeEndpoint];
 }
 
@@ -107,24 +117,8 @@
 
 - (void)updateTracker
 {
-//    [self.tracker setVolume:self.movie.volume];
-//    [self.tracker setMuted:self.movie.muted];
-//    NSLog(@"Idling: %c", self.movie.isIdling);
     [self.tracker updateWatchtime];
 }
-
-//- (NSDictionary *)extractQueryComponentsFromURLString:(NSString *)url
-//{
-//    NSArray *components = [url componentsSeparatedByString:@"?"];
-//    NSString *query = [components objectAtIndex:1];
-//    NSArray *queryParameterStrings = [query componentsSeparatedByString:@"&"];
-//    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithCapacity:queryParameterStrings.count];
-//    for (NSString *queryParameterString in queryParameterStrings) {
-//        NSArray *queryParameterComponents = [queryParameterString componentsSeparatedByString:@"="];
-//        [queryParameters setObject:[queryParameterComponents objectAtIndex:1] forKey:[queryParameterComponents objectAtIndex:0]];
-//    }
-//    return queryParameters;
-//}
 
 + (LYouTubeVideo *)video
 {

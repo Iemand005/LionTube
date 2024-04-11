@@ -39,17 +39,21 @@
 
 - (NSNumber *)currentMediaTime
 {
-    return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0);
+//    QTTime time = self.video.movie.currentTime;
+//    NSLog(@"%li, %li, %lli", time.flags, time.timeScale, time.timeValue);
+    NSLog(@"%li", self.video.currentMediaTime);
+    return @(self.video.currentMediaTime);
+    //return @(round(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.cmtStart] : 0));
 }
 
 - (NSNumber *)fullMediaTime
 {
-    return @(self.fmtStart ? [[NSDate date] timeIntervalSinceDate:self.fmtStart] : 0);
+    return @(round(self.fmtStart ? [[NSDate date] timeIntervalSinceDate:self.fmtStart] : 0));
 }
 
 - (NSNumber *)realTime //real time?
 {
-    return @(self.cmtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0);
+    return @(round(self.rtStart ? [[NSDate date] timeIntervalSinceDate:self.rtStart] : 0));
 }
 
 - (void)updateWatchtime
@@ -80,8 +84,7 @@
 // start cmt timer.
 - (void)pollPlayback
 {
-//    NSDictionary *parameters = @{@"rtn": self.realTime};
-    [self pollTracker:self.playbackUrl];// withParameters:parameters];
+    [self pollTracker:self.playbackUrl];
 }
 
 - (void)continueTracking
@@ -127,27 +130,24 @@
                                         @"delay": @(self.delay),
                                         @"hl": self.hostLocale,
                                         @"rtn": self.realTime,
-                                        @"aftm": @"140",
+                                        @"aftm": @0,
                                         @"rti": self.realTime,
                                         @"muted": @(self.muted),
                                         @"st": self.startTime,
                                         @"et": self.endTime,
                                         @"len": self.length
                                         };
-    //NSLog(@"%@, %@", endpoint, self.client.parser);
+    
     if (parameters && parameters.count) {
         NSMutableDictionary *combinedParameters = [NSMutableDictionary dictionaryWithDictionary:defaultParameters];
         [combinedParameters addEntriesFromDictionary:parameters];
         parameters = combinedParameters;
-//        endpoint = [LYTools addParameters:combinedParameters toURL:endpoint];
     } else {
         NSURL *spart = [self.client.parser addParameters:defaultParameters toURL:endpoint];
         endpoint = spart;
     }
     NSLog(@"%@", endpoint);
     [self.client.parser sendParameters:parameters toEndpoint:endpoint];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:endpoint];
-//    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
 
 NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
@@ -163,19 +163,6 @@ NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 {
     [self pollTracker:endpoint withParameters:nil];
 }
-
-//- (NSURL *)addParameters:(NSDictionary *)parameters toURL:(NSURL *)url
-//{
-//    
-////    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop){
-////        
-////    }];
-//}
-
-//- (NSDictionary *)dictionaryWithParametersFromURL:(NSURL *)url
-//{
-//    
-//}
 
 - (void)playbackUrlGen
 {
@@ -219,7 +206,7 @@ NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
      --> os stands for operating system.
      --> ver stands for version.
      --> pl stands for player.
-     --> mt?? something with time
+     --> mt probably stands for media time
      --> hl stands for host language
      c=TVHTML5                          -- Name of the client.
      cver=5.20160729                    -- Version of the client. (client version) --> major.YYMMDD.minor.patch
@@ -237,15 +224,15 @@ NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
      fs=0
      rt=10
      of=pp2cCVN4J3hdMWZP-Fb8dw          -- !!
-     euri                               -- (europe innertube?)
-     lact=3809
+     euri                               -- (europe innertube?) the server region to use
+     lact=3809                          -- ?? latency at current time?
      cl=209783907
      state=playing                      -- (state) playing if the player is playing
      vm=CAIQABgE...                     -- !! base64 encoded: 6 bytes - : - encrypted data
      volume=55                          -- (volume) the volume at which the video is playing
 
      hl=en_US                           -- (host language)
-     cr=TR
+     cr=TR                              -- current region?
      len=175                            -- !! Length of the video in seconds. (length)
      rtn=15
      afmt=251
@@ -320,7 +307,7 @@ NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
      
      ---- all parameters found ----
      
-     fmt: ?
+     fmt:   Full Media Time
      afmt: ?
      cpn: ?
      ei: ?

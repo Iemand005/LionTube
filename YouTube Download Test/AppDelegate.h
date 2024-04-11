@@ -36,6 +36,8 @@
 @property IBOutlet QTMovieView *pipMovieView;
 @property QTMovie *movie;
 
+@property BOOL track;
+
 @property IBOutlet NSTextField *urlField;
 @property IBOutlet NSTextField *videoTitle;
 @property IBOutlet NSTextField *videoDescription;

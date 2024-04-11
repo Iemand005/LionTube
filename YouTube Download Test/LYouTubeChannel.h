@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYouTubeChannel : NSObject
+@interface LYouTubeChannel : NSObject <NSURLDownloadDelegate>
 
 @property NSImage *thumbnail;
 @property NSURL *thumbnailUrl;

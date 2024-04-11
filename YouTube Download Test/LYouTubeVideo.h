@@ -27,7 +27,6 @@
 @property NSNumber *viewCount;
 @property NSString *subtitle;
 @property QTMovie *movie;
-//@property LYAPIParser *parser;
 @property LYouTubeClient *client;
 @property LYouTubeChannel *channel;
 @property LYPlaybackTracker *tracker;
@@ -41,12 +40,17 @@
 
 @property BOOL isYouTubeVideo;
 
+@property (nonatomic, readonly) NSInteger currentMediaTime;
+@property (nonatomic, readonly) NSURL *channelThumbnailURL;
+
 - (id)initWithId:(NSString *)videoId;
 
 - (void)updateTracker;
 - (QTMovie *)getDefaultMovie;
 - (QTMovie *)getMovieWithFormat:(LYVideoFormat *)format;
 
+- (void)play;
+- (void)pause;
 - (void)like;
 - (void)dislike;
 - (void)removeLike;

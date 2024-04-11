@@ -15,7 +15,7 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     
-    
+    self.track = YES;
     
     [self.client setCredentialFile:@"auth.plist"];
     BOOL isAuthenticated = [self.client refreshAuthCredentials];
@@ -37,8 +37,6 @@
 
 - (IBAction)goHome:(id)sender
 {
-    
-//    [self.window setContentView:self.homeView];
     [self.movieView pause:sender];
     [self loadView:self.homeView];
     [self loadHomePage];
@@ -59,22 +57,22 @@
     }// else
 }
 
-- (void)likeVideo
-{
-    NSLog(@"video liked");
-}
+//- (void)likeVideo
+//{
+//    NSLog(@"video liked");
+//}
+//
+//- (void)dislikeVideo
+//{
+//    NSLog(@"video NOT liked");
+//}
+//
+//- (void)removeVideoLike
+//{
+//    NSLog(@"video like delete");
+//}
 
-- (void)dislikeVideo
-{
-    NSLog(@"video NOT liked");
-}
-
-- (void)removeVideoLike
-{
-    NSLog(@"video like delete");
-}
-
-- (void)loadHomePage//:(BOOL)isAuthenticated
+- (void)loadHomePage
 {
     [self.homeSpinner startAnimation:self];
     [self.homeSpinner setIndeterminate:YES];
@@ -101,7 +99,6 @@
 
 - (void)loadView:(NSView *)view
 {
-//    [self.window setContentView:nil];
     [self.window setContentView:view];
 }
 
@@ -114,8 +111,6 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-//    if (self.videoWidth = 16;
-//    self.videoHeight = 9;
         if (!(self.videoWidth && self.videoHeight)) {
             self.videoWidth = 16;
             self.videoHeight = 9;
@@ -219,6 +214,7 @@
             video.client = self.client;
             video.videoId = videoId;
             video.tracker.video = video;
+//            video.movie = 
             self.video = video;
             self.controller.video = video;
             
@@ -230,6 +226,9 @@
             LYVideoFormat *format = [self.video.formats objectAtIndex:0];
             
             self.movie = [self.video getMovieWithFormat:format];
+            self.video.movie = self.movie;
+            QTTime time = self.video.movie.currentTime;
+            NSLog(@"%li, %li, %lli", time.flags, time.timeScale, time.timeValue);
             [[self movieView] setMovie:self.movie];
             [self.videoLoadingIndicator stopAnimation:self];
             [self.movieView play:self];
@@ -254,9 +253,12 @@
 
 - (void)handleNotification:(NSNotification*)note {
     NSLog(@"Got notified: %@", note);
-    NSNumber *rate = [[note userInfo] objectForKey:QTMovieRateDidChangeNotificationParameter];
-    if (rate.integerValue) {
-        NSLog(@"the video s");
+    if (self.track) {
+        NSNumber *rate = [[note userInfo] objectForKey:QTMovieRateDidChangeNotificationParameter];
+        if (rate.integerValue) {
+            NSLog(@"the video s");
+            [self.video play];
+        } else [self.video pause];
     }
 //    else
 //     [self.movie setRate:0.5];
@@ -264,10 +266,12 @@
 
 - (void)startTracking
 {
-    NSInteger interval = 10;
-    [self.video.tracker startTracking];
-    [self setTrackingTimer:[NSTimer timerWithTimeInterval:interval target:self selector:@selector(updateTracker) userInfo:nil repeats:YES]];
-    [[NSRunLoop currentRunLoop] addTimer:self.trackingTimer forMode:NSRunLoopCommonModes];
+    if (self.track) {
+        NSInteger interval = 10;
+        [self.video.tracker startTracking];
+        [self setTrackingTimer:[NSTimer timerWithTimeInterval:interval target:self selector:@selector(updateTracker) userInfo:nil repeats:YES]];
+        [[NSRunLoop currentRunLoop] addTimer:self.trackingTimer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)updateTracker
@@ -324,12 +328,18 @@
     [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.PiPPanel makeKeyAndOrderFront:self];
     NSSize videoRatio = self.movieView.frame.size;
-    NSLog(@"%f",videoRatio.width, self.PiPPanel.frame.size.width);
+//    NSLog(@"%f",videoRatio.width, self.PiPPanel.frame.size.width);
 //    [self.PiPPanel setAspectRatio:videoRatio];//NSMakeSize(16, 9)];
 //    NSLog(@"%f, %f", self.movieView.frame.size.height, self.PiPPanel.frame.size.height);
-    CGRect ractal = self.PiPPanel.frame;
-    ractal.size.width = self.movieView.frame.size.width;
-    [self.PiPPanel setFrame:ractal display:YES animate:YES];
+//    CGRect ractal = self.PiPPanel.frame;
+    [self.PiPPanel setContentAspectRatio:NSMakeSize(16, 9)];
+    [self.movieView setVolumeButtonVisible:NO];
+    [self.movieView setControllerVisible:NO];
+//    self.movieView set
+//    ractal.size.width = self.PiPPanel.con;
+//    ractal.size.height = self.movieView.frame.size.height;
+    
+//    [self.PiPPanel setFrame:ractal display:YES animate:YES];
     [self.movieView setMovie:nil];
     [self.pipMovieView setMovie:self.movie];
 }

@@ -121,7 +121,12 @@
         NSDictionary *channelEndpoint = [[data objectForKey:@"navigationEndpoint"] objectForKey:@"browseEndpoint"];
 //        NSNumber *thumbnailWidth = [thumbnailData objectForKey:@"width"];
 //        NSNumber *thumbnailHeight = [thumbnailData objectForKey:@"height"];
-        [youtubeChannel setThumbnailWithURL:[NSURL URLWithString:thumbnailUrl]];
+        NSURL *cturl = [NSURL URLWithString:thumbnailUrl];
+        NSString *fileName = [[cturl pathComponents] lastObject];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:fileName]) {
+            [youtubeChannel setThumbnailWithURL:[NSURL URLWithString:fileName]];
+        }else
+        [youtubeChannel setThumbnailWithURL:cturl];
         [youtubeChannel setTag:[channelEndpoint objectForKey:@"canonicalBaseUrl"]];
         [youtubeChannel setBrowseId:[channelEndpoint objectForKey:@"browseId"]];
     }
@@ -268,8 +273,8 @@
             NSString *shortLength = [[[[videoData objectForKey:@"lengthText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
             NSString *shortTime = [self runText:[videoData objectForKey:@"publishedTimeText"]];
             video.lengthText = shortLength;
-            video.shortStats = [shortStats stringByAppendingFormat:@" - %@", shortTime];
-            
+            video.subtitle = [shortStats stringByAppendingFormat:@" - %@", shortTime];
+//            video.
             video.videoId = videoId;
             LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
             NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];

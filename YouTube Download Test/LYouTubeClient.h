@@ -31,6 +31,7 @@
 @property NSURL *deviceAuthorizationEndpoint;
 @property NSURL *tokenEndpoint;
 @property NSURL *userInfoEndpoint;
+@property NSURL *accountAccountMenuEndpoint;
 
 @property NSString *credentialFile;
 
