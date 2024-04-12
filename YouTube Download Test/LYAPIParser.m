@@ -12,18 +12,22 @@
 
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body
 {
+     NSMutableArray *videos = [NSMutableArray array];
     NSString *tracking = [body objectForKey:@"trackingParams"];
     [body writeToFile:[NSString stringWithFormat:@"homePage%@.plist", tracking] atomically:NO];
     NSDictionary *responseContext = [body objectForKey:@"responseContext"];
-    NSArray *preloadMessageNames = [[[responseContext objectForKey:@"webResponseContextExtensionData"] objectForKey:@"webResponseContextPreloadData"] objectForKey:@"preloadMessageNames"];
+        NSInteger *lastRendererindex = 0;
+    NSArray *preloadMessageNames = [self traverse:@[@"webResponseContextExtensionData", @"webResponseContextPreloadData", @"preloadMessageNames"] on:responseContext];
+//    [[[responseContext objectForKey:@"webResponseContextExtensionData"] objectForKey:@"webResponseContextPreloadData"] objectForKey:@"preloadMessageNames"];
     NSUInteger tabRendererIndex = [preloadMessageNames indexOfObject:@"tabRenderer"];
+    if (tabRendererIndex != NSNotFound) {
     NSString *listRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 1];
     NSString *itemRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 2];
     NSString *videoRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 3];
 //    self.isLoggedIn;
     
-    NSMutableArray *videos = [NSMutableArray array];
-    NSArray *tabs = [[[body objectForKey:@"contents"] objectForKey:@"singleColumnBrowseResultsRenderer"] objectForKey:@"tabs"];
+   
+    NSArray *tabs = [self traverse:@[@"contents", @"singleColumnBrowseResultsRenderer", @"tabs"] on:body];
     for (NSDictionary *tab in tabs) {
         NSDictionary *tabContent = [[tab objectForKey:@"tabRenderer"] objectForKey:@"content"];
         NSDictionary *richRenderer = [tabContent objectForKey:listRenderer];
@@ -42,12 +46,19 @@
             } else {
                 NSArray *path = @[@"continuationItemRenderer", @"continuationEndpoint", @"continuationCommand"];
                 NSDictionary *continuation = [self traverse:path on:videoData];
+                [videos addObject:[self parseContinuation:continuation]];
 //                renderer = [videoData objectForKey:@"continuationItemRenderer"];
             }
         }
     }
-    
-//    NSDictionary *videoData = [[[[body objectForKey:@"contents"] objectForKey:@"richItemRenderer"] objectForKey:@"content"] objectForKey:@"videoWithContextRenderer"];
+    } else {
+//        NSArray *videoRenderes = [self traverse:@[@"onResponseReceivedActions", @0, @"appendContinuationItemsAction", @"continuationItems"] on:body];
+        NSArray *videoRenderes =[self traverse:@[@"onResponseReceivedActions", @0, @"appendContinuationItemsAction", @0] on:body];
+        for (NSDictionary *videoRenderer in videoRenderes) {
+            LYouTubeVideo *video = [self parseVideo:videoRenderer];
+            [videos addObject:video];
+        }
+    }
     return videos;
 }
 
@@ -55,12 +66,29 @@
 {
 //    id result;
     for (id key in path) {
-        if ([key isMemberOfClass:[NSNumber class]]) {
+        if ([key isKindOfClass:[NSNumber class]]) {
 //            NSNumber *number = object;
+//            body = [body isKindOfClass:[NSArray class]] ? [body objectAtIndex:[key integerValue]]
+//            if ([body isKindOfClass:[NSArray class]]) body = [body objectAtIndex:[key integerValue]];
+//            else  body = [[body allValues] objectAtIndex:[key integerValue]]; //[[[NSDictionary alloc] allValues] objectAtIndex:0];
+            if ([body isKindOfClass:[NSDictionary class]]) body = [body allValues];
             body = [body objectAtIndex:[key integerValue]];
         } else body = [body objectForKey:key];
     }
     return body;
+}
+
+- (LYContinuation *)parseContinuation:(NSDictionary *)body
+{
+    LYContinuation *continuation = [LYContinuation continuation];
+    NSDictionary *continuationEndpoint = [body objectForKey:@"continuationEndpoint"];
+    if (continuationEndpoint)
+        body = [continuationEndpoint objectForKey:@"continuationCommand"];
+    
+    if ([[body objectForKey:@"request"] isEqualToString:LYContinuationRequestTypeBrowse]) continuation.request = LYContinuationRequestTypeBrowse;
+    continuation.token = [body objectForKey:@"token"];
+    if (continuation.token && continuation.request) continuation.body = body;
+    return continuation;
 }
 
 - (LYouTubeVideo *)parseVideo:(NSDictionary *)videoData
@@ -90,25 +118,42 @@
         video.viewCount = [videoDetails objectForKey:@"viewCount"];
         [video setTracker:[self parsePlaybackTracker:[videoData objectForKey:@"playbackTracking"]]];
     } else {
-        NSString *videoId = [videoData objectForKey:@"videoId"];
-        NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
-        
-        NSDictionary *thumbnailData = [[[videoData objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] lastObject];
-        NSURL *thumbnailUrl = [NSURL URLWithString:[thumbnailData objectForKey:@"url"]];
-        
-        NSString *shortStats = [[[[videoData objectForKey:@"shortViewCountText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
-        NSString *shortLength = [[[[videoData objectForKey:@"lengthText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
-        NSString *shortTime = [self runText:[videoData objectForKey:@"publishedTimeText"]];
-        video.lengthText = shortLength;
-        video.shortStats = [shortStats stringByAppendingFormat:@" - %@", shortTime];
+//        NSDictionary *continuationItemRenderer = [videoData objectForKey:@"continuationItemRenderer"];
+//        if (continuationItemRenderer) {
+//            LYContinuation *continuation = [self parseContinuation:continuationItemRenderer];
+//            return continuation;
+//        } else {
+            NSDictionary *richItemRenderer = [videoData objectForKey:@"richItemRenderer"];
+            if (richItemRenderer)
+                videoData = [self traverse:@[@"content", @0] on:richItemRenderer];
+            else {
+                NSDictionary *continuationItemRenderer = [videoData objectForKey:@"continuationItemRenderer"];
+                if (continuationItemRenderer) {
+                    LYContinuation *continuation = [self parseContinuation:continuationItemRenderer];
+                    return (LYouTubeVideo *)continuation;
+                }
+            }
+            
+            NSString *videoId = [videoData objectForKey:@"videoId"];
+            NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            
+            NSDictionary *thumbnailData = [[[videoData objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] lastObject];
+            NSURL *thumbnailUrl = [NSURL URLWithString:[thumbnailData objectForKey:@"url"]];
+            
+            NSString *shortStats = [[[[videoData objectForKey:@"shortViewCountText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            NSString *shortLength = [[[[videoData objectForKey:@"lengthText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            NSString *shortTime = [self runText:[videoData objectForKey:@"publishedTimeText"]];
+            video.lengthText = shortLength;
+            video.shortStats = [shortStats stringByAppendingFormat:@" - %@", shortTime];
 
-        video.videoId = videoId;
-        LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
-        NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
-        [channel setName:channelName];
-        [video setChannel:channel];
-        [video setThumbnailURL:thumbnailUrl];
-        [video setTitle:videoTitle];
+            video.videoId = videoId;
+            LYouTubeChannel *channel = [self parseChannel:[videoData objectForKey:@"channelThumbnail"]];
+            NSString *channelName = [[[[videoData objectForKey:@"shortBylineText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            [channel setName:channelName];
+            [video setChannel:channel];
+            [video setThumbnailURL:thumbnailUrl];
+            [video setTitle:videoTitle];
+//        }
     }
     return video;
 }

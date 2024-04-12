@@ -13,6 +13,7 @@
 #import "LYouTubeChannel.h"
 #import "LYVideoFormat.h"
 #import "LYPlaybackTracker.h"
+#import "LYContinuation.h"
 
 @class LYAPIParser;
 @class LYouTubeClient;

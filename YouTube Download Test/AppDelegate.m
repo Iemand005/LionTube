@@ -61,39 +61,48 @@
     }// else
 }
 
-//- (void)likeVideo
-//{
-//    NSLog(@"video liked");
-//}
-//
-//- (void)dislikeVideo
-//{
-//    NSLog(@"video NOT liked");
-//}
-//
-//- (void)removeVideoLike
-//{
-//    NSLog(@"video like delete");
-//}
-
 - (void)loadHomePage
 {
     [self.homeSpinner startAnimation:self];
     [self.homeSpinner setIndeterminate:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSArray *videos = [self.client getHome]; //isAuthenticated ? [self.client getHome] : [self.client getTrendingVideos];
+        NSArray *videos = [self.client getHome];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.homeSpinner setDoubleValue:0];
             [self.homeSpinner setMaxValue:videos.count];
             [self.homeSpinner setIndeterminate:NO];
-            for (LYouTubeVideo *video in videos) {
-                [self.controller.videoListController addObject:video];
-                self.homeSpinner.doubleValue++;//`
+            for (id video in videos) {
+                if ([video isMemberOfClass:[LYouTubeVideo class]])
+                    [self.controller.videoListController addObject:video];
+                else if ([video isMemberOfClass:[LYContinuation class]]) self.videoContinuation = video;
+                self.homeSpinner.doubleValue++;
             }
             [self.homeSpinner stopAnimation:self];
             [self.homeSpinner setIndeterminate:YES];
         });
     });
+}
+
+- (void)continuationTest:(id)sender
+{
+    [self loadMoreVideos];
+}
+
+- (void)loadMoreVideos
+{
+    if (self.videoContinuation) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSArray *videos = [self.client getHomeWithContinuation:self.videoContinuation];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                for (id video in videos) {
+                    if ([video isMemberOfClass:[LYouTubeVideo class]])
+                        [self.controller.videoListController addObject:video];
+                    else if ([video isMemberOfClass:[LYContinuation class]]) self.videoContinuation = video;
+                    self.homeSpinner.doubleValue++;
+                }
+            });
+        });
+    }
 }
 
 - (void)loadTrendingPage

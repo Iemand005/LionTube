@@ -83,7 +83,7 @@
 
 - (NSDictionary *)sendActionForEndpoint:(NSURL *)endpoint
 {
-    return [self.client POSTRequest:endpoint WithBody:[self rateBody] error:nil];
+    return [self.client POSTRequest:endpoint withBody:[self rateBody] error:nil];
 }
 
 - (NSDictionary *)rateBody

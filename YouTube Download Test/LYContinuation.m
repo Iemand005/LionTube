@@ -8,6 +8,13 @@
 
 #import "LYContinuation.h"
 
+NSString * const LYContinuationRequestTypeBrowse = @"CONTINUATION_REQUEST_TYPE_BROWSE";
+
 @implementation LYContinuation
+
++ (LYContinuation *)continuation
+{
+    return [[LYContinuation alloc] init];
+}
 
 @end

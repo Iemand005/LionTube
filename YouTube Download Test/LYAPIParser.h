@@ -11,6 +11,7 @@
 #import "LYouTubeProfile.h"
 #import "LYouTubeChannel.h"
 #import "LYouTubeVideo.h"
+#import "LYContinuation.h"
 
 //@class LYouTubeVideo;
 //@class LYPlaybackTracker;

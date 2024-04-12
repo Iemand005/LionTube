@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const LYContinuationRequestTypeBrowse;
+
 @interface LYContinuation : NSObject
 
 @property NSString *request;
 @property NSString *token;
+@property NSDictionary *body;
+
++ (LYContinuation *)continuation;
 
 @end

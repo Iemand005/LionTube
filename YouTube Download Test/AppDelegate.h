@@ -45,8 +45,7 @@
 @property IBOutlet NSImageView *channelPicture;
 @property IBOutlet NSTableView *formatTableView;
 
-//@property IBOutlet NSArrayController *videoListController;
-//@property IBOutlet NSView *videoParentView;
+@property LYContinuation *videoContinuation;
 @property IBOutlet AppController *controller;
 
 @property IBOutlet NSTextField *authCodeURLField;
@@ -67,6 +66,7 @@
 @property IBOutlet LYouTubeClient *client;
 @property LYouTubeVideo *video;
 
+- (IBAction)continuationTest:(id)sender;
 - (IBAction)goHome:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)logIn:(id)sender;

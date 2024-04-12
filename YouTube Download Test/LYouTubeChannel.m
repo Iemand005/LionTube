@@ -21,19 +21,15 @@
 
 - (void)setThumbnailWithURL:(NSURL *)url
 {
-//    self.thumbnailUrl = url;
     NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
     NSString *fileName = [url.pathComponents lastObject];
     [download setDestination:fileName allowOverwrite:NO];
     NSURL *kurl = [NSURL URLWithString:fileName];
     self.thumbnailUrl = kurl;
-//    self.thumbnail = [[NSImage alloc] initByReferencingURL:url];
-    
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
-//    [download fi]
     NSLog(@"Finished downloading channel thumbnail!");
 }
 

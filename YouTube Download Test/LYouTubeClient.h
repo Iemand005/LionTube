@@ -76,10 +76,12 @@
 
 @property IBOutlet WebView *webView;
 
-- (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error;
+- (NSDictionary *)POSTRequest:(NSURL *)url withBody:(NSDictionary *)body error:(NSError **)error;
 - (LYouTubeVideo *)getVideoWithId:(NSString *)videoId;
+- (id)requestContinuation:(LYContinuation *)continuation;
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId;
 - (NSArray *)getHome;
+- (NSArray *)getHomeWithContinuation:(LYContinuation *)continuation;
 - (NSArray *)getTrendingVideos;
 
 - (NSDictionary *)getBearerAuthCode;

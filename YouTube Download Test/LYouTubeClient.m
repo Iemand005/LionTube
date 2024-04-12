@@ -67,15 +67,17 @@
     return self;
 }
 
-- (NSDictionary *)POSTRequest:(NSURL *)url WithBody:(NSDictionary *)body error:(NSError **)error
+- (NSDictionary *)POSTRequest:(NSURL *)url withBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
-    NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:@{@"context": self.context}];
+    //NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:@{@"context": self.context}];
 //    [requestBody setObject:self.context forKey:@"context"];
 //    [requestBody addEntriesFromDictionary:@{@"context": self.context}];
-        [requestBody addEntriesFromDictionary:body];
+        //[//requestBody addEntriesFromDictionary:body];
+//         NSData *requestData = [NSJSONSerialization init]
     NSData *requestData = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
-    NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);
+    
+         NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);
     if (!error || !*error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         
@@ -90,7 +92,7 @@
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
 
         NSString *htmlString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
-        //NSLog(@"%@", htmlString);
+//        NSLog(@"%@", htmlString);
         if (!error || !*error)
             result = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:error];
         if (!result) {
@@ -104,12 +106,17 @@
 
 - (NSDictionary *)POSTRequest:(NSURL *)url
 {
-    return [self POSTRequest:url WithBody:@{} error:nil];
+    return [self POSTRequest:url withBody:@{} error:nil];
+}
+
+- (NSDictionary *)POSTRequest:(NSURL *)url withBody:(NSDictionary *)body
+{
+    return [self POSTRequest:url withBody:body error:nil];
 }
 
 - (NSDictionary *)POSTRequestURLString:(NSString *)urlString WithBody:(NSDictionary *)body error:(NSError **)error
 {
-    return [self POSTRequest:[NSURL URLWithString:urlString] WithBody:body error:error];
+    return [self POSTRequest:[NSURL URLWithString:urlString] withBody:body error:error];
 }
 
 - (NSDictionary *)GETRequest:(NSURL *)url error:(NSError **)error
@@ -137,26 +144,30 @@
 {
     LYouTubeVideo *video = [LYouTubeVideo videoWithId:videoId];
     NSLog(@"%1@, %2@, %3@", self.name, self.version, videoId);
-    NSDictionary *body = @{@"videoId": videoId, @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
+    NSDictionary *body = @{@"context": self.context, @"videoId": videoId, @"contentCheckOk": @"true", @"racyCheckOk": @"true"};
     
     NSError *error;
-    NSDictionary *videoInfo = [self POSTRequest:self.nextEndpoint WithBody:body error:&error];
-    //NSLog(@"NEXTTTTTTT %@", videoInfo);
+    NSDictionary *videoInfo = [self POSTRequest:self.nextEndpoint withBody:body error:&error];
     [self.parser addVideoData:videoInfo toVideo:video];
-    NSDictionary *videoDetailsDict = [self POSTRequest:self.playerEndpoint WithBody:body error:&error];
+    NSDictionary *videoDetailsDict = [self POSTRequest:self.playerEndpoint withBody:body error:&error];
     if (error) {
         NSLog(@"%@", error.localizedDescription);
     }
-    [self.parser addVideoData:videoDetailsDict toVideo:video]; // [self.parser parseVideo:videoDetailsDict];
+    [self.parser addVideoData:videoDetailsDict toVideo:video];
      
-    
     return video;
 }
 
 - (NSDictionary *)getBrowseEndpoint:(NSString *)browseId
 {
     NSDictionary *body = @{@"browseId": browseId, @"context": self.context};
-    return [self POSTRequest:self.browseEndpoint WithBody:body error:nil];
+    return [self POSTRequest:self.browseEndpoint withBody:body error:nil];
+}
+
+- (NSDictionary *)getBrowseEndpointWithContinuation:(LYContinuation *)continuation
+{
+    NSDictionary *body = @{@"context": self.context, @"continuation": continuation.token};
+    return [self POSTRequest:self.browseEndpoint withBody:body error:nil];
 }
 
 - (NSArray *)getHome
@@ -169,9 +180,9 @@
 - (NSArray *)getTrendingVideos
 {
 //    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch"
-    NSDictionary *body = @{@"browseId": @"FEtrending"};
+    NSDictionary *body = @{@"context": self.context, @"browseId": @"FEtrending"};
     NSError *error;
-    NSDictionary *response = [self POSTRequest:self.browseEndpoint WithBody:body error:&error];
+    NSDictionary *response = [self POSTRequest:self.browseEndpoint withBody:body error:&error];
     if (error) NSLog(@"%@", error.localizedDescription);
     NSLog(@"%@", response.description);
     return [self.parser parseVideosOnHomePage:response];
@@ -190,7 +201,7 @@
 - (NSDictionary *)getBearerAuthCode
 {
     NSDictionary *requestBody = @{@"client_id": self.clientId, @"scope": self.scope};
-    NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint WithBody:requestBody error:nil];
+    NSDictionary *responseBody = [self POSTRequest:self.deviceAuthorizationEndpoint withBody:requestBody error:nil];
     self.deviceCode = [responseBody objectForKey:@"device_code"];
     return responseBody;
 }
@@ -206,7 +217,7 @@
                            @"grant_type": @"urn:ietf:params:oauth:grant-type:device_code"
                            };
     if (self.clientId && self.clientSecret && self.deviceCode) {
-        tokenBody = [self POSTRequest:self.tokenEndpoint WithBody:data error:nil];
+        tokenBody = [self POSTRequest:self.tokenEndpoint withBody:data error:nil];
         [self saveAuthCredentials: tokenBody];
     }
     return tokenBody;
@@ -217,9 +228,20 @@
     return [NSString stringWithFormat:@"%1@ %2@", self.tokenType, self.accessToken];
 }
 
-- (void)requestContinuation
+- (id)requestContinuation:(LYContinuation *)continuation
 {
-    
+    id result;
+    NSURL *endpoint;
+    if ([continuation.request isEqualToString:LYContinuationRequestTypeBrowse]) endpoint = self.browseEndpoint;
+    NSDictionary *dat = @{@"context": self.context, @"continuation": continuation.token};//@{@"request": continuation.request, @"token": continuation.token};
+    NSLog(@"%@", dat);
+    if (endpoint) result = [self POSTRequest:endpoint withBody:dat];
+    return result;
+}
+
+- (NSArray *)getHomeWithContinuation:(LYContinuation *)continuation
+{
+    return [self.parser parseVideosOnHomePage:[self requestContinuation:continuation]];
 }
 
 - (BOOL)loadAuthCredentials
@@ -274,7 +296,7 @@
                                @"grant_type": @"refresh_token",
                                @"refresh_token": self.refreshToken
                                };
-        authenticated = [self saveAuthCredentials:[self POSTRequest:self.tokenEndpoint WithBody:data error:nil]];
+        authenticated = [self saveAuthCredentials:[self POSTRequest:self.tokenEndpoint withBody:data error:nil]];
     }// else credentials =
     if (authenticated) self.isLoggedIn = YES;
     return authenticated || self.isLoggedIn;
