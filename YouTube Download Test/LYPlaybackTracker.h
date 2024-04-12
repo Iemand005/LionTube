@@ -25,6 +25,7 @@
 @property NSDate *rtStart;
 @property NSDate *cmtStart;
 @property NSDate *fmtStart;
+@property NSDate *pauseStart;
 
 @property LYouTubeVideo *video;
 @property (readonly, nonatomic) LYouTubeClient *client;
@@ -36,6 +37,7 @@
 @property NSInteger lact;                                       // Latency time?
 @property (readonly, nonatomic) NSNumber *volume;
 @property (readonly, nonatomic) BOOL muted;
+@property (readonly, nonatomic) BOOL isPaused;
 @property NSInteger delay;
 @property NSLocale *hostLocale;
 @property NSString *clientVersion;

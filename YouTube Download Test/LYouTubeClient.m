@@ -70,11 +70,6 @@
 - (NSDictionary *)POSTRequest:(NSURL *)url withBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
-    //NSMutableDictionary *requestBody = [NSMutableDictionary dictionaryWithDictionary:@{@"context": self.context}];
-//    [requestBody setObject:self.context forKey:@"context"];
-//    [requestBody addEntriesFromDictionary:@{@"context": self.context}];
-        //[//requestBody addEntriesFromDictionary:body];
-//         NSData *requestData = [NSJSONSerialization init]
     NSData *requestData = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
     
          NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);

@@ -14,6 +14,7 @@
 {
     self.videoWidth = 16;
     self.videoHeight = 9;
+    self.lastSelection = -1;
     
 //    id a = @[@"spartakruts", @"isgekraaktkwijtdekluts"];
 //    NSString *varken = [a objectForKey:@1];
@@ -105,11 +106,6 @@
     }
 }
 
-- (void)loadTrendingPage
-{
-    
-}
-
 - (void)loadView:(NSView *)view
 {
     [self.window setContentView:view];
@@ -177,7 +173,7 @@
     [self.authTimeIndicator stopAnimation:sender];
 }
 
-- (IBAction)authCodeConfirm:(id)sender
+- (void)authCodeConfirm:(id)sender
 {
     [self.authTimeIndicator setIndeterminate:YES];
     NSDictionary *bearerData = [self.client getBearerToken];
@@ -185,7 +181,7 @@
     else [self handleAuthError:bearerData];
 }
 
-- (IBAction)polltest:(id)sender
+- (void)polltest:(id)sender
 {
     [self.video.tracker updateWatchtime];
 }
@@ -226,22 +222,15 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             video.client = self.client;
             video.videoId = videoId;
-            video.tracker.video = video;
-//            video.movie = 
-            self.video = video;
-            self.controller.video = video;
+            self.video = self.controller.video = video.tracker.video = video;
             
-            if (video.description) [self.videoDescription setStringValue:video.description];
-            if (video.title) [self.videoTitle setStringValue:video.title];
-            
-//            video.movie
+            if (self.video.description) [self.videoDescription setStringValue:self.video.description];
+            if (self.video.title) [self.videoTitle setStringValue:self.video.title];
             
             LYVideoFormat *format = [self.video.formats objectAtIndex:0];
             
             self.movie = [self.video getMovieWithFormat:format];
             self.video.movie = self.movie;
-            QTTime time = self.video.movie.currentTime;
-            NSLog(@"%li, %li, %lli", time.flags, time.timeScale, time.timeValue);
             [[self movieView] setMovie:self.movie];
             [self.videoLoadingIndicator stopAnimation:self];
             [self.movieView play:self];
@@ -249,17 +238,11 @@
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:QTMovieRateDidChangeNotification object:nil];
             
-//            [self.movie setRate:0.5];
-            
             for (LYVideoFormat *format in self.video.formats) {
                 [self.formatTable addFormat:format];
-                NSLog(@"kanker %@",format.qualityLabel);
-                if (format.qualityLabel) {
-                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""];
-                    [self.codecSelection addItem:item];
-                }
+                if (format.qualityLabel)
+                    [self.codecSelection addItem:[[NSMenuItem alloc] initWithTitle:[format.qualityLabel stringByAppendingFormat:@"%@", format.fps] action:@selector(changeVideoFormat:) keyEquivalent:@""]];
             }
-//            [self.movie au]
         });
     });
 }
@@ -273,8 +256,6 @@
             [self.video play];
         } else [self.video pause];
     }
-//    else
-//     [self.movie setRate:0.5];
 }
 
 - (void)startTracking
@@ -289,8 +270,6 @@
 
 - (void)updateTracker
 {
-//    LYPlaybackTracker *tracker = self.video.tracker;
-//    [tracker setv]
     [self.video updateTracker];
 }
 
@@ -340,21 +319,25 @@
 {
     [self.PiPPanel setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.PiPPanel makeKeyAndOrderFront:self];
-    NSSize videoRatio = self.movieView.frame.size;
-//    NSLog(@"%f",videoRatio.width, self.PiPPanel.frame.size.width);
-//    [self.PiPPanel setAspectRatio:videoRatio];//NSMakeSize(16, 9)];
-//    NSLog(@"%f, %f", self.movieView.frame.size.height, self.PiPPanel.frame.size.height);
-//    CGRect ractal = self.PiPPanel.frame;
     [self.PiPPanel setContentAspectRatio:NSMakeSize(16, 9)];
-    [self.movieView setVolumeButtonVisible:NO];
+//    [self.movieView setVolumeButtonVisible:NO];
     [self.movieView setControllerVisible:NO];
-//    self.movieView set
-//    ractal.size.width = self.PiPPanel.con;
-//    ractal.size.height = self.movieView.frame.size.height;
-    
-//    [self.PiPPanel setFrame:ractal display:YES animate:YES];
     [self.movieView setMovie:nil];
     [self.pipMovieView setMovie:self.movie];
+}
+
+- (IBAction)endPictureInPictureMode:(id)sender
+{
+//    [self.panel orderOut:sender];
+//    QTMovie *movie = self.pipMovieView.movie;
+//    [self.pipMovieView setMovie:nil];
+//    [self.movieView setMovie:movie];
+    [self.PiPPanel close];
+}
+
+- (void)clearVideoList:(id)sender
+{
+    [self.controller.videos removeAllObjects];
 }
 
 @end

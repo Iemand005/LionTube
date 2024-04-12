@@ -65,8 +65,8 @@
 
 - (void)startTracking
 {
+    self.fmtStart = [NSDate date];
     [self pollPlayback];
-    self.cmtStart = [NSDate date];
 }
 
 - (LYouTubeClient *)client
@@ -77,6 +77,7 @@
 // pauses cmt
 - (void)pauseTracking
 {
+    [self setPauseStart:[NSDate date]];
     [self pollTracker:self.delayplayUrl];
 }
 
@@ -89,6 +90,12 @@
 
 - (void)continueTracking
 {
+    if ([self isPaused]) {NSTimeInterval pauseDuration = [[self pauseStart] timeIntervalSinceNow];
+//    [[self fmtStart] ];
+        self.fmtStart = [NSDate dateWithTimeInterval:pauseDuration sinceDate:[self fmtStart]];
+        [self setPauseStart:nil];
+    }
+    
     [self pollTracker:self.watchtimeUrl];
     [self updateWatchtime];
 }
@@ -101,6 +108,11 @@
 - (BOOL)muted
 {
     return self.video.movie.muted;
+}
+
+- (BOOL)isPaused
+{
+    return !![self pauseStart];
 }
 
 - (void)pollTracker:(NSURL *)endpoint withParameters:(NSDictionary *)parameters
@@ -147,8 +159,10 @@
         //NSURL *spart = [self.client.parser addParameters:defaultParameters toURL:endpoint];
         //endpoint = spart;
     }
-    NSLog(@"%@", endpoint);
-    if (endpoint) [self.client.parser sendParameters:parameters toEndpoint:endpoint];
+    if (![self isPaused]) {
+        NSLog(@"help me to know %@, %@, %@", self.currentMediaTime, self.realTime, self.fullMediaTime);
+        if (endpoint) [self.client.parser sendParameters:parameters toEndpoint:endpoint];
+    }
 }
 
 NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";

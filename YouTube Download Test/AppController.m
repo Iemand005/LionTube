@@ -10,12 +10,13 @@
 
 @implementation AppController
 
--(void)awakeFromNib
+- (void)awakeFromNib
 {
     self.videos = [NSMutableArray array];
     LYouTubeVideo *video = [LYouTubeVideo video];
     video.title = @"boobies";
     [self.videoPlayerController setContent:video];
 }
+
 
 @end

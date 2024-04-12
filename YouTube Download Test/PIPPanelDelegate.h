@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 
+@class AppDelegate;
+
 @interface PIPPanelDelegate : NSObject <NSWindowDelegate>
 
 @property (assign) IBOutlet NSPanel *panel;
 @property IBOutlet QTMovieView *movieView;
 @property IBOutlet QTMovieView *pipMovieView;
+@property IBOutlet AppDelegate *appDelegate;
 
 @end

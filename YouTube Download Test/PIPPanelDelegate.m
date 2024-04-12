@@ -22,6 +22,7 @@
     QTMovie *movie = self.pipMovieView.movie;
     [self.pipMovieView setMovie:nil];
     [self.movieView setMovie:movie];
+    [self.movieView setControllerVisible:YES];
     return NO;
 }
 

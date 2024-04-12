@@ -75,6 +75,13 @@
 - (IBAction)knex:(id)sender;
 - (IBAction)setVideoRate:(id)sender;
 - (IBAction)changeVideoLikedState:(id)sender;
+- (IBAction)authCodeCancel:(id)sender;
+- (IBAction)authCodeConfirm:(id)sender;
+- (IBAction)polltest:(id)sender;
+- (IBAction)refreshAuthCode:(id)sender;
+- (IBAction)startPictureInPictureMode:(id)sender;
+- (IBAction)endPictureInPictureMode:(id)sender;
 - (void)openVideoPageForVideoWithId:(NSString *)videoId;
+- (IBAction)clearVideoList:(id)sender;
 
 @end
