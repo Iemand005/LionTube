@@ -16,6 +16,9 @@
     if (self) {
         // https://github.com/iv-org/invidious/issues/1981
         
+//        id a = @[@(NO)];
+        self.prettyPrint = NO;
+        
         self.credentialFile = @"auth.plist";
         
         self.name = @"MWEB";
@@ -26,7 +29,9 @@
 //        self.version = @"5";
         self.operatingSystem = @"Mac OS X";
         self.operatingSystemVersion = @"10.7";
-        self.platform = @"MAC";
+        self.platform = @"MacOS";
+        
+        self.key = @"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"; // Everyone has the same key, the key isn't even required.
         
         self.clientId = @"861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com";
         self.clientSecret = @"SboVhoG9s0rNafixCSGGKXAT";
@@ -40,15 +45,12 @@
         self.tokenEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"token_endpoint"]];
         self.userInfoEndpoint = [NSURL URLWithString:[openIDConfig objectForKey:@"userinfo_endpoint"]];
         
-        self.context = @{
-                               @"client": @{
-                                       @"clientName": self.name,
-                                       @"clientVersion": self.version
-                                       }
-                               };
+        self.locale = [NSLocale systemLocale];
+        self.context = @{@"client": @{@"clientName": self.name, @"clientVersion": self.version, @"hl": self.hostLanguage, @"gl": self.gLanguage}, @"user":@{}};
         
         self.baseAddress = [NSURL URLWithString:@"https://www.youtube.com/youtubei/v1"];
         self.alternativeBaseAddress = [NSURL URLWithString:@"https://youtubei.googleapis.com/youtubei/v1"];
+        self.musicBaseAddress = [NSURL URLWithString:@"https://music.youtube.com/youtubei/v1"];
         self.playerEndpoint = [self.baseAddress URLByAppendingPathComponent:@"player"];
         self.nextEndpoint = [self.baseAddress URLByAppendingPathComponent:@"next"];
         self.browseEndpoint = [self.baseAddress URLByAppendingPathComponent:@"browse"];
@@ -57,7 +59,14 @@
         self.likeLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"like"];
         self.likeDislikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"dislike"];
         self.likeRemoveLikeEndpoint = [self.likeEndpoint URLByAppendingPathComponent:@"removelike"];
-        self.accountAccountMenuEndpoint = [self.baseAddress URLByAppendingPathComponent:@"https://www.youtube.com/youtubei/v1/account/account_menu"];
+        self.accountEndpoint = [self.baseAddress URLByAppendingPathComponent:@"account"];
+        self.accountAccountMenuEndpoint = [self.accountEndpoint URLByAppendingPathComponent:@"account_menu"];
+        self.commentEndpoint = [self.baseAddress URLByAppendingPathComponent:@"comment"];
+        self.commentCreateCommentEndpoint = [self.commentEndpoint URLByAppendingPathComponent:@"create_comment"];
+        self.commentUpdateCommentEndpoint = [self.commentEndpoint URLByAppendingPathComponent:@"update_comment"];
+        self.commentPerformCommentActionEndpoint = [self.commentEndpoint URLByAppendingPathComponent:@"perform_comment_action"];
+        
+//        self.locale = [NSLocale systemLocale];
         
         self.credentialLogPath = @"authlog.plist";
         self.logAuthCredentials = YES;
@@ -67,13 +76,45 @@
     return self;
 }
 
+- (NSString *)hostLanguage
+{
+    return [self languageCodeFromLocaleIdentifier:self.locale.localeIdentifier];
+}
+
+- (NSString *)gLanguage
+{
+    return [self countryCodeFromLocaleIdentifier:self.locale.localeIdentifier];
+}
+
+- (NSArray *)componentsOfLocaleIdentifier:(NSString *)localeIdentifier
+{
+    NSArray *components = [localeIdentifier componentsSeparatedByString:@"_"];
+//    if (components.count == 1) components = [localeIdentifier componentsSeparatedByString:@"-"];
+    return components;
+}
+
+- (NSString *)languageCodeFromLocaleIdentifier:(NSString *)localeIdentifier
+{
+    NSString *languageCode = [[self componentsOfLocaleIdentifier:localeIdentifier] objectAtIndex:0];
+    return ![languageCode isEqualToString:@""] ? languageCode : @"en";
+}
+
+- (NSString *)countryCodeFromLocaleIdentifier:(NSString *)localeIdentifier
+{
+    NSString *countryCode = [[self componentsOfLocaleIdentifier:localeIdentifier] lastObject];
+    return ![countryCode isEqualToString:@""] ? countryCode : @"US";
+}
+
 - (NSDictionary *)POSTRequest:(NSURL *)url withBody:(NSDictionary *)body error:(NSError **)error
 {
     NSDictionary *result;
     NSData *requestData = [NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:error];
     
          NSLog(@"%@", [[NSString alloc] initWithData:requestData encoding:NSUTF8StringEncoding]);
-    if (!error || !*error) {
+    if (url && (!error || !*error)) {
+        NSDictionary *optionalParameters = @{@"key":self.key, @"prettyPrint": (self.prettyPrint ? @"true" : @"false")}; // Key is optional and pretty print disabled is faster.
+        url = [self.parser addParameters:optionalParameters toURL:url];
+        NSLog(@"%@", url);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         
         [request setHTTPMethod:@"POST"];
@@ -88,12 +129,14 @@
 
         NSString *htmlString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
 //        NSLog(@"%@", htmlString);
-        if (!error || !*error)
+        if (responseBody && (!error || !*error))
             result = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:error];
         if (!result) {
-            //*
+            //*==
+            dispatch_async(dispatch_get_main_queue(), ^{
             [self.webView.window makeKeyAndOrderFront:self];
             [[self.webView mainFrame] loadHTMLString:htmlString baseURL:self.playerEndpoint];
+            });
         }
     }
     return result;
@@ -303,10 +346,10 @@
 
 - (LYouTubeProfile *)getUserInfo
 {
-//    NSDictionary *userInfo = [self GETRequest:self.userInfoEndpoint error:nil];
-    NSDictionary *userInfo = [self POSTRequest:self.accountAccountMenuEndpoint];
+    NSDictionary *body = @{@"context": self.context};
+    NSDictionary *userInfo = [self POSTRequest:self.accountAccountMenuEndpoint withBody:body];
     [userInfo writeToFile:@"user2.plist" atomically:YES];
-    NSLog(@"%@", userInfo);
+    NSLog(@"%@, %@", body, userInfo);
     return [self.parser parseProfile:userInfo];
 }
 

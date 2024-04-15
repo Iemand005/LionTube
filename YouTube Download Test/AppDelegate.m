@@ -15,29 +15,33 @@
     self.videoWidth = 16;
     self.videoHeight = 9;
     self.lastSelection = -1;
-    
-//    id a = @[@"spartakruts", @"isgekraaktkwijtdekluts"];
-//    NSString *varken = [a objectForKey:@1];
-//    NSLog(varken);
-    
+    playerMode = -1;
     self.track = YES;
+    
+    NSLog(@"%@", self.client.hostLanguage);
+    NSLocale *spratje = [NSLocale systemLocale];
+    NSString *d = spratje.localeIdentifier;
+        NSLog(@"%@", d);
+    
+    NSArray *q = [NSLocale preferredLanguages];
+    spratje = [q objectAtIndex:0];
+    NSLocale *knakker = [NSLocale currentLocale];
+    NSLog(@"%@", knakker.localeIdentifier);
     
     [self.client setCredentialFile:@"auth.plist"];
     BOOL isAuthenticated = [self.client refreshAuthCredentials];
     if (isAuthenticated) {
         NSLog(@"Authenticated.");
-//        [self loadHomePage];
         if ([self.client applyUserProfile]) {
             NSLog(@"%@", self.client.profile.pictureUrl);
             [self.client saveUserProfilePicture:@"profile.png"];
             NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"profile.jpg"];
-            [self.toolbarProfileItem setImage:image];//self.client.profile.picture];
+            [self.toolbarProfileItem setImage:image];
         }
     } else {
         NSLog(@"Token invalid");
-//        [self loadTrendingPage];
     }
-    [self loadHomePage];//:isAuthenticated];
+    [self loadHomePage];
 }
 
 - (IBAction)goHome:(id)sender
@@ -311,8 +315,13 @@
 
 - (IBAction)knex:(id)sender
 {
-    [self.movieView setFillColor:[NSColor blackColor]];
+//    [self.movieView setFillColor:[NSColor blackColor]];
     [self.movieView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
+
+- (void)endFullScreen
+{
+    [[self movieView] exitFullScreenModeWithOptions:nil];
 }
 
 - (IBAction)startPictureInPictureMode:(id)sender
@@ -333,6 +342,24 @@
 //    [self.pipMovieView setMovie:nil];
 //    [self.movieView setMovie:movie];
     [self.PiPPanel close];
+}
+
+- (void)togglePlayerMode:(id)sender
+{
+    if ([sender isMemberOfClass:[NSSegmentedControl class]]) {
+        NSInteger selected = [sender selectedSegment];
+        if (playerMode == selected) 
+//            selected = -1;
+            [sender setSelectedSegment:-1];
+//            -1;
+        else if (selected == 0) {
+            [self endPictureInPictureMode:sender];
+            [self knex:sender];
+        }
+        else if (selected == 1) {[self endFullScreen];[self startPictureInPictureMode:sender];
+        }
+            playerMode = selected;
+    }
 }
 
 - (void)clearVideoList:(id)sender

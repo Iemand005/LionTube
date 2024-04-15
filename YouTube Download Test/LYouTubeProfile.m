@@ -10,15 +10,6 @@
 
 @implementation LYouTubeProfile
 
-//@property NSString *name;
-//@property NSString *givenName;
-//@property NSString *familyName;
-//@property NSLocale *locale;
-//@property NSString *sub;
-//
-//@property NSURL *pictureUrl;
-//@property NSImage *picture;
-
 + (LYouTubeProfile *)profile
 {
     return [[LYouTubeProfile alloc] init];

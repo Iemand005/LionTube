@@ -19,6 +19,7 @@
 
 @property NSURL *baseAddress;
 @property NSURL *alternativeBaseAddress;
+@property NSURL *musicBaseAddress;
 @property NSURL *playerEndpoint;
 @property NSURL *browseEndpoint;
 @property NSURL *nextEndpoint;
@@ -31,9 +32,15 @@
 @property NSURL *deviceAuthorizationEndpoint;
 @property NSURL *tokenEndpoint;
 @property NSURL *userInfoEndpoint;
+@property NSURL *accountEndpoint;
 @property NSURL *accountAccountMenuEndpoint;
+@property NSURL *commentEndpoint;
+@property NSURL *commentCreateCommentEndpoint;
+@property NSURL *commentUpdateCommentEndpoint;
+@property NSURL *commentPerformCommentActionEndpoint;
 
 @property NSString *credentialFile;
+@property NSString *key;
 
 @property NSString *cookieString;
 @property NSArray *cookieArray;
@@ -53,6 +60,11 @@
 @property NSString *clientId;
 @property NSString *clientSecret;
 
+@property NSLocale *locale;
+
+@property (nonatomic, readonly) NSString *hostLanguage;
+@property (nonatomic, readonly) NSString *gLanguage;
+
 @property NSString *pageTitle;
 
 @property NSString *name;
@@ -69,6 +81,8 @@
 @property NSArray *credentialLog;
 
 @property BOOL isLoggedIn;
+
+@property BOOL prettyPrint;
 
 @property LYAPIParser *parser;
 

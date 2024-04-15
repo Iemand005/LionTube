@@ -24,20 +24,33 @@
     switch (theEvent.keyCode) {
         case 3:
         case 53:
-            if (self.isInFullScreenMode) {
-                [self exitFullScreenModeWithOptions:nil];
-                self.fillColor = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0];
-            }
-            else [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+            [self toggleFullScreenMode];
+//            if (self.isInFullScreenMode) {
+//                [self exitFullScreenModeWithOptions:nil];
+//                self.fillColor = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0];
+//            }
+//            else [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
             break;
     }
 }
 
-@end
+- (BOOL)enterFullScreenMode:(NSScreen *)screen withOptions:(NSDictionary *)options
+{
+    [self setFillColor:[NSColor blackColor]];
+    return [super enterFullScreenMode:screen withOptions:options];
+}
 
-@implementation dd
+- (void)exitFullScreenModeWithOptions:(NSDictionary *)options
+{
+//    [super exitFullScreenModeWithOptions:options];
+    [self setFillColor:[NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0]];
+    [super exitFullScreenModeWithOptions:options];
+}
 
-//- mo
-//- qt
+- (void)toggleFullScreenMode
+{
+    if (self.isInFullScreenMode) [self exitFullScreenModeWithOptions:nil];
+    else [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
 
 @end

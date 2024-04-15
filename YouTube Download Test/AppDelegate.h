@@ -16,6 +16,9 @@
 #import "FormatTableDataSource.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
+{
+    NSInteger playerMode;
+}
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawer;
@@ -83,5 +86,6 @@
 - (IBAction)endPictureInPictureMode:(id)sender;
 - (void)openVideoPageForVideoWithId:(NSString *)videoId;
 - (IBAction)clearVideoList:(id)sender;
+- (IBAction)togglePlayerMode:(id)sender;
 
 @end
