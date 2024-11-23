@@ -128,7 +128,7 @@
         NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
 
         NSString *htmlString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
-//        NSLog(@"%@", htmlString);
+        NSLog(@"%@", htmlString);
         if (responseBody && (!error || !*error))
             result = [NSJSONSerialization JSONObjectWithData:responseBody options:NSJSONReadingAllowFragments error:error];
         if (!result) {
@@ -211,19 +211,25 @@
 - (NSArray *)getHome
 {
 //    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch" : @"FEtrending";
-    NSDictionary *data = [self getBrowseEndpoint:self.isLoggedIn ? @"FEwhat_to_watch" : @"FEtrending"];
-    return [self.parser parseVideosOnHomePage:data];
+    return [self isLoggedIn] ? [self getWhatToWatchVideos] : [self getTrendingVideos];
+//    NSDictionary *data = [self getBrowseEndpoint:self.isLoggedIn ? @"FEwhat_to_watch" : @"FEtrending"];
+//    return [self.parser parseVideosOnHomePage:data];
+}
+
+- (NSArray *)getWhatToWatchVideos
+{
+    return [self getVideosOnPage:@"FEwhat_to_watch"];
 }
 
 - (NSArray *)getTrendingVideos
 {
-//    NSString *browseId = self.isLoggedIn ? @"FEwhat_to_watch"
-    NSDictionary *body = @{@"context": self.context, @"browseId": @"FEtrending"};
-    NSError *error;
-    NSDictionary *response = [self POSTRequest:self.browseEndpoint withBody:body error:&error];
-    if (error) NSLog(@"%@", error.localizedDescription);
-    NSLog(@"%@", response.description);
-    return [self.parser parseVideosOnHomePage:response];
+    return [self getVideosOnPage:@"FEtrending"];
+}
+
+- (NSArray *)getVideosOnPage:(NSString *)page
+{
+    NSDictionary *data = [self getBrowseEndpoint:page];
+    return [self.parser parseVideosOnHomePage:data];
 }
 
 - (NSString *)getCookies

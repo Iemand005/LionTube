@@ -13,8 +13,9 @@
 - (NSArray *)parseVideosOnHomePage:(NSDictionary *)body
 {
      NSMutableArray *videos = [NSMutableArray array];
-    NSString *tracking = [body objectForKey:@"trackingParams"];
-    [body writeToFile:[NSString stringWithFormat:@"homePage%@.plist", tracking] atomically:NO];
+    NSString *trackingParams = [body objectForKey:@"trackingParams"];
+    [body writeToFile:[NSString stringWithFormat:@"homePage%@.plist", trackingParams] atomically:NO];
+    
     NSDictionary *responseContext = [body objectForKey:@"responseContext"];
         NSInteger *lastRendererindex = 0;
     NSArray *preloadMessageNames = [self traverse:@[@"webResponseContextExtensionData", @"webResponseContextPreloadData", @"preloadMessageNames"] on:responseContext];
@@ -23,7 +24,7 @@
     if (tabRendererIndex != NSNotFound) {
     NSString *listRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 1];
     NSString *itemRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 2];
-    NSString *videoRenderer = [preloadMessageNames objectAtIndex:tabRendererIndex + 3];
+        NSString *videoRenderer = @"videoWithContextRenderer";
 //    self.isLoggedIn;
     
    
@@ -41,7 +42,10 @@
                 else contents = [renderer objectForKey:@"contents"];
                 for (NSDictionary *content in contents) {
                     NSDictionary *videokak = [content objectForKey:videoRenderer];
-                    if (videokak) [videos addObject:[self parseVideo:videokak]];
+                    if (videokak) {
+                        LYouTubeVideo *video = [self parseVideo:videokak];
+                        [videos addObject:video];
+                    }
                 }
             } else {
                 NSArray *path = @[@"continuationItemRenderer", @"continuationEndpoint", @"continuationCommand"];
@@ -135,7 +139,9 @@
             }
             
             NSString *videoId = [videoData objectForKey:@"videoId"];
+        
             NSString *videoTitle = [[[[videoData objectForKey:@"headline"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
+            if (!videoTitle) videoTitle = [self runText:[videoData objectForKey:@"title"]];
             
             NSDictionary *thumbnailData = [[[videoData objectForKey:@"thumbnail"] objectForKey:@"thumbnails"] lastObject];
             NSURL *thumbnailUrl = [NSURL URLWithString:[thumbnailData objectForKey:@"url"]];
@@ -143,6 +149,8 @@
             NSString *shortStats = [[[[videoData objectForKey:@"shortViewCountText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
             NSString *shortLength = [[[[videoData objectForKey:@"lengthText"] objectForKey:@"runs"] firstObject] objectForKey:@"text"];
             NSString *shortTime = [self runText:[videoData objectForKey:@"publishedTimeText"]];
+        
+        
             video.lengthText = shortLength;
             video.shortStats = [shortStats stringByAppendingFormat:@" - %@", shortTime];
 
